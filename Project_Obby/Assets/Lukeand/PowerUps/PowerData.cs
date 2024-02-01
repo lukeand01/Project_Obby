@@ -9,7 +9,8 @@ public abstract class PowerData : ScriptableObject
     public string powerName;
     public Sprite powerSprite;
     public int powerBaseCost;
-
+    [TextArea]public string powerStageDescription;
+    [TextArea]public string powerStoreDescription;
 
     public virtual void AddPower()
     {

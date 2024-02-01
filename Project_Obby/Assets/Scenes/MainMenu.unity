@@ -2120,23 +2120,6 @@ MonoBehaviour:
   hoverClip: {fileID: 0}
   clickTimerTotal: 0
   data: {fileID: 11400000, guid: 7e127386efdbafb4d8b427599de15672, type: 2}
---- !u!1 &1228967987 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 4693971979500121831, guid: e32dd45f74d81d94a874ed1f86dcc8b9, type: 3}
-  m_PrefabInstance: {fileID: 1964071865}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1228967992
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1228967987}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 231cde1bd9f662c458f14d02e9570046, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &1249636773
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2872,17 +2855,6 @@ MonoBehaviour:
   hoverClip: {fileID: 0}
   clickTimerTotal: 0
   data: {fileID: 11400000, guid: 62ad784ef5022d4459dabe465e377eca, type: 2}
---- !u!114 &1648813821 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 3740636111834871756, guid: e32dd45f74d81d94a874ed1f86dcc8b9, type: 3}
-  m_PrefabInstance: {fileID: 1964071865}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1683507339
 GameObject:
   m_ObjectHideFlags: 0
@@ -3418,18 +3390,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 1743142844452875867, guid: e32dd45f74d81d94a874ed1f86dcc8b9, type: 3}
-      propertyPath: stageList.Array.size
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 1743142844452875867, guid: e32dd45f74d81d94a874ed1f86dcc8b9, type: 3}
-      propertyPath: stageList.Array.data[0]
-      value: 
-      objectReference: {fileID: 11400000, guid: b7f6f38eea22254468b57d98c4a7d648, type: 2}
-    - target: {fileID: 1743142844452875867, guid: e32dd45f74d81d94a874ed1f86dcc8b9, type: 3}
-      propertyPath: stageList.Array.data[1]
-      value: 
-      objectReference: {fileID: 11400000, guid: 231333ff2b8ad024d9ad55e165f25e0d, type: 2}
     - target: {fileID: 4693971979500121831, guid: e32dd45f74d81d94a874ed1f86dcc8b9, type: 3}
       propertyPath: m_Name
       value: GameHandler
@@ -3474,17 +3434,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 7785730569450330122, guid: e32dd45f74d81d94a874ed1f86dcc8b9, type: 3}
-      propertyPath: blackScreen
-      value: 
-      objectReference: {fileID: 1648813821}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 4693971979500121831, guid: e32dd45f74d81d94a874ed1f86dcc8b9, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1228967992}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e32dd45f74d81d94a874ed1f86dcc8b9, type: 3}
 --- !u!1 &2098534450
 GameObject:

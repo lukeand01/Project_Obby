@@ -9,11 +9,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 47cb156661b30d6459241ced39268bd9, type: 3}
-  m_Name: Stage_01_01
+  m_Script: {fileID: 11500000, guid: ec81c34a50f18824cbbf0121f5f73107, type: 3}
+  m_Name: PowerSkipStage
   m_EditorClassIdentifier: 
-  stageName: First Stage
-  stageId: 2
-  stageLimitTimer:
-    minutes: 0
-    seconds: 15
+  powerName: Skip Stage
+  powerSprite: {fileID: 0}
+  powerBaseCost: 15
+  powerStageDescription: 
+  powerStoreDescription: 

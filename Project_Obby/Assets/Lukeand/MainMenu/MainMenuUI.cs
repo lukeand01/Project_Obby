@@ -37,7 +37,10 @@ public class MainMenuUI : MonoBehaviour
             return;
         }
 
-        
+        //the banner is taking the ui in the top.
+        GameHandler.instance.adHandler.RequestBanner();
+
+
         CreateStageUnits(GameHandler.instance.stageHandler.stageList);
     }
 
