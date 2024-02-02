@@ -26,22 +26,20 @@ public class ConfirmationWindowUI : MonoBehaviour
     public void StartConfirmationWindow(string title)
     {
         //you assign something and then send the information to show here.
-
-
-
         if (holder.activeInHierarchy)
         {
             Debug.Log("there is holder already");
             return;
         }
 
-        Debug.Log("got here");
-
         titleText.text = title;
         StopAllCoroutines();
         StartCoroutine(OpenProcess());
 
     }
+
+    
+    //if move away from the thing it closes.
 
     public void CloseConfirmationWindow()
     {
@@ -53,7 +51,6 @@ public class ConfirmationWindowUI : MonoBehaviour
     {
         holder.SetActive(true);
         holder.transform.localScale = new Vector3(0.1f, 0.1f, 0.1f);
-
 
         float timeForAnimation = 0.5f;
         holder.transform.DOScale(1, timeForAnimation);

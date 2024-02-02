@@ -5,6 +5,10 @@ using GoogleMobileAds.Api;
 public class AdHandler : MonoBehaviour
 {
     //
+
+    public bool debugShouldNotShowAd;
+
+
     BannerView bannerView;
     InterstitialAd interstitial;
     RewardedInterstitialAd rewardedAd;

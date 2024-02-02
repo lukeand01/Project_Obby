@@ -5,7 +5,7 @@ using UnityEngine;
 public class PlayerCamera : MonoBehaviour
 {
 
-    Camera cam;
+    Camera cam; 
 
     public float cameraSensitivityX;
     public float cameraSensitivityY;
@@ -36,8 +36,18 @@ public class PlayerCamera : MonoBehaviour
         cam.transform.rotation = Quaternion.Euler(90, 0, 0);
     }
 
+    public void ResetCam()
+    {
+        cam.transform.parent = cameraHolder;
+        cam.transform.localPosition = Vector3.zero;
+        cam.transform.rotation = Quaternion.Euler(0,0, 0);
+    }
+   
+    public void SetRotationX(float newValueX)
+    {
+        cameraRotationX = newValueX;    
 
-
+    }
   
     public void MoveCameraByJoystick(Vector3 dir)
     {

@@ -16,15 +16,35 @@ public class TouchPower : MonoBehaviour
 
         ConfirmationWindowUI confirmationWindow = UIHandler.instance.uiConfirmationWindow;
 
+        if(confirmationWindow == null)
+        {
+            Debug.LogError("COULDNT FIND CONFIRMATION WINDOW");
+            return;
+        }
+
+
         confirmationWindow.eventConfirm += OnConfirmed;
         confirmationWindow.eventCancel += OnCancelled;
 
         confirmationWindow.StartConfirmationWindow(power.powerStageDescription);
 
-        Debug.Log("collision");
+        //also if you move the buttons or do anything you get close it.
     }
 
+    private void Update()
+    {
+        if(hasTouched)
+        {
+            float distance = Vector3.Distance(transform.position, PlayerHandler.instance.transform.position);
 
+            if(distance > 4)
+            {
+                ResetTouch();
+            }
+
+
+        }
+    }
 
 
     void OnConfirmed()

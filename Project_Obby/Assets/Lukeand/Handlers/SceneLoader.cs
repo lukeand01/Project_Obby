@@ -111,10 +111,13 @@ public class SceneLoader : MonoBehaviour
         LocalHandler.instance.StartLocalHandler(data);
         UIHandler.instance.ControlHolder(true);
         UIHandler.instance.uiPlayer.ResetTimer();
+        
         currentScene = data.stageId;
 
     
         yield return StartCoroutine(PlayerHandler.instance.FixPlayerPositionProcess());
+
+        PlayerHandler.instance.cam.ResetCam();
 
         PlayerHandler.instance.RemoveIsDead();
 
@@ -151,6 +154,10 @@ public class SceneLoader : MonoBehaviour
         yield return new WaitUntil(() => GameHandler.instance != null && UIHandler.instance != null);
 
         yield return StartCoroutine(ShowAdProcess());
+
+        PlayerHandler.instance.controller.blockClass.ClearBlock();
+
+
         //we play an ad.
     }
 
@@ -176,17 +183,29 @@ public class SceneLoader : MonoBehaviour
 
         yield return StartCoroutine(ShowAdProcess());
 
+
+        PlayerHandler.instance.controller.blockClass.ClearBlock();
+
     }
 
 
     IEnumerator ShowAdProcess()
     {
 
+
+
         AdHandler adHandler = GameHandler.instance.adHandler;
+
+        if(adHandler.debugShouldNotShowAd) 
+        {
+            Debug.Log("do not show ads");
+            yield break;
+        }
+
 
         currentForBigAd += 3;
 
-        yield return null;
+        
 
         if (currentForBigAd >= 3)
         {

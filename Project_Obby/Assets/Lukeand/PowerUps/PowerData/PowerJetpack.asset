@@ -15,3 +15,5 @@ MonoBehaviour:
   powerName: Jetpack
   powerSprite: {fileID: 0}
   powerBaseCost: 25
+  powerStageDescription: Do you want to pay 25 gold to gain the jetpack
+  powerStoreDescription: 

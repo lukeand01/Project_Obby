@@ -53,7 +53,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   initialGold: 0
-  totalHealth: 3
+  debugInitialHealth: 0
+  lastSpawnPoint: {fileID: 0}
 --- !u!114 &8304030799406368572
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -67,6 +68,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   DEBUGCanMoveWithASWDKeys: 0
+  joystickMove: {fileID: 0}
+  joystickCamera: {fileID: 0}
 --- !u!114 &7336783845591335847
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -144,7 +147,7 @@ BoxCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 193604034536728454}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: 8ad0e656269712d489d553604829a096, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0

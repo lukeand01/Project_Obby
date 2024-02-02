@@ -15,5 +15,5 @@ MonoBehaviour:
   powerName: Skip Stage
   powerSprite: {fileID: 0}
   powerBaseCost: 15
-  powerStageDescription: 
+  powerStageDescription: Do you want to pay 15 gold to complete the stage?
   powerStoreDescription: 

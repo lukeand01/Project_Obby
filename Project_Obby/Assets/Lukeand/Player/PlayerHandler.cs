@@ -64,6 +64,7 @@ public class PlayerHandler : MonoBehaviour
 
     public void ResetScenePlayer()
     {
+        cam.ResetCam();
         currentHealth = 3;
         UIHandler.instance.uiPlayer.UpdateLives(currentHealth);
         hasAlreadyWatchedAd = false;
@@ -72,6 +73,7 @@ public class PlayerHandler : MonoBehaviour
         ResetPowerList();
         RemoveIsDead();
         RemoveShield();
+
     }
 
     
@@ -262,6 +264,10 @@ public class PlayerHandler : MonoBehaviour
             yield return new WaitForSeconds(0.01f);
         }
 
+        Vector3 targetRotation = lastSpawnPoint.GetRotation();
+
+        //cam.SetRotationX(targetRotation.x);
+        //transform.rotation = Quaternion.Euler(targetRotation.x, targetRotation.y, targetRotation.z); 
 
 
         boxCollider.enabled = true;
@@ -353,6 +359,8 @@ public class PlayerHandler : MonoBehaviour
             transform.position = target;
             yield return new WaitForSeconds(0.0001f);
         }
+
+        
 
         boxCollider.enabled = true; 
         rb.useGravity = true;
