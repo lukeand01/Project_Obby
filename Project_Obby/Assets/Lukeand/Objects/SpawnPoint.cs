@@ -73,4 +73,6 @@ public class SpawnPoint : MonoBehaviour
         }
        
     }
+
+    public Vector3 GetRotation() => transform.rotation.eulerAngles;
 }

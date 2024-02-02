@@ -32,6 +32,7 @@ public class UIHandler : MonoBehaviour
     [SerializeField] StageUI uiStageRef;
     [SerializeField] PlayerUI uiPlayerRef;
     [SerializeField] EndUI uiEndRef;
+    [SerializeField] ConfirmationWindowUI uiConfirmatioWindowRef;
     #endregion
 
 
@@ -51,6 +52,9 @@ public class UIHandler : MonoBehaviour
     public PlayerUI uiPlayer { get => uiPlayerRef; }
 
     public EndUI uiEnd { get => uiEndRef; }
+
+    public ConfirmationWindowUI uiConfirmationWindow { get => uiConfirmatioWindowRef; }
+
     #endregion
 
     #region POWER BUTTONS

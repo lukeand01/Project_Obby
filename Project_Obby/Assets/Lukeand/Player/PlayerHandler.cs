@@ -58,32 +58,25 @@ public class PlayerHandler : MonoBehaviour
     public void ResetPlayer()
     {
         Debug.Log("rest player");
-        //currentHealth = totalHealth;
+
         ResetScenePlayer();
     }
 
     public void ResetScenePlayer()
     {
+        cam.ResetCam();
+        currentHealth = 3;
+        UIHandler.instance.uiPlayer.UpdateLives(currentHealth);
         hasAlreadyWatchedAd = false;
         lastSpawnPoint = null;
         lastSpawnPointIndex = 0;
         ResetPowerList();
         RemoveIsDead();
         RemoveShield();
+
     }
 
     
-
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.G))
-        {
-            lastSpawnPointIndex = 1;
-        }
-
-    }
-
-
 
 
     #region ECONOMY
@@ -94,7 +87,7 @@ public class PlayerHandler : MonoBehaviour
     public void ChangeGold(int amount)
     {
         gold += amount;
-        UIHandler.instance.uiPlayer.UpdateGold(gold);
+        UIHandler.instance.uiPlayer.UpdateGold(gold, amount);
     }
     public void SetGold(int amount)
     {
@@ -181,12 +174,9 @@ public class PlayerHandler : MonoBehaviour
             return;
         }
 
-
-
         //replay the stage.
         if (isShielded && !notBlockable)
-        {
-            if (!isShieldProcess) StartCoroutine(RemoveShieldProcess());
+        {           
             return;
         }
 
@@ -274,6 +264,10 @@ public class PlayerHandler : MonoBehaviour
             yield return new WaitForSeconds(0.01f);
         }
 
+        Vector3 targetRotation = lastSpawnPoint.GetRotation();
+
+        //cam.SetRotationX(targetRotation.x);
+        //transform.rotation = Quaternion.Euler(targetRotation.x, targetRotation.y, targetRotation.z); 
 
 
         boxCollider.enabled = true;
@@ -366,21 +360,57 @@ public class PlayerHandler : MonoBehaviour
             yield return new WaitForSeconds(0.0001f);
         }
 
+        
+
         boxCollider.enabled = true; 
         rb.useGravity = true;
     }
-    
-    
-    
+
+
+
 
     #endregion
 
+
+    bool isDieFromFallProcess;
+    public void DieFromFall()
+    {
+        //stop control
+        //control camera to look
+        //and wait a bit to kill it.
+
+        if (isDieFromFallProcess)
+        {
+            Debug.Log("cannot keep repeating");
+            return;
+        }
+
+
+        StartCoroutine(DieFromFallProcess());
+    }
+
+
+    IEnumerator DieFromFallProcess()
+    {
+        isDieFromFallProcess = true;
+        controller.blockClass.AddBlock("FallDeath", BlockClass.BlockType.Complete);
+        cam.MakeCamWatchFallDeath();
+
+        rb.velocity = new Vector3(0, rb.velocity.y, 0);
+
+        //Time.timeScale = 0.3f;
+
+        yield return new WaitForSeconds(1.5f);
+
+        //then call death ui
+        TakeDamage(true);
+     
+    }
 
     public void ChangeProgress(int modifier = 0)
     {
         int indexOfLastStage = LocalHandler.instance.data.stageId;
 
-        Debug.Log("this is the last stage index " + indexOfLastStage);
 
         if (indexOfLastStage > stageProgress)
         {
@@ -389,6 +419,27 @@ public class PlayerHandler : MonoBehaviour
 
     }
 
+    TerrainMoveBehavior currentMoveTerrain;
+
+    public void MakeParent(TerrainMoveBehavior terrainMove)
+    {
+        currentMoveTerrain = terrainMove;
+        transform.parent = currentMoveTerrain.transform;
+    }
+
+    public void CancelParent(TerrainMoveBehavior moveTerrain)
+    {
+        if(currentMoveTerrain != null)
+        {
+            if (moveTerrain.id == currentMoveTerrain.id)
+            {
+                currentMoveTerrain = null;
+                transform.parent = null;
+            }
+        }
+
+        
+    }
 }
 
 

@@ -5,14 +5,21 @@ using GoogleMobileAds.Api;
 public class AdHandler : MonoBehaviour
 {
     //
+
+    public bool debugShouldNotShowAd;
+
+
     BannerView bannerView;
     InterstitialAd interstitial;
     RewardedInterstitialAd rewardedAd;
+    Reward actualReward; //THIS MIGHT BE CHANGED BECASUE THOSE REWARDS MIGHT NEED TO CHANGED INSIDE THE MOBAD.
 
     string adUnitId = "";
 
+    public bool isShowingAd { get; private set; } = false;
 
-    private void Start()
+
+    private void Awake()
     {
         MobileAds.Initialize(initStatus => { });
 
@@ -24,17 +31,21 @@ public class AdHandler : MonoBehaviour
         LoadRewardAd();
     }
 
+    private void Start()
+    {
+        
+    }
 
-    void RequestBanner()
+
+    //this is called by mainmenu always.
+    public void RequestBanner()
     {      
         //THis is the android version.      
-        bannerView = new BannerView(adUnitId, AdSize.Banner, AdPosition.Top);
+        bannerView = new BannerView(adUnitId, AdSize.SmartBanner, AdPosition.Bottom);
 
         AdRequest request = new AdRequest.Builder().Build();
 
         bannerView.LoadAd(request);
-
-        Debug.Log("this was called");
     }
 
     #region INTERSTITIAL AD
@@ -62,8 +73,7 @@ public class AdHandler : MonoBehaviour
                     return;
                 }
 
-                Debug.Log("Interstitial ad loaded with response : "
-                          + ad.GetResponseInfo());
+                
 
                 interstitial = ad;
             });
@@ -74,8 +84,10 @@ public class AdHandler : MonoBehaviour
     {
         if (interstitial != null && interstitial.CanShowAd())
         {
-            Debug.Log("Showing interstitial ad.");
+            //Debug.Log("Showing interstitial ad.");
             interstitial.Show();
+            isShowingAd = true;
+            interstitial.OnAdFullScreenContentClosed += OnInterstitialAdEnd;
         }
         else
         {
@@ -85,6 +97,14 @@ public class AdHandler : MonoBehaviour
 
     }
 
+    void OnInterstitialAdEnd()
+    {
+
+        isShowingAd = false;
+        interstitial.OnAdFullScreenContentClosed -=  OnInterstitialAdEnd;
+    }
+
+
     #endregion
 
 
@@ -92,7 +112,7 @@ public class AdHandler : MonoBehaviour
 
     //these ads works as reward to gain another chance at teh game or for making double the amount of gold.
 
-    void LoadRewardAd()
+    public void LoadRewardAd()
     {
         if (rewardedAd != null)
         {
@@ -100,7 +120,7 @@ public class AdHandler : MonoBehaviour
             rewardedAd = null;
         }
 
-        Debug.Log("Loading the rewarded interstitial ad.");
+        //Debug.Log("Loading the rewarded interstitial ad.");
 
         // create our request used to load the ad.
         var adRequest = new AdRequest();
@@ -118,28 +138,83 @@ public class AdHandler : MonoBehaviour
                     return;
                 }
 
-                Debug.Log("Rewarded interstitial ad loaded with response : "
-                          + ad.GetResponseInfo());
+               
 
                 rewardedAd = ad;
             });
     }
 
-    public void RequestRewardAd()
+    public void RequestRewardAd(RewardType rewardId, double rewardAmount = 0)
     {
         if (rewardedAd != null && rewardedAd.CanShowAd())
         {
+            Reward rewardValue = new Reward();
+            rewardValue.Type = rewardId.ToString();
+            rewardValue.Amount = rewardAmount;
+
+            isShowingAd = true;
+
+
+          
+            rewardedAd.OnAdFullScreenContentClosed += OnRewardAdEnd;
+            actualReward = rewardValue;         
+
+
             rewardedAd.Show((Reward reward) =>
             {
+                
                 // TODO: Reward the user.
                 //Debug.Log(String.Format(rewardMsg, reward.Type, reward.Amount));
             });
         }
     }
 
+
+    
+
+    public void OnRewardAdEnd()
+    {
+        //different ones from whatever is to be gained.
+        //you may gain another life. and you may gain double 
+
+        isShowingAd = false;
+        rewardedAd.OnAdFullScreenContentClosed -= OnRewardAdEnd;
+
+
+        Reward reward = actualReward;
+
+        if(reward == null)
+        {
+
+            return;
+        }
+
+
+        if(reward.Type == RewardType.Nothing.ToString())
+        {
+
+        }
+        if (reward.Type == RewardType.DoubleCoin.ToString())
+        {
+
+        }
+        if (reward.Type == RewardType.AnotherLife.ToString())
+        {
+
+        }
+
+    }
+
     #endregion
 
 
+    //i need to wait for ad.
 
+}
 
+public enum RewardType
+{
+    Nothing,
+    DoubleCoin,
+    AnotherLife,
 }

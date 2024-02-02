@@ -208,6 +208,7 @@ GameObject:
   - component: {fileID: 2850341787693513217}
   - component: {fileID: 7785730569450330122}
   - component: {fileID: 1743142844452875867}
+  - component: {fileID: 3017299814110990104}
   m_Layer: 0
   m_Name: GameHandler
   m_TagString: Untagged
@@ -260,6 +261,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0c709ab37e2b68d45a4cfd36617c44f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  currentScene: 0
   blackScreen: {fileID: 3740636111834871756}
 --- !u!114 &1743142844452875867
 MonoBehaviour:
@@ -276,6 +278,18 @@ MonoBehaviour:
   stageList:
   - {fileID: 11400000, guid: b7f6f38eea22254468b57d98c4a7d648, type: 2}
   - {fileID: 11400000, guid: 231333ff2b8ad024d9ad55e165f25e0d, type: 2}
+--- !u!114 &3017299814110990104
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4693971979500121831}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 231cde1bd9f662c458f14d02e9570046, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &6563844543900810779
 GameObject:
   m_ObjectHideFlags: 0

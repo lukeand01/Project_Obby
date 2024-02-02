@@ -17,6 +17,7 @@ public class PlayerController : MonoBehaviour
     InputButton inputButtonJump;
 
     public BlockClass blockClass {  get; private set; } 
+
     private void Awake()
     {
         handler = GetComponent<PlayerHandler>();
@@ -69,8 +70,6 @@ public class PlayerController : MonoBehaviour
     }
 
 
-
-
     void DEBUGMovementWithKeys()
     {
         Vector3 dir = Vector3.zero;
@@ -102,10 +101,11 @@ public class PlayerController : MonoBehaviour
         //if you move to the right it stands still and looks to the right. rotation is quite fast.
         //if you move forward or backward it moves. 
 
-
         if(joystickMove.Direction != Vector2.zero)
         {
             handler.movement.MovePlayer(joystickMove.Direction);
+            //if there is a confirmation menu we stop it.
+
         }
         else
         {
@@ -120,6 +120,7 @@ public class PlayerController : MonoBehaviour
         //this moves the camera.
         handler.cam.MoveCameraByJoystick(joystickCamera.Direction);
 
+       
 
 
     }

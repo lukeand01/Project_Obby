@@ -15,3 +15,5 @@ MonoBehaviour:
   powerName: Spring
   powerSprite: {fileID: 0}
   powerBaseCost: 15
+  powerStageDescription: Do you want to pay 15 gold to gain the spring
+  powerStoreDescription: 

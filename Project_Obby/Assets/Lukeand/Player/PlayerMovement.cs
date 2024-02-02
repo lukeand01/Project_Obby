@@ -211,14 +211,12 @@ public class PlayerMovement : MonoBehaviour
 
         if(currentJumpAmount == 1)
         {
-            Debug.Log("seocnd jump");
             secondJumpModifier = 0.5f;
             return;
         }
 
 
         hasAlreadyReleasedJump = false;
-        Debug.Log("called");
         hasPressedJump = true;
         currentJumpCooldown = jumpCooldown;
         currentJumpAmount += 1;

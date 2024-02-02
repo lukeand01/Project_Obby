@@ -152,3 +152,26 @@
 //create timer. can save that timer in the stage and also spawn timer save.
 
 
+
+//GOALS
+//3 de vida para cada partida. <= FOR TEST
+///banner somente no main menu
+//o banner precisa ser um pouco maior =< ESPERAR PARA COMO FICA NO MOBILE.
+///anuncio quando carrega fase. 
+//anuncio pesado para duplicar moeda ou para ganhar jogar depois de quatro vidas <= NEEDS TO BE TESTED
+///completar mecanica de tempo
+///criar powerup q pula a fase.
+///fazer q o escudo n sofra mais dano a fase inteiro a n ser cair.
+//criar dancinha no final da partida. 
+//resolver problema de luz
+///quando personagem cai n seguir visao. mostrar ele caindo de cima.
+///moeda q pode ser pega.
+///criar sistema de estrela. quando bem ele ir na fase ele ganha estrela.
+///criar terreno q se mexe periodicamente.
+//quero q o player fique preso no terreno
+//salvar progresso. salvar as moedas individualmente por fase.
+
+
+//NEXT
+//i will turn this whole things into something that can be easily used by an artist.
+//

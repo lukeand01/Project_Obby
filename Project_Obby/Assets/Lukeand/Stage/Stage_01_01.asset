@@ -16,4 +16,4 @@ MonoBehaviour:
   stageId: 2
   stageLimitTimer:
     minutes: 0
-    seconds: 50
+    seconds: 15

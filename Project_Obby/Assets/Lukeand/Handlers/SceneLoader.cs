@@ -14,6 +14,8 @@ public class SceneLoader : MonoBehaviour
     [SerializeField] Image blackScreen;
 
 
+    int currentForBigAd;
+    bool first; 
 
     #region FUNCTIONS
     public void ChangeScene(StageData data)
@@ -40,8 +42,6 @@ public class SceneLoader : MonoBehaviour
 
     #endregion
 
-
-    //we save the information when we load stuff. always in the end irhgt before allowing movement.
 
     #region MAIN PROCESSES
     IEnumerator ChangeToMenuProcess()
@@ -81,6 +81,7 @@ public class SceneLoader : MonoBehaviour
         yield return StartCoroutine(LoadAnotherSceneProcess(data));
 
         UIHandler.instance.ControlHolder(true);
+        UIHandler.instance.uiPlayer.ResetTimer();
         currentScene = data.stageId;
         //so here before we raise the curtains we always get the player position fixed.
         //we now tell teh player what it should do.
@@ -109,10 +110,14 @@ public class SceneLoader : MonoBehaviour
 
         LocalHandler.instance.StartLocalHandler(data);
         UIHandler.instance.ControlHolder(true);
+        UIHandler.instance.uiPlayer.ResetTimer();
+        
         currentScene = data.stageId;
 
     
         yield return StartCoroutine(PlayerHandler.instance.FixPlayerPositionProcess());
+
+        PlayerHandler.instance.cam.ResetCam();
 
         PlayerHandler.instance.RemoveIsDead();
 
@@ -136,8 +141,6 @@ public class SceneLoader : MonoBehaviour
         yield return new WaitUntil(() => loadAsync.isDone);
 
 
-        Debug.Log("this is the currentscene " + currentScene);
-
         AsyncOperation unloadAsync = SceneManager.UnloadSceneAsync(currentScene, UnloadSceneOptions.None);
 
 
@@ -150,8 +153,12 @@ public class SceneLoader : MonoBehaviour
      
         yield return new WaitUntil(() => GameHandler.instance != null && UIHandler.instance != null);
 
-   
-        
+        yield return StartCoroutine(ShowAdProcess());
+
+        PlayerHandler.instance.controller.blockClass.ClearBlock();
+
+
+        //we play an ad.
     }
 
     IEnumerator LoadSameSceneProcess(StageData data)
@@ -174,8 +181,51 @@ public class SceneLoader : MonoBehaviour
 
         yield return new WaitUntil(() => GameHandler.instance != null && UIHandler.instance != null && PlayerHandler.instance != null);
 
+        yield return StartCoroutine(ShowAdProcess());
+
+
+        PlayerHandler.instance.controller.blockClass.ClearBlock();
 
     }
+
+
+    IEnumerator ShowAdProcess()
+    {
+
+
+
+        AdHandler adHandler = GameHandler.instance.adHandler;
+
+        if(adHandler.debugShouldNotShowAd) 
+        {
+            Debug.Log("do not show ads");
+            yield break;
+        }
+
+
+        currentForBigAd += 3;
+
+        
+
+        if (currentForBigAd >= 3)
+        {
+            currentForBigAd = 0;
+
+            Debug.Log("this was called");
+            GameHandler.instance.adHandler.RequestRewardAd(RewardType.Nothing);
+        }
+        else
+        {
+            GameHandler.instance.adHandler.RequestInterstitial();
+        }
+
+
+
+        yield return new WaitUntil(() => !adHandler.isShowingAd);
+
+
+    }
+
 
     #endregion
 
