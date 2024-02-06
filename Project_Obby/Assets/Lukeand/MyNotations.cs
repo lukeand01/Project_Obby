@@ -175,3 +175,82 @@
 //NEXT
 //i will turn this whole things into something that can be easily used by an artist.
 //
+
+
+
+//GOALS
+//create system for dance.
+//when the character wins it does not go to ui. instead the camera shows the player doing a dance then the ui.
+//when the game starts it goes from third person to first person and the the game begins.
+//start putting the ui.
+///increase fov
+//respawn is inverting the controls.
+//also make so the player rotation follows t
+///increase the size of camera input
+//fix store and finish it.
+///create system of hearts for health <= TO TEST
+
+
+//when the player starts the game and when the player wins.
+
+
+//things i want to have in the victory ui.
+//next stage.
+//retry stage.
+//return to mainmenu
+//amount of coins gained
+//button for doubling coin.
+//amount of gold in stage
+
+
+//prestige machanic.
+//but thats for later.
+
+
+
+//FOR CREATING VICTROY UI
+//control the camera =< FOR TESTING
+//create the star system and going to the playergui. make stars come from places where they are earned. heart, time and coin
+//create the coin and show how many there were in the stage. the player can click on it to doulbe or tripple the coin by watching an ad
+//change the pause ui to be better.
+//change the ui of the buttons.
+//show the time of completion.
+
+
+
+//PROBLEMS TO FIX ABOUT THE END UI
+///the first star is appearing together.
+///the stars come from the right places. 
+///and also make it scale up when it spawns.
+///when the star arrives it shakes the thing a bit.
+///can watch the ad to double the money
+///need to test the money counting
+//in the end we need some sign that it came to an end
+//actually give the values to the player.
+//maybe it should ask for confirmation before actually doing it.
+
+//BUG
+///respawn is inverting the controls.
+///also make so the player rotation follows t
+
+//NEXT
+///create camera controls for game start. it starts in the back of the player and then moves to the front.
+///count down for the timer to start. then unlock movement.
+//create a little store button that allows the player to always see the store.
+
+//NEXT
+//solve the animation mechanic.
+
+
+//NEXT
+//create save system
+
+
+
+
+
+
+//LAST THINGS TO MAKE COMMIT
+//animation
+//save
+//fix the fall speed of the character

@@ -12,6 +12,9 @@ public class UIHandler : MonoBehaviour
 
     GameObject holder;
 
+
+    
+
     //GUIDE - this is for putting refernces. then its for getting references. they are separated to prevent changing refereneces from script.
     #region REFERENCES
     [Separator("Input")]
@@ -88,6 +91,8 @@ public class UIHandler : MonoBehaviour
     #endregion
 
 
+    [SerializeField] GameObject inputHolder;
+
     private void Awake()
     {
         if (instance == null)
@@ -109,6 +114,11 @@ public class UIHandler : MonoBehaviour
         holder.SetActive(choice);
 
         uiEnd.Close();
+    }
+
+    public void ControlInputButtons(bool isVisible)
+    {
+        inputHolder.SetActive(isVisible);
     }
 
 }

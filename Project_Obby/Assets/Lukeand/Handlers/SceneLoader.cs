@@ -42,7 +42,6 @@ public class SceneLoader : MonoBehaviour
 
     #endregion
 
-
     #region MAIN PROCESSES
     IEnumerator ChangeToMenuProcess()
     {
@@ -108,7 +107,7 @@ public class SceneLoader : MonoBehaviour
         yield return StartCoroutine(LoadSameSceneProcess(data));
 
 
-        LocalHandler.instance.StartLocalHandler(data);
+        
         UIHandler.instance.ControlHolder(true);
         UIHandler.instance.uiPlayer.ResetTimer();
         
@@ -117,7 +116,9 @@ public class SceneLoader : MonoBehaviour
     
         yield return StartCoroutine(PlayerHandler.instance.FixPlayerPositionProcess());
 
-        PlayerHandler.instance.cam.ResetCam();
+        LocalHandler.instance.StartLocalHandler(data);
+
+        //PlayerHandler.instance.cam.ResetCam();
 
         PlayerHandler.instance.RemoveIsDead();
 

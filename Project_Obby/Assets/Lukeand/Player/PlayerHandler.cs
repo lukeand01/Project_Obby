@@ -1,7 +1,10 @@
+using DG.Tweening;
+using MyBox;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.SocialPlatforms;
 
 public class PlayerHandler : MonoBehaviour
 {
@@ -20,6 +23,8 @@ public class PlayerHandler : MonoBehaviour
 
     //this defines what stage the player can palyer.
     public int stageProgress { get; private set; }
+
+
 
     private void Awake()
     {
@@ -52,6 +57,13 @@ public class PlayerHandler : MonoBehaviour
         UIHandler.instance.uiPlayer.UpdateGold(gold);
         UIHandler.instance.uiPlayer.UpdateLives(currentHealth);
 
+        cam.ResetCam();
+       //cam.ResetCamToIntroduction();
+        
+    }
+
+    private void Update()
+    {
 
     }
 
@@ -76,7 +88,14 @@ public class PlayerHandler : MonoBehaviour
 
     }
 
-    
+    #region DEBUG
+    [ContextMenu("Debug Victory")]
+    public void DebugVictory()
+    {
+        PlayerWon();
+    }
+
+    #endregion
 
 
     #region ECONOMY
@@ -211,70 +230,7 @@ public class PlayerHandler : MonoBehaviour
     //the fella that call this is the sceneloader everytime it loads the game.
     //the respawn decisions are called from the button and they just change the values that will be changed later.
 
-    public IEnumerator FixPlayerPositionProcess()
-    {
-        LocalHandler local = LocalHandler.instance;
-
-        if(local == null)
-        {
-            Debug.LogError("local handler is null");
-        }
-
-
-        lastSpawnPoint = local.GetRightSpawnPoint(lastSpawnPointIndex);
-
-        if (lastSpawnPoint == null)
-        {
-            Debug.Log("there was no one here");
-            yield break;
-        }
-
-
-        Vector3 rightPos = lastSpawnPoint.GetSpawnPos();
-
-        rb.velocity = Vector3.zero;
-        rb.useGravity = false;
-        rb.isKinematic = true;
-       
-        boxCollider.enabled = false;
-
-
-        int progress = 0;
-
-        while (transform.position != rightPos)
-        {
-            progress++;
-
-            if(progress >= 10)
-            {
-                transform.position = Vector3.MoveTowards(transform.position, rightPos, 500);
-
-            }else
-            {
-                transform.position = rightPos;
-            }
-
-            if(progress > 150)
-            {
-                Debug.Log("this was not working");
-                yield break;
-            }
-
-            
-            yield return new WaitForSeconds(0.01f);
-        }
-
-        Vector3 targetRotation = lastSpawnPoint.GetRotation();
-
-        //cam.SetRotationX(targetRotation.x);
-        //transform.rotation = Quaternion.Euler(targetRotation.x, targetRotation.y, targetRotation.z); 
-
-
-        boxCollider.enabled = true;
-        rb.useGravity = true;
-        rb.isKinematic = false;
-
-    }
+    
 
 
 
@@ -344,7 +300,80 @@ public class PlayerHandler : MonoBehaviour
         StartCoroutine(FixPlayerPositionProcess());
     }
 
+    public void ForceRightRotationInRelationToSpawn()
+    {
+        lastSpawnPoint = LocalHandler.instance.GetRightSpawnPoint(lastSpawnPointIndex);
+        Vector3 targetRotation = lastSpawnPoint.GetRotation();
 
+        transform.rotation = Quaternion.Euler(targetRotation);  
+
+    }
+
+    public IEnumerator FixPlayerPositionProcess()
+    {
+        LocalHandler local = LocalHandler.instance;
+
+        if (local == null)
+        {
+            Debug.LogError("local handler is null");
+        }
+
+
+        lastSpawnPoint = local.GetRightSpawnPoint(lastSpawnPointIndex);
+
+        if (lastSpawnPoint == null)
+        {
+            Debug.Log("there was no one here");
+            yield break;
+        }
+
+
+        Vector3 rightPos = lastSpawnPoint.GetSpawnPos();
+
+        rb.velocity = Vector3.zero;
+        rb.useGravity = false;
+        rb.isKinematic = true;
+
+        boxCollider.enabled = false;
+
+
+        int progress = 0;
+
+        while (transform.position != rightPos)
+        {
+            progress++;
+
+            if (progress >= 10)
+            {
+                transform.position = Vector3.MoveTowards(transform.position, rightPos, 500);
+
+            }
+            else
+            {
+                transform.position = rightPos;
+            }
+
+            if (progress > 150)
+            {
+                Debug.Log("this was not working");
+                yield break;
+            }
+
+
+            yield return new WaitForSeconds(0.01f);
+        }
+
+        Vector3 targetRotation = lastSpawnPoint.GetRotation();
+
+        //now i have to try and rotate without also rotating the camera.
+        cam.SetRotationX(targetRotation.y);
+
+
+        boxCollider.enabled = true;
+        rb.useGravity = true;
+        rb.isKinematic = false;
+
+    }
     //IM DOING THIS BECAUSE THE OTHER WAY WAS NOT WORKING.
     IEnumerator SpawnInLastPositionProcess()
     {
@@ -372,6 +401,7 @@ public class PlayerHandler : MonoBehaviour
     #endregion
 
 
+    #region DIE FROM FALL
     bool isDieFromFallProcess;
     public void DieFromFall()
     {
@@ -404,8 +434,13 @@ public class PlayerHandler : MonoBehaviour
 
         //then call death ui
         TakeDamage(true);
-     
+        isDieFromFallProcess = false;
+        controller.blockClass.RemoveBlock("FallDeath");
+
     }
+
+
+    #endregion
 
     public void ChangeProgress(int modifier = 0)
     {
@@ -419,6 +454,49 @@ public class PlayerHandler : MonoBehaviour
 
     }
 
+
+    #region WIN ANIMATION
+
+    public void PlayerWon()
+    {
+        StartCoroutine(PlayerWonProcess());
+    }
+
+    IEnumerator PlayerWonProcess()
+    {
+        //the player stops.
+        //the camera leaves and goes to another holder. then it rotates back.
+        //the camera should rotate as it moves. and it should be instantly.
+
+
+        LocalHandler.instance.StopTimer();
+        UIHandler.instance.ControlInputButtons(false);
+
+
+        float timer = 1.5f;
+
+        StartCoroutine(cam.RotateCameraForDanceProcess(timer));
+
+        yield return new WaitForSeconds(0.35f);
+
+
+        //start the dance.
+        yield return new WaitForSeconds(0.5f);
+
+        UIHandler.instance.uiEnd.StartVictory();
+
+
+
+        //dance done but it keeps looping in the backgorund and ui appears.
+
+
+        
+    }
+
+
+    #endregion
+
+    #region LOGIC SO PLAYER CAN USE MOVE TERRAIN 
     TerrainMoveBehavior currentMoveTerrain;
 
     public void MakeParent(TerrainMoveBehavior terrainMove)
@@ -440,6 +518,12 @@ public class PlayerHandler : MonoBehaviour
 
         
     }
+
+    #endregion
+
+
+
+
 }
 
 

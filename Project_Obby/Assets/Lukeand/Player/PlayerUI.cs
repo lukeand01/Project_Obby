@@ -4,13 +4,28 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerUI : MonoBehaviour
 {
     //this shows the powers, health and moeny
 
     [SerializeField] TextMeshProUGUI goldText;
-    [SerializeField] TextMeshProUGUI livesText;
+    [SerializeField] GameObject heartHolder;
+    [SerializeField] Transform heartPosRef;
+    [SerializeField] Image[] hearts;
+
+    Color fullHeartColor;
+    Color emptyHeartColor;
+
+    private void Awake()
+    {
+        fullHeartColor = Color.white;
+        emptyHeartColor = Color.black;
+
+        timerOriginalPos = timerHolder.transform.position;
+    }
+
 
     public void UpdateGold(int amount, int change = 0)
     {
@@ -18,18 +33,53 @@ public class PlayerUI : MonoBehaviour
     }
     public void UpdateLives(int amount)
     {
-        livesText.text = "Lives: " + amount.ToString();
+
+        for (int i = 0; i < hearts.Length; i++)
+        {
+
+            if(amount > i)
+            {
+                hearts[i].color = fullHeartColor;
+            }
+            else
+            {
+                hearts[i].color = emptyHeartColor;
+            }
+        }
+
+
+
     }
+
+    public Vector3 GetLifePos() => heartPosRef.position;
 
 
     [Separator("TIMER")]
+    [SerializeField] GameObject timerHolder;
     [SerializeField] TextMeshProUGUI timerText;
-    
+    [SerializeField] Transform timerPosRefForShow;
+    [SerializeField] Transform timerPosRefForHide;
+    Vector3 timerOriginalPos;
 
     public void UpdateTimerUI(int minutes, int seconds)
     {
         timerText.text = minutes.ToString() + ":" + seconds.ToString();
     }
+
+    public void UpdateTimerStringUI(string value)
+    {
+        timerText.text = value;
+    }
+
+    public IEnumerator TimerAnimationProcess()
+    {
+        float timer = 0.5f;
+        timerHolder.transform.DOScale(1.3f, timer);
+        yield return new WaitForSeconds(timer);
+        timerHolder.transform.DOScale(1, timer);
+    }
+
+
 
     public void TriggerTimerRedWarning()
     {
@@ -45,8 +95,6 @@ public class PlayerUI : MonoBehaviour
         timerText.DOColor(Color.red, 0);
     }
 
-
-
     IEnumerator TimerRedWarningProcess()
     {
         timerText.DOColor(Color.red, 0.5f);
@@ -56,13 +104,17 @@ public class PlayerUI : MonoBehaviour
 
     public void ShowTimer()
     {
-        timerText.transform.DOMoveY(462, 2.5f);     
+        timerHolder.transform.DOMoveY(timerPosRefForShow.position.y, 1.5f);     
     }
     public void ResetTimer()
     {
-        timerText.transform.DOMoveY(1000, 0.01f);
+        timerHolder.transform.DOMoveY(timerPosRefForHide.position.y, 0.01f);
     }
 
+    public Vector3 GetTimerPos() => timerText.transform.position;   
     
 
 }
+
+
+//

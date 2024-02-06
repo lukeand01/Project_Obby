@@ -56,7 +56,11 @@ public class PlayerController : MonoBehaviour
     }
     private void FixedUpdate()
     {
-        if (blockClass.HasBlock(BlockClass.BlockType.Complete)) return;
+        if (blockClass.HasBlock(BlockClass.BlockType.Complete))
+        {
+            //ControlCameraWithJoystick(true);
+            return;
+        }
 
         if (DEBUGCanMoveWithASWDKeys)
         {
@@ -118,11 +122,8 @@ public class PlayerController : MonoBehaviour
     void ControlCameraWithJoystick()
     {
         //this moves the camera.
-        handler.cam.MoveCameraByJoystick(joystickCamera.Direction);
-
        
-
-
+        handler.cam.MoveCameraByJoystick(joystickCamera.Direction);
     }
 
     void ControlJumpInput()

@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "Power / Spring")]
+[CreateAssetMenu(menuName = "Store / Power / Spring")]
 public class PowerDataSpring : PowerData
 {
 

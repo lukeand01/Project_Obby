@@ -33,7 +33,7 @@ public class StageHandler : MonoBehaviour
 
         int index = currentStage.stageId - 2;
 
-        Debug.Log("this is the etarget index " + index);
+
 
         if(index + 1 >= stageList.Count)
         {
