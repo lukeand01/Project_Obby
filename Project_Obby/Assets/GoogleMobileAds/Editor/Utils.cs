@@ -81,4 +81,8 @@ public static class Utils
         return "4.0.1";
 #endif
     }
+
+    public class SmoothedNormalsChannel
+    {
+    }
 }

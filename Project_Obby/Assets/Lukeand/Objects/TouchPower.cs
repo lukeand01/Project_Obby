@@ -26,7 +26,7 @@ public class TouchPower : MonoBehaviour
         confirmationWindow.eventConfirm += OnConfirmed;
         confirmationWindow.eventCancel += OnCancelled;
 
-        confirmationWindow.StartConfirmationWindow(power.powerStageDescription);
+        confirmationWindow.StartConfirmationWindow(power.stageDescription);
 
         //also if you move the buttons or do anything you get close it.
     }

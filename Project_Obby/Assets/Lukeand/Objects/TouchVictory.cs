@@ -8,7 +8,8 @@ public class TouchVictory : MonoBehaviour
     {
         if (other.gameObject.tag != "Player") return;
 
-        UIHandler.instance.uiEnd.StartVictory();
+        //UIHandler.instance.uiEnd.StartVictory();
+        PlayerHandler.instance.PlayerWon();
 
     }
 }

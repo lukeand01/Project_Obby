@@ -18,7 +18,9 @@ public class TouchCoin : MonoBehaviour
     {
         if (other.gameObject.tag != "Player") return;
 
-        PlayerHandler.instance.ChangeGold(1);
+        //PlayerHandler.instance.ChangeGold(1);
+        LocalHandler.instance.AddLocalCoin(1);
+
 
         Destroy(gameObject); 
     }

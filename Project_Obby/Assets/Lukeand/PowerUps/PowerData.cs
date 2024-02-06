@@ -1,21 +1,39 @@
+using MyBox;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Search.Providers;
 using UnityEngine;
 
-public abstract class PowerData : ScriptableObject
+public class PowerData : StoreData
 {
     //each has a price
     //
+    [Separator("POWER")]
     public string powerName;
     public Sprite powerSprite;
-    public int powerBaseCost;
-    [TextArea]public string powerStageDescription;
-    [TextArea]public string powerStoreDescription;
+
 
     public virtual void AddPower()
     {
         PlayerHandler.instance.AddPower(this);
     }
-    public abstract void RemovePower();
-    
+    public virtual void RemovePower()
+    {
+
+    }
+
+
+    public override void Buy()
+    {
+        AddPower();
+    }
+    public override bool CanBuy()
+    {
+        //check if you have that power then we check 
+        return true;
+
+    }
+
+
+
 }

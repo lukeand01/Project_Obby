@@ -32,7 +32,7 @@ public class ButtonPower : ButtonBase
 
         power.AddPower();
 
-        if(!handler.HasEnoughGold(power.powerBaseCost))
+        if(!handler.HasEnoughGold(power.storePrice))
         {
             Debug.Log("not enough money");
             return;
@@ -53,7 +53,7 @@ public class ButtonPower : ButtonBase
     {
         //portrait.sprite = power.powerSprite;
         nameText.text = power.powerName;
-        priceText.text = power.powerBaseCost.ToString();
+        priceText.text = power.storePrice.ToString();
     }
 
     public void Select()

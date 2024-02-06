@@ -24,7 +24,7 @@ public class StoreUnit : ButtonBase
 
     void UpdateUI()
     {
-        SetText(data.name + " - G: " + data.goldPrice);
+        SetText(data.name + " - G: " + data.storePrice);
     }
 
     public override void OnPointerClick(PointerEventData eventData)

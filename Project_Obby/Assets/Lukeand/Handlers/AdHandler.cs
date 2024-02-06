@@ -194,8 +194,13 @@ public class AdHandler : MonoBehaviour
         {
 
         }
-        if (reward.Type == RewardType.DoubleCoin.ToString())
+        if (reward.Type == RewardType.ModifyCoinValue.ToString())
         {
+            if(reward.Amount == 0)
+            {
+                Debug.Log("there was something wrong because you cant multiply it by 0");
+            }
+            LocalHandler.instance.MultiplyGoinGained((int)reward.Amount);
 
         }
         if (reward.Type == RewardType.AnotherLife.ToString())
@@ -215,6 +220,6 @@ public class AdHandler : MonoBehaviour
 public enum RewardType
 {
     Nothing,
-    DoubleCoin,
+    ModifyCoinValue,
     AnotherLife,
 }

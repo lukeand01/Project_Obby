@@ -15,8 +15,9 @@ public class LocalHandler : MonoBehaviour
     [SerializeField] List<SpawnPoint> spawnPointList = new();
     [SerializeField] StageData debugStart;
 
-    [SerializeField] List<TouchCoin> localCoinList = new();
-
+    public TouchCoin[] coins { get; private set; }
+    public int gainedCoin {  get; private set; }
+        //we put here because we only give to the player when he wins it.
 
     
 
@@ -52,17 +53,21 @@ public class LocalHandler : MonoBehaviour
         data = stage;
 
         currentTimer = new StageTimeClass(stage.stageLimitTimer.minutes, stage.stageLimitTimer.seconds);
-
-        
-
+      
         for (int i = 0; i < spawnPointList.Count; i++)
         {
             spawnPointList[i].SetIndex(i);
         }
 
-        for (int i = 0; i < localCoinList.Count; i++)
+
+        coins = GameObject.FindObjectsOfType<TouchCoin>();
+        gainedCoin = 0;
+
+
+
+        for (int i = 0; i < coins.Length; i++)
         {
-            localCoinList[i].SetIndex(i);
+            coins[i].SetIndex(i);
         }
 
         //then we get information here regarding to the saved data.
@@ -71,14 +76,71 @@ public class LocalHandler : MonoBehaviour
         StartCoroutine(StartStageProcess());
     }
 
+    public void AddLocalCoin(int value)
+    {
+        gainedCoin += value;
+    }
+
+    public void StopTimer()
+    {
+        StopAllCoroutines();
+    }
+
     IEnumerator StartStageProcess()
     {
 
-        UIHandler.instance.uiPlayer.ShowTimer();
-        yield return new WaitForSeconds(1.5f);
+        //then we lock it again till we are done.
+        //we have the camera do the thing.
+        //and we have the timer do it as well.
+        //i need to be at the same time they all come together.
+
+        //i will fix 
 
 
+        PlayerHandler handler = PlayerHandler.instance;
+        PlayerUI playerUI = UIHandler.instance.uiPlayer;
 
+        handler.controller.blockClass.AddBlock("StartStage", BlockClass.BlockType.Complete);
+        handler.cam.ResetCamToIntroduction();
+        handler.ForceRightRotationInRelationToSpawn();
+        StartCoroutine(handler.cam.CamIntroductionProcess());
+
+        playerUI.ShowTimer();
+
+        int timer = 3;
+
+        //the camera should be behind the player
+        
+
+        for (int i = 0; i < 3; i++)
+        {
+            if(i == 2)
+            {
+                playerUI.UpdateTimerStringUI("Go");
+                StartCoroutine(playerUI.TimerAnimationProcess());
+                yield return new WaitForSeconds(1.3f);
+            }
+            else
+            {
+                timer--;
+                playerUI.UpdateTimerStringUI(timer.ToString());
+                yield return new WaitForSeconds(1);
+            }
+           
+        }
+    
+
+        StartCoroutine(CountTimerProcess());
+
+        //handler.cam.ResetCam();
+
+
+        handler.controller.blockClass.RemoveBlock("StartStage");
+
+    }
+
+    IEnumerator CountTimerProcess()
+    {
         while (currentTimer.TimeLeft())
         {
             currentTimer.CountTimeDown();
@@ -92,11 +154,7 @@ public class LocalHandler : MonoBehaviour
             yield return new WaitForSeconds(1);
         }
         UIHandler.instance.uiPlayer.LeaveTimerRed();
-
-        yield return new WaitForSeconds(0.1f);
-
     }
-
 
     public void CompleteStage()
     {
@@ -105,8 +163,8 @@ public class LocalHandler : MonoBehaviour
         int starsGained = 0;
 
         int currentHealth = PlayerHandler.instance.currentHealth;
-        
-        if(localCoinList.Count == 0)
+
+        if (GainedStarByCoin())
         {
             starsGained++;
         }
@@ -124,6 +182,36 @@ public class LocalHandler : MonoBehaviour
         data.SetHeartGained(starsGained);
 
     }
+
+    public void MultiplyGoinGained(int value)
+    {
+
+        int additionalValue = (gainedCoin * value) - gainedCoin;
+
+        gainedCoin *= value;
+
+
+       StartCoroutine(UIHandler.instance.uiEnd.goldHolder.CoinMultiplierProcess(additionalValue));
+    }
+
+
+    public bool GainedStarByCoin()
+    {
+    
+        return gainedCoin >= coins.Length;
+    }
+    public bool GainedStarByHealth()
+    {
+        int currentHealth = PlayerHandler.instance.currentHealth;
+        return currentHealth >= 3;
+    }
+    public bool GainedStarByTimer()
+    {
+        return currentTimer.IsCurrentMoreThanHalfTheOriginal();
+    }
+
+
+
    
     public SpawnPoint GetRightSpawnPoint(int index)
     {
