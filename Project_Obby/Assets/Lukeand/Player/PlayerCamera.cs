@@ -64,7 +64,7 @@ public class PlayerCamera : MonoBehaviour
 
         cam.transform.SetParent(cameraHolderForDance);
         cam.transform.DOLocalMove(Vector3.zero, timer);
-        cam.transform.DORotate(new Vector3(0, 180, 0), timer);
+        cam.transform.DOLocalRotate(new Vector3(0, 180, 0), timer);
 
         yield return new WaitForSeconds(timer);
 
@@ -95,7 +95,7 @@ public class PlayerCamera : MonoBehaviour
 
     public IEnumerator CamIntroductionProcess()
     {
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(0.6f);
 
         float timer = 1.2f;
 

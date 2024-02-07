@@ -240,17 +240,21 @@
 
 //NEXT
 //solve the animation mechanic.
-
+///fix the model falling. it should already be in the ground.
 
 //NEXT
 //create save system
 
 
 
-
+//NOW I NEED 
+//change the playe model.
+//alloow it to easily change the 
 
 
 //LAST THINGS TO MAKE COMMIT
 //animation
-//save
-//fix the fall speed of the character
+//save. its not working buts its there.
+//fix the fall speed of the character. i hope i did.
+
+

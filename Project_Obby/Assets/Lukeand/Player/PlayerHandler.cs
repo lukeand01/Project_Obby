@@ -17,6 +17,10 @@ public class PlayerHandler : MonoBehaviour
 
     public PlayerController controller { get; private set; }
 
+    public PlayerGraphic graphic { get; private set; }
+
+
+
     public Rigidbody rb { get; private set; }
     public BoxCollider boxCollider { get; private set; }
 
@@ -42,6 +46,7 @@ public class PlayerHandler : MonoBehaviour
         movement = GetComponent<PlayerMovement>();
         cam = GetComponent<PlayerCamera>();
         controller = GetComponent<PlayerController>();
+        graphic = GetComponent<PlayerGraphic>();
 
         rb = GetComponent<Rigidbody>();
         boxCollider = GetComponent<BoxCollider>();
@@ -339,6 +344,8 @@ public class PlayerHandler : MonoBehaviour
 
         int progress = 0;
 
+        
+
         while (transform.position != rightPos)
         {
             progress++;
@@ -362,6 +369,8 @@ public class PlayerHandler : MonoBehaviour
 
             yield return new WaitForSeconds(0.01f);
         }
+
+        
 
         Vector3 targetRotation = lastSpawnPoint.GetRotation();
 
@@ -472,6 +481,7 @@ public class PlayerHandler : MonoBehaviour
         LocalHandler.instance.StopTimer();
         UIHandler.instance.ControlInputButtons(false);
 
+        graphic.PlayVictoryAnimation();
 
         float timer = 1.5f;
 

@@ -90,6 +90,7 @@ public class SceneLoader : MonoBehaviour
         yield return StartCoroutine(PlayerHandler.instance.FixPlayerPositionProcess());
 
         PlayerHandler.instance.ChangeProgress(); //this makes that the currentscene
+        PlayerHandler.instance.graphic.StopAnimation();
 
         yield return StartCoroutine(RaiseCurtainsProcess());
 
@@ -117,7 +118,7 @@ public class SceneLoader : MonoBehaviour
         yield return StartCoroutine(PlayerHandler.instance.FixPlayerPositionProcess());
 
         LocalHandler.instance.StartLocalHandler(data);
-
+        PlayerHandler.instance.graphic.StopAnimation();
         //PlayerHandler.instance.cam.ResetCam();
 
         PlayerHandler.instance.RemoveIsDead();

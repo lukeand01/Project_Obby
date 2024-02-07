@@ -72,6 +72,9 @@ public class LocalHandler : MonoBehaviour
 
         //then we get information here regarding to the saved data.
 
+
+
+
         StopAllCoroutines();
         StartCoroutine(StartStageProcess());
     }
@@ -107,27 +110,20 @@ public class LocalHandler : MonoBehaviour
 
         playerUI.ShowTimer();
 
-        int timer = 3;
 
         //the camera should be behind the player
-        
 
-        for (int i = 0; i < 3; i++)
+        for (int i = 3; i > 0; i--)
         {
-            if(i == 2)
-            {
-                playerUI.UpdateTimerStringUI("Go");
-                StartCoroutine(playerUI.TimerAnimationProcess());
-                yield return new WaitForSeconds(1.3f);
-            }
-            else
-            {
-                timer--;
-                playerUI.UpdateTimerStringUI(timer.ToString());
-                yield return new WaitForSeconds(1);
-            }
-           
+            playerUI.UpdateTimerStringUI(i.ToString());
+            yield return new WaitForSeconds(0.8f);
         }
+
+        playerUI.UpdateTimerStringUI("GO");
+        StartCoroutine(playerUI.TimerAnimationProcess());
+        yield return new WaitForSeconds(1f);
+
+       
     
 
         StartCoroutine(CountTimerProcess());
