@@ -26,7 +26,7 @@ RenderSettings:
   m_AmbientIntensity: 1
   m_AmbientMode: 0
   m_SubtractiveShadowColor: {r: 0.42, g: 0.478, b: 0.627, a: 1}
-  m_SkyboxMaterial: {fileID: 2100000, guid: 7ddc13808c77ad94890d119f73c76580, type: 2}
+  m_SkyboxMaterial: {fileID: 2100000, guid: 3437b4ae8277aaa40b48ad773cf3609b, type: 2}
   m_HaloStrength: 0.5
   m_FlareStrength: 1
   m_FlareFadeSpeed: 3
@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.63825154, g: 0.7946972, b: 0.8731013, a: 1}
+  m_IndirectSpecularColor: {r: 0.65400004, g: 0.5984986, b: 0.654889, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -180,6 +180,63 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e60794eb431ab1b41b1ba5e8aff54afd, type: 3}
+--- !u!1001 &93385389
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: -8679921383154817045, guid: 024df9d4faba7e84a9509f78456717da, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 2.842108
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 024df9d4faba7e84a9509f78456717da, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.33
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 024df9d4faba7e84a9509f78456717da, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -3.67
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 024df9d4faba7e84a9509f78456717da, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.7071067
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 024df9d4faba7e84a9509f78456717da, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 024df9d4faba7e84a9509f78456717da, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 024df9d4faba7e84a9509f78456717da, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 024df9d4faba7e84a9509f78456717da, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 024df9d4faba7e84a9509f78456717da, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 024df9d4faba7e84a9509f78456717da, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 024df9d4faba7e84a9509f78456717da, type: 3}
+      propertyPath: m_Name
+      value: Forest_Skipp
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 024df9d4faba7e84a9509f78456717da, type: 3}
 --- !u!1001 &218076989
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -198,7 +255,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 08b12dc5a85f6ad4aa2705575ff5d42b, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -4.05
+      value: -3.9
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 08b12dc5a85f6ad4aa2705575ff5d42b, type: 3}
       propertyPath: m_LocalRotation.w
@@ -477,8 +534,11 @@ MonoBehaviour:
   cameraSensitivityX: 0
   cameraSensitivityY: 0
   cameraHolder: {fileID: 0}
+  cameraHolderForDance: {fileID: 0}
+  cameraHolderForIntroduction: {fileID: 0}
   cameraRotationX: 0
   cameraRotationY: 0
+  playerRotationX: 0
 --- !u!1 &1154418974
 GameObject:
   m_ObjectHideFlags: 0
@@ -804,6 +864,7 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects:
     - {fileID: 7874717877171951767, guid: 484dac93f273cbc49a98bcf0147614c4, type: 3}
+    - {fileID: -2384658835620542840, guid: 484dac93f273cbc49a98bcf0147614c4, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 484dac93f273cbc49a98bcf0147614c4, type: 3}
@@ -825,7 +886,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: aa6b497aaa4b00544b02bad9782a4284, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 1.09
+      value: 1.32
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: aa6b497aaa4b00544b02bad9782a4284, type: 3}
       propertyPath: m_LocalRotation.w
@@ -939,3 +1000,4 @@ SceneRoots:
   - {fileID: 451611876}
   - {fileID: 1767496393}
   - {fileID: 2074700237}
+  - {fileID: 93385389}
