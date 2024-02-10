@@ -253,8 +253,16 @@
 
 
 //LAST THINGS TO MAKE COMMIT
-//animation
-//save. its not working buts its there.
-//fix the fall speed of the character. i hope i did.
+///animation
+///save. its not working buts its there.
+///fix the fall speed of the character. i hope i did.
+///
 
-
+//GOALS
+//controle do player e movimento melhorado
+//colocar sistema de checkpoint
+//criar sistema de save
+//criar sistema de som. 
+//melhorar o ui de derrota.
+//criar sistema de save. e usar os dados salvos no jogo.
+//consertar bugs: build n chamando a presentacao

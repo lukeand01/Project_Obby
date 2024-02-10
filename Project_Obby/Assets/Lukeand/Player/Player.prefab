@@ -43,6 +43,7 @@ GameObject:
   - component: {fileID: 2100324023978977456}
   - component: {fileID: 2171065156281786580}
   - component: {fileID: 8304030799406368572}
+  - component: {fileID: 6884250243765320225}
   - component: {fileID: 7336783845591335847}
   - component: {fileID: 228555127081776659}
   - component: {fileID: 3963917562488816057}
@@ -105,7 +106,7 @@ MonoBehaviour:
   DEBUGCanMoveWithASWDKeys: 0
   joystickMove: {fileID: 0}
   joystickCamera: {fileID: 0}
---- !u!114 &7336783845591335847
+--- !u!114 &6884250243765320225
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -113,6 +114,26 @@ MonoBehaviour:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 193604034536728454}
   m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eda22d9d8376cfe4fb1aa53b909ed064, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerOrientation: {fileID: 5715871029050023537}
+  moveSpeed: 30
+  topSpeed: 6
+  jumpForce: 0
+  fallSpeedWhileHolding: 0
+  fallSpeedWhileNotHolding: 0
+  JumpQuantityFromPower: 0
+  JumpForceFromPower: 0
+--- !u!114 &7336783845591335847
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 193604034536728454}
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ea202b511141d294eb60d03e885240cc, type: 3}
   m_Name: 

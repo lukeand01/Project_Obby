@@ -1,7 +1,4 @@
 using MyBox;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEditor.Search.Providers;
 using UnityEngine;
 
 public class PowerData : StoreData

@@ -80,7 +80,6 @@ public class PlayerCamera : MonoBehaviour
     }
     public void EspecialResetCam()
     {
-        Debug.Log("especial rest was called");
         cam.transform.SetParent(cameraHolder);
         cam.transform.localPosition = Vector3.zero;
         //cam.transform.rotation = Quaternion.Euler(0, 180, 0);
@@ -93,8 +92,14 @@ public class PlayerCamera : MonoBehaviour
         cam.transform.localRotation = Quaternion.Euler(0, 0, 0);
     }
 
+    public void CallCamIntroductionProcess()
+    {
+        StartCoroutine(CamIntroductionProcess());
+    }
+
     public IEnumerator CamIntroductionProcess()
     {
+
         yield return new WaitForSeconds(0.6f);
 
         float timer = 1.2f;
@@ -102,6 +107,8 @@ public class PlayerCamera : MonoBehaviour
         cam.transform.DOMove(cameraHolder.position, timer);
 
         yield return new WaitForSeconds(timer);
+
+
 
         ResetCam();
 

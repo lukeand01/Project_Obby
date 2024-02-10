@@ -9,10 +9,10 @@ public class PowerDataSpring : PowerData
     public override void AddPower()
     {
         base.AddPower();
-        PlayerHandler.instance.movement.AddJumpIncrement();
+        PlayerHandler.instance.movement2.AddJumpIncrement();
     }
     public override void RemovePower()
     {
-        PlayerHandler.instance.movement.RemoveJumpIncrement();
+        PlayerHandler.instance.movement2.RemoveJumpIncrement();
     }
 }

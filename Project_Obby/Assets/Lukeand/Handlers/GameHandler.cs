@@ -15,7 +15,7 @@ public class GameHandler : MonoBehaviour
     public AdHandler adHandler { get; private set; }
     public GraphicalHandler graphicalHandler { get; private set; }
 
-
+    public SoundHandler soundHandler { get; private set; }
 
     [SerializeField] List<PowerData> allAvailablePowerList = new();
 
@@ -42,7 +42,7 @@ public class GameHandler : MonoBehaviour
         sceneLoader = GetComponent<SceneLoader>();
         adHandler = GetComponent<AdHandler>();
         graphicalHandler = GetComponent<GraphicalHandler>();
-
+        soundHandler = GetComponent<SoundHandler>();
         DontDestroyOnLoad(gameObject);
     }
 

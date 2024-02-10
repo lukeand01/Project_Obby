@@ -32,16 +32,16 @@ public class PlayerController : MonoBehaviour
         joystickCamera = UIHandler.instance.cameraJoystick;
         inputButtonJump = UIHandler.instance.inputButtonJump;
 
-        inputButtonJump.EventPressed += handler.movement.StartJumpPlayer;
-        inputButtonJump.EventReleased += handler.movement.ReleaseJumpPlayer;
+        inputButtonJump.EventPressed += handler.movement2.PressJump;
+        inputButtonJump.EventReleased += handler.movement2.ReleaseJump;
     }
 
     private void OnDisable()
     {
-        if(handler.movement != null)
+        if(handler.movement2 != null)
         {
-            inputButtonJump.EventPressed -= handler.movement.StartJumpPlayer;
-            inputButtonJump.EventReleased -= handler.movement.ReleaseJumpPlayer;
+            inputButtonJump.EventPressed -= handler.movement2.PressJump;
+            inputButtonJump.EventReleased -= handler.movement2.ReleaseJump;
         }
 
         
@@ -107,13 +107,13 @@ public class PlayerController : MonoBehaviour
 
         if(joystickMove.Direction != Vector2.zero)
         {
-            handler.movement.MovePlayer(joystickMove.Direction);
+            handler.movement2.MovePlayer(joystickMove.Direction);
             //if there is a confirmation menu we stop it.
 
         }
         else
         {
-            handler.movement.StopPlayer();
+            handler.movement2.StopPlayer();
         }
 
         
@@ -130,7 +130,7 @@ public class PlayerController : MonoBehaviour
     {
         if(inputButtonJump.value == 1)
         {
-            handler.movement.HoldJumpPlayer();
+            handler.movement2.HoldJump();
         }
     }
 }

@@ -41,7 +41,7 @@ public class AdHandler : MonoBehaviour
     public void RequestBanner()
     {      
         //THis is the android version.      
-        bannerView = new BannerView(adUnitId, AdSize.SmartBanner, AdPosition.Bottom);
+        bannerView = new BannerView(adUnitId, AdSize.SmartBanner, AdPosition.Top);
 
         AdRequest request = new AdRequest.Builder().Build();
 

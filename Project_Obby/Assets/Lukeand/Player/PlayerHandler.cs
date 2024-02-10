@@ -12,7 +12,10 @@ public class PlayerHandler : MonoBehaviour
 
     public static PlayerHandler instance;
 
-    public PlayerMovement movement { get; private set; }
+    //public PlayerMovement movement { get; private set; }
+    public PlayerMovement2 movement2 { get; private set; }
+
+
     public PlayerCamera cam { get; private set; }
 
     public PlayerController controller { get; private set; }
@@ -43,10 +46,12 @@ public class PlayerHandler : MonoBehaviour
         }
 
 
-        movement = GetComponent<PlayerMovement>();
+        //movement = GetComponent<PlayerMovement>();
+        movement2 = GetComponent<PlayerMovement2>();
         cam = GetComponent<PlayerCamera>();
         controller = GetComponent<PlayerController>();
         graphic = GetComponent<PlayerGraphic>();
+
 
         rb = GetComponent<Rigidbody>();
         boxCollider = GetComponent<BoxCollider>();
@@ -63,8 +68,7 @@ public class PlayerHandler : MonoBehaviour
         UIHandler.instance.uiPlayer.UpdateLives(currentHealth);
 
         cam.ResetCam();
-       //cam.ResetCamToIntroduction();
-        
+        //cam.ResetCamToIntroduction();
     }
 
     private void Update()
@@ -124,19 +128,19 @@ public class PlayerHandler : MonoBehaviour
     }
 
 
-    public int diamond { get; private set; }
+    public int star { get; private set; }
 
-    public void ChangeDiamond(int amount)
+    public void ChangeStar(int amount)
     {
-        diamond += amount;
+        star += amount;
     }
-    public void SetDiamond(int amount)
+    public void SetStar(int amount)
     {
-        diamond = amount;
+        star = amount;
     }
-    public bool HasEnoughDiamond(int amount)
+    public bool HasEnoughStar(int amount)
     {
-        return diamond >= amount;
+        return star >= amount;
     }
 
     #endregion
@@ -431,6 +435,8 @@ public class PlayerHandler : MonoBehaviour
 
     IEnumerator DieFromFallProcess()
     {
+        LocalHandler.instance.StopTimer();
+
         isDieFromFallProcess = true;
         controller.blockClass.AddBlock("FallDeath", BlockClass.BlockType.Complete);
         cam.MakeCamWatchFallDeath();

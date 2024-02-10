@@ -3,19 +3,23 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class MainMenuUI : MonoBehaviour
 {
     //will handle stage stuff here.
 
-    [SerializeField] GameObject DEBUGStageHolder;
-    [SerializeField] Transform DEBUGStageContainer;
-    [SerializeField] StageUnit DEBUGStageTemplate;
+    //[SerializeField] GameObject DEBUGStageHolder;
+    
     [SerializeField] List<GameObject> holderLIst = new();
+
+    [Separator("STAGE")]
+    [SerializeField] StageUnit stageTemplate;
+    [SerializeField] Transform stageContainer;
 
     [Separator("PLAYER STUFF")]
     [SerializeField] TextMeshProUGUI goldText;
-    [SerializeField] TextMeshProUGUI livesText;
+    [SerializeField] TextMeshProUGUI starText;
 
     [Separator("DESCRIPTION")]
     [SerializeField] GameObject descriptionHolder;
@@ -26,6 +30,8 @@ public class MainMenuUI : MonoBehaviour
     [Separator("STORE")]
     [SerializeField] GameObject storeHolder;
 
+    [Separator("WARNING")]
+    [SerializeField] TextMeshProUGUI warnText;
 
     private void Start()
     {
@@ -36,6 +42,8 @@ public class MainMenuUI : MonoBehaviour
             Debug.Log("there was no gamehandler for some reason");
             return;
         }
+
+  
 
         //the banner is taking the ui in the top.
         GameHandler.instance.adHandler.RequestBanner();
@@ -64,7 +72,7 @@ public class MainMenuUI : MonoBehaviour
         //update both lives and gold.
 
         goldText.text = "Gold: " + PlayerHandler.instance.gold.ToString();
-        livesText.text = "Lives: " + PlayerHandler.instance.currentHealth;
+        starText.text = "Lives: " + PlayerHandler.instance.star.ToString();
 
     }
 
@@ -72,19 +80,23 @@ public class MainMenuUI : MonoBehaviour
     #region HANDLE STAGES
 
 
-
-
     void CreateStageUnits(List<StageData> stageList)
     {
+        //create for some effect.
+
+        if(stageList.Count <= 0)
+        {
+            SetWarn("NO STAGE HERE");
+        }
+
         foreach (StageData stageData in stageList)
         {
-            StageUnit newObject = Instantiate(DEBUGStageTemplate, Vector2.zero, Quaternion.identity);
+            StageUnit newObject = Instantiate(stageTemplate, Vector2.zero, Quaternion.identity);
             newObject.SetUpStage(this, stageData);
-            newObject.transform.parent = DEBUGStageContainer.transform;
+            newObject.transform.parent = stageContainer.transform;
 
 
         }
-
     }
 
     StageUnit currentStageUnit;
@@ -98,7 +110,16 @@ public class MainMenuUI : MonoBehaviour
 
         currentStageUnit = stageUnit;
         currentStageUnit.Select();
-        DescribeStage();
+        //DescribeStage();
+    }
+
+    public void CancelStageUnit()
+    {
+        if(currentStageUnit != null)
+        {
+            currentStageUnit.Unselect();
+            currentStageUnit = null;
+        }
     }
 
 
@@ -156,6 +177,19 @@ public class MainMenuUI : MonoBehaviour
 
     #endregion
 
+    #region CHANGE WORLDS
+
+    void ChangeWorld()
+    {
+
+    }
+    void CalculateTotalStarForWorld()
+    {
+
+    }
+
+
+    #endregion
 
     #region STORE
 
@@ -172,5 +206,8 @@ public class MainMenuUI : MonoBehaviour
 
     #endregion
 
-
+    public void SetWarn(string text)
+    {
+        warnText.text = text;
+    }
 }

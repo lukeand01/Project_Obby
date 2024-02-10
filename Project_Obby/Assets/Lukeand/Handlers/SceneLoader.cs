@@ -1,8 +1,5 @@
-using System;
+
 using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
-using UnityEditor.Presets;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -30,7 +27,7 @@ public class SceneLoader : MonoBehaviour
         StartCoroutine(ChangeToMenuProcess());
     }
 
-    public void ResetScene(StageData data)
+    public void ResetScene(StageData data, StageTimeClass currentTimer)
     {
         //then we reload the currentscene.       
         StopAllCoroutines();
@@ -84,8 +81,8 @@ public class SceneLoader : MonoBehaviour
         currentScene = data.stageId;
         //so here before we raise the curtains we always get the player position fixed.
         //we now tell teh player what it should do.
-        LocalHandler.instance.StartLocalHandler(data);
         PlayerHandler.instance.ResetScenePlayer();
+        LocalHandler.instance.StartLocalHandler(data);
 
         yield return StartCoroutine(PlayerHandler.instance.FixPlayerPositionProcess());
 

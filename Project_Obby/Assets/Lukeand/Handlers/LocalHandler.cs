@@ -48,11 +48,26 @@ public class LocalHandler : MonoBehaviour
 
     StageTimeClass currentTimer;
 
-    public void StartLocalHandler(StageData stage)
+    public void StartLocalHandler(StageData stage, StageTimeClass forcedTimer = null)
     {
         data = stage;
 
-        currentTimer = new StageTimeClass(stage.stageLimitTimer.minutes, stage.stageLimitTimer.seconds);
+        if(forcedTimer != null)
+        {
+            if (forcedTimer.HasSomething())
+            {
+                Debug.Log("it has nothing inside but it was still called here");
+            }
+
+
+            currentTimer = forcedTimer;
+        }
+        else
+        {
+            currentTimer = new StageTimeClass(stage.stageLimitTimer.minutes, stage.stageLimitTimer.seconds);
+        }
+
+        
       
         for (int i = 0; i < spawnPointList.Count; i++)
         {
@@ -86,7 +101,8 @@ public class LocalHandler : MonoBehaviour
 
     public void StopTimer()
     {
-        StopAllCoroutines();
+        Debug.Log("stop timer");
+        StopCoroutine(CountTimerProcess());
     }
 
     IEnumerator StartStageProcess()
@@ -99,14 +115,14 @@ public class LocalHandler : MonoBehaviour
 
         //i will fix 
 
-
         PlayerHandler handler = PlayerHandler.instance;
         PlayerUI playerUI = UIHandler.instance.uiPlayer;
 
         handler.controller.blockClass.AddBlock("StartStage", BlockClass.BlockType.Complete);
         handler.cam.ResetCamToIntroduction();
         handler.ForceRightRotationInRelationToSpawn();
-        StartCoroutine(handler.cam.CamIntroductionProcess());
+        //StartCoroutine(handler.cam.CamIntroductionProcess());
+        handler.cam.CallCamIntroductionProcess();
 
         playerUI.ShowTimer();
 
@@ -234,6 +250,7 @@ public class LocalHandler : MonoBehaviour
 
     public void ResetScene()
     {
-        GameHandler.instance.sceneLoader.ResetScene(data);
+        //i want to pass information regarding the time the player died.
+        GameHandler.instance.sceneLoader.ResetScene(data, currentTimer);
     }
 }

@@ -10,13 +10,13 @@ public class StageData : ScriptableObject
     public StageTimeClass stageLimitTimer;
     public StageTimeClass stageCompletedTimer {  get; private set; }
 
-    public int stageHeartGained {  get; private set; }
+    public int stageStarGained {  get; private set; }
 
     public void SetHeartGained(int heartGained)
     {
-        if(heartGained > stageHeartGained)
+        if(heartGained > stageStarGained)
         {
-            stageHeartGained = heartGained;
+            stageStarGained = heartGained;
         }
     }
 

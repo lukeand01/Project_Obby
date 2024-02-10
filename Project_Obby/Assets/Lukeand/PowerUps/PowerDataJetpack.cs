@@ -10,11 +10,11 @@ public class PowerDataJetpack : PowerData
     public override void AddPower()
     {
         base.AddPower();
-        PlayerHandler.instance.movement.AddDoubleJump();
+        PlayerHandler.instance.movement2.AddDoubleJump();
     }
 
     public override void RemovePower()
     {
-        PlayerHandler.instance.movement.RemoveDoubleJump();
+        PlayerHandler.instance.movement2.RemoveDoubleJump();
     }
 }

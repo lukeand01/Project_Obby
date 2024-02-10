@@ -6,7 +6,9 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 {
     //this is going to handle all of the playermovement.
-    //
+    //the jump needs to be mored tamed.
+
+
 
 
     [Separator("STAT")]
@@ -71,7 +73,7 @@ public class PlayerMovement : MonoBehaviour
         SpeedControl();
         //DEBUGMOVEMENT();
         HandleJumpCooldown();      
-       ControlRBDrag();
+        ControlRBDrag();
 
         if (isGrounded)
         {
@@ -201,6 +203,8 @@ public class PlayerMovement : MonoBehaviour
 
     public void StartJumpPlayer()
     {
+        if (handler.controller.blockClass.HasBlock(BlockClass.BlockType.Complete)) return;
+
 
         if (!canJump)
         {
@@ -226,6 +230,7 @@ public class PlayerMovement : MonoBehaviour
     }
     public void HoldJumpPlayer()
     {
+        if (handler.controller.blockClass.HasBlock(BlockClass.BlockType.Complete)) return;
 
         //go a little bit higher.
         //handler.rb.AddForce(transform.up * (jumpModifier * Time.deltaTime), ForceMode.Impulse);
@@ -234,6 +239,7 @@ public class PlayerMovement : MonoBehaviour
     public void ReleaseJumpPlayer()
     {
         //define differente speeds to fall.
+        if (handler.controller.blockClass.HasBlock(BlockClass.BlockType.Complete)) return;
 
         float secondJumpModifier = 1;
 

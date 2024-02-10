@@ -1,8 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
+
 using Unity.Services.Core;
 using Unity.Services.Core.Environments;
-using UnityEditor.iOS;
 using UnityEngine;
 using UnityEngine.Purchasing;
 
