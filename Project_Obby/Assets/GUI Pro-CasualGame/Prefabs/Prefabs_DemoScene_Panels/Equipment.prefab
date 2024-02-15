@@ -31749,10 +31749,14 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
+<<<<<<< Updated upstream:Project_Obby/Assets/GUI Pro-CasualGame/Prefabs/Prefabs_DemoScene_Panels/Equipment.prefab
   m_outlineColor:
     serializedVersion: 2
     rgba: 4278190080
   m_fontSize: 52
+=======
+  m_fontSize: 29.7
+>>>>>>> Stashed changes:Project_Obby/Assets/Layer Lab/GUI Pro-CasualGame/Prefabs/Prefabs_DemoScene_Panels/Equipment.prefab
   m_fontSizeBase: 52
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -32713,10 +32717,14 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
+<<<<<<< Updated upstream:Project_Obby/Assets/GUI Pro-CasualGame/Prefabs/Prefabs_DemoScene_Panels/Equipment.prefab
   m_outlineColor:
     serializedVersion: 2
     rgba: 4278190080
   m_fontSize: 50
+=======
+  m_fontSize: 18
+>>>>>>> Stashed changes:Project_Obby/Assets/Layer Lab/GUI Pro-CasualGame/Prefabs/Prefabs_DemoScene_Panels/Equipment.prefab
   m_fontSizeBase: 50
   m_fontWeight: 400
   m_enableAutoSizing: 1
