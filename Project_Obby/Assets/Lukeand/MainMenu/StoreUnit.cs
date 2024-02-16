@@ -30,6 +30,10 @@ public class StoreUnit : ButtonBase
     public override void OnPointerClick(PointerEventData eventData)
     {
         base.OnPointerClick(eventData);
+
+        //we ask for confirmation if they wish to buy it.
+
+
     }
 
 }

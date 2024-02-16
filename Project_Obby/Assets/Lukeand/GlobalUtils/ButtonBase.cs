@@ -35,7 +35,7 @@ public class ButtonBase : MonoBehaviour, IPointerClickHandler, IPointerEnterHand
 
     public virtual void OnPointerClick(PointerEventData eventData)
     {
-        if (clickClip != null && GameHandler.instance != null) GameHandler.instance.CreateSFX(clickClip);
+        if (clickClip != null && GameHandler.instance != null) GameHandler.instance.soundHandler.CreateSFX(clickClip);
 
         clickTimerCurrent = clickTimerTotal;
         if(mouseClick != null)
@@ -75,7 +75,7 @@ public class ButtonBase : MonoBehaviour, IPointerClickHandler, IPointerEnterHand
     public virtual void OnPointerEnter(PointerEventData eventData)
     {
         if (mouseHover != null) mouseHover.SetActive(true);
-        if (hoverClip != null && GameHandler.instance != null) GameHandler.instance.CreateSFX(hoverClip);
+        if (hoverClip != null && GameHandler.instance != null) GameHandler.instance.soundHandler.CreateSFX(hoverClip);
     }
 
 

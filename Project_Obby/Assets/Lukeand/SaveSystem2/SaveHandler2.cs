@@ -17,9 +17,18 @@ public static class SaveHandler2
     {
         //we just put all information here
         SaveClass newSaveClass = new SaveClass();
-        newSaveClass.playerGold = PlayerHandler.instance.gold;
-        newSaveClass.playerHealth = PlayerHandler.instance.currentHealth;
-        newSaveClass.playerStageProgress = PlayerHandler.instance.stageProgress;
+        PlayerHandler handler = PlayerHandler.instance;
+
+
+        newSaveClass.playerGold = handler.gold;
+        //newSaveClass.playerHealthTotal = PlayerHandler.instance.currentHealth;
+        newSaveClass.playerStageProgress = handler.stageProgress;
+        newSaveClass.playerCurrentAnimationIndex = handler.graphic.animationIndex;
+        newSaveClass.playerCurrentGraphicIndex = handler.graphic.graphicIndex;
+
+
+
+
 
         bool success = SaveData("0", newSaveClass, true);
 
@@ -31,6 +40,11 @@ public static class SaveHandler2
     {
         return LoadData<SaveClass>("0", true);
 
+    }
+
+    public static bool OrderHasFile()
+    {
+        return HasFile("0");
     }
 
     #endregion

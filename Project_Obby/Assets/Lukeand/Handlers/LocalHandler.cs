@@ -1,3 +1,4 @@
+using MyBox;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -10,16 +11,17 @@ public class LocalHandler : MonoBehaviour
 
 
     //
-
+    
     public StageData data {  get; private set; }
     [SerializeField] List<SpawnPoint> spawnPointList = new();
     [SerializeField] StageData debugStart;
 
     public TouchCoin[] coins { get; private set; }
     public int gainedCoin {  get; private set; }
-        //we put here because we only give to the player when he wins it.
+    //we put here because we only give to the player when he wins it.
+    [Separator("DEBUG")]
+    [SerializeField] bool debugDoNotCallPresentation;
 
-    
 
     private void Awake()
     {
@@ -54,12 +56,7 @@ public class LocalHandler : MonoBehaviour
 
         if(forcedTimer != null)
         {
-            if (forcedTimer.HasSomething())
-            {
-                Debug.Log("it has nothing inside but it was still called here");
-            }
-
-
+            Debug.Log("tried to call with a save");
             currentTimer = forcedTimer;
         }
         else
@@ -86,12 +83,19 @@ public class LocalHandler : MonoBehaviour
         }
 
         //then we get information here regarding to the saved data.
-
-
-
-
         StopAllCoroutines();
-        StartCoroutine(StartStageProcess());
+
+        if (debugDoNotCallPresentation)
+        {
+            PlayerHandler.instance.cam.ResetCam();
+        }
+        else
+        {
+            StartCoroutine(StartStageProcess());
+        }
+
+        
+        
     }
 
     public void AddLocalCoin(int value)
@@ -101,7 +105,6 @@ public class LocalHandler : MonoBehaviour
 
     public void StopTimer()
     {
-        Debug.Log("stop timer");
         StopCoroutine(CountTimerProcess());
     }
 

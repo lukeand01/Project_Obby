@@ -207,6 +207,10 @@ public class AdHandler : MonoBehaviour
         {
 
         }
+        if (reward.Type == RewardType.DailyReward.ToString())
+        {
+            GameHandler.instance.rewardHandler.GrantDailyReward();
+        }
 
     }
 
@@ -222,4 +226,5 @@ public enum RewardType
     Nothing,
     ModifyCoinValue,
     AnotherLife,
+    DailyReward
 }

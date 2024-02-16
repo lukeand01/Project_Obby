@@ -1,5 +1,6 @@
 using DG.Tweening;
 using MyBox;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
@@ -21,7 +22,8 @@ public class PlayerHandler : MonoBehaviour
     public PlayerController controller { get; private set; }
 
     public PlayerGraphic graphic { get; private set; }
-
+    
+    public PlayerSound sound { get; private set; }
 
 
     public Rigidbody rb { get; private set; }
@@ -30,6 +32,12 @@ public class PlayerHandler : MonoBehaviour
 
     //this defines what stage the player can palyer.
     public int stageProgress { get; private set; }
+
+    public void DebugStageProgress()
+    {
+        stageProgress +=1;
+        SaveHandler2.OrderToSaveData();
+    }
 
 
 
@@ -51,7 +59,7 @@ public class PlayerHandler : MonoBehaviour
         cam = GetComponent<PlayerCamera>();
         controller = GetComponent<PlayerController>();
         graphic = GetComponent<PlayerGraphic>();
-
+        sound = GetComponent<PlayerSound>();
 
         rb = GetComponent<Rigidbody>();
         boxCollider = GetComponent<BoxCollider>();
@@ -97,11 +105,72 @@ public class PlayerHandler : MonoBehaviour
 
     }
 
+    #region STORE
+    //each item is a 
+
+    public List<int> storeItensOwnedList { get; private set; } = new();
+
+    public void AddStoreItem(int index)
+    {
+        storeItensOwnedList.Add(index);
+    }
+    public bool HasStoreItem(int index)
+    {
+        foreach (var item in storeItensOwnedList)
+        {
+            if (item == index) return true;
+        }
+        return false;
+    }
+
+
+    #endregion
+
+
+
+    #region SAVE
+    public void UseSaveData(SaveClass save)
+    {
+        SetStageProgress(save.playerStageProgress);
+
+        graphic.SetAnimationIndex(save.playerCurrentAnimationIndex);
+        graphic.SetGraphicIndex(save.playerCurrentGraphicIndex);
+
+        storeItensOwnedList = save.playerItemsList;
+        //and now we make the list of store.
+
+
+
+    }
+
+
+
+    public void UseEmptyData()
+    {
+        //just reset to the start.
+
+
+    }
+
+    #endregion
+
     #region DEBUG
     [ContextMenu("Debug Victory")]
     public void DebugVictory()
     {
         PlayerWon();
+    }
+    [ContextMenu("Debug Change Graphic")]
+    public void DebugChangeGraphic()
+    {
+        graphic.animationIndex = 3;
+        SaveHandler2.OrderToSaveData();
+    }
+    [ContextMenu("Debug Change Animation")]
+    public void DebugChangeAnimation()
+    {
+        graphic.graphicIndex = 3;
+        SaveHandler2.OrderToSaveData();
     }
 
     #endregion
@@ -284,7 +353,7 @@ public class PlayerHandler : MonoBehaviour
         lastSpawnPoint = spawnPoint;
         lastSpawnPointIndex = index;
 
-        Debug.Log("ASsign new spawn point " + Random.Range(0,100));
+        Debug.Log("ASsign new spawn point with thsi index " + index);
 
     }
 
@@ -440,10 +509,15 @@ public class PlayerHandler : MonoBehaviour
         isDieFromFallProcess = true;
         controller.blockClass.AddBlock("FallDeath", BlockClass.BlockType.Complete);
         cam.MakeCamWatchFallDeath();
+        graphic.PlayFallAnimation();
+        GameHandler.instance.soundHandler.CreateSFX(sound.fallClip);
 
         rb.velocity = new Vector3(0, rb.velocity.y, 0);
 
         //Time.timeScale = 0.3f;
+
+
+
 
         yield return new WaitForSeconds(1.5f);
 
@@ -457,6 +531,8 @@ public class PlayerHandler : MonoBehaviour
 
     #endregion
 
+    #region STAGE
+
     public void ChangeProgress(int modifier = 0)
     {
         int indexOfLastStage = LocalHandler.instance.data.stageId;
@@ -469,6 +545,22 @@ public class PlayerHandler : MonoBehaviour
 
     }
 
+    public void SetStageProgress(int value)
+    {
+        Debug.Log("set stage");
+
+        stageProgress = value;
+
+        MainMenuUI mainMenuUI = MainMenuUI.instance;
+
+        if(mainMenuUI != null)
+        {
+            mainMenuUI.playUI.UpdateStageUnits();
+        }
+    }
+
+
+    #endregion
 
     #region WIN ANIMATION
 

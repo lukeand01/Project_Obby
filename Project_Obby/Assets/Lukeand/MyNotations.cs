@@ -259,10 +259,54 @@
 ///
 
 //GOALS
-//controle do player e movimento melhorado
-//colocar sistema de checkpoint
-//criar sistema de save
-//criar sistema de som. 
-//melhorar o ui de derrota.
+///controle do player e movimento melhorado
+//its getting stuck in colliders
+///add animacao para a queda.
+///colocar sistema de checkpoint
+///criar sistema de som. 
+//melhorar o ui de derrota. <= NOT NOW
 //criar sistema de save. e usar os dados salvos no jogo.
 //consertar bugs: build n chamando a presentacao
+//remcompensa diaria <= Teste
+//report <= Teste
+//rework in the store system.
+//create an inventory. which are just the itens bought by the player.
+
+
+
+//THESE ARE THE TASKS
+
+//CREATE THE MAIN MENU
+///when it starts we pass the information to create stage selection
+///can open and close the different ui.
+
+
+//REPORT AND DAILY REWARD.
+//can send information directly to a set email <= NEED TO TEST
+//can detect which was the last time that the player got the daily reward.
+//use that information to decide if it is too late or allowed time. show the amount of time left.
+
+//SAVE SYSTEM
+//load all the stageunits to properly show the currentstage the player has.
+//display playergold and playerStar from the save
+//put the right player graphic and animation
+//everytime the player buys something it needs
+
+//STORE AND INVENTORY SYSTEM
+//need to create dynamically. need to have categories.
+//the inventory also has categories.
+
+//RECONQUERING THE MOVEMENT SYSTEM
+//check coyote
+//check buffer
+//check jump
+//check falling
+
+
+
+
+
+
+
+//PUTTING THE MAIN MENU SYSTEM
+//

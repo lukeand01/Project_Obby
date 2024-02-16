@@ -10,28 +10,32 @@ public class MainMenuUI : MonoBehaviour
     //will handle stage stuff here.
 
     //[SerializeField] GameObject DEBUGStageHolder;
-    
+
+    public static MainMenuUI instance;
+
+
     [SerializeField] List<GameObject> holderLIst = new();
 
-    [Separator("STAGE")]
-    [SerializeField] StageUnit stageTemplate;
-    [SerializeField] Transform stageContainer;
+    [Separator("REFERENCES TO UI")]
+    public PlayUI playUI;
+    public StoreUI storeUI;
+    public InventoryUI inventoryUI;
+    public RewardUI rewardUI;
+    public ReportUI reportUI;
+
 
     [Separator("PLAYER STUFF")]
     [SerializeField] TextMeshProUGUI goldText;
     [SerializeField] TextMeshProUGUI starText;
 
-    [Separator("DESCRIPTION")]
-    [SerializeField] GameObject descriptionHolder;
-    [SerializeField] TextMeshProUGUI nameText;
-    [SerializeField] TextMeshProUGUI timeLimitText;
-    [SerializeField] TextMeshProUGUI timeAlreadyDoneText;
-
-    [Separator("STORE")]
-    [SerializeField] GameObject storeHolder;
-
     [Separator("WARNING")]
     [SerializeField] TextMeshProUGUI warnText;
+
+
+    private void Awake()
+    {
+        instance = this;
+    }
 
     private void Start()
     {
@@ -43,16 +47,14 @@ public class MainMenuUI : MonoBehaviour
             return;
         }
 
-  
-
         //the banner is taking the ui in the top.
         GameHandler.instance.adHandler.RequestBanner();
 
-
-        CreateStageUnits(GameHandler.instance.stageHandler.stageList);
+        playUI.CreateStageUnits(GameHandler.instance.stageHandler.stageList);
     }
 
 
+   
     public void OpenWithIndex(int index)
     {
         CloseAll();
@@ -77,105 +79,7 @@ public class MainMenuUI : MonoBehaviour
     }
 
 
-    #region HANDLE STAGES
-
-
-    void CreateStageUnits(List<StageData> stageList)
-    {
-        //create for some effect.
-
-        if(stageList.Count <= 0)
-        {
-            SetWarn("NO STAGE HERE");
-        }
-
-        foreach (StageData stageData in stageList)
-        {
-            StageUnit newObject = Instantiate(stageTemplate, Vector2.zero, Quaternion.identity);
-            newObject.SetUpStage(this, stageData);
-            newObject.transform.parent = stageContainer.transform;
-
-
-        }
-    }
-
-    StageUnit currentStageUnit;
-    public void SelectStageUnit(StageUnit stageUnit)
-    {
-
-        if(currentStageUnit != null)
-        {
-            currentStageUnit.Unselect();
-        }
-
-        currentStageUnit = stageUnit;
-        currentStageUnit.Select();
-        //DescribeStage();
-    }
-
-    public void CancelStageUnit()
-    {
-        if(currentStageUnit != null)
-        {
-            currentStageUnit.Unselect();
-            currentStageUnit = null;
-        }
-    }
-
-
-    void DescribeStage()
-    {
-        if(currentStageUnit == null)
-        {
-            Debug.Log("problem");
-        }
-        if (currentStageUnit.data == null)
-        {
-            Debug.Log("problem 2");
-        }
-
-        StageData data = currentStageUnit.data;
-
-
-
-
-        nameText.text = data.stageName;
-
-        string firstMinute = data.stageLimitTimer.minutes.ToString();
-        string firstSecond = data.stageLimitTimer.seconds.ToString();
-
-        timeLimitText.text = "Time Limit: " + firstMinute + ":" + firstSecond;
-
-
-        return;
-        if (!data.stageCompletedTimer.HasSomething())
-        {
-            timeAlreadyDoneText.gameObject.SetActive(false);
-            return;
-        }
-
-        timeAlreadyDoneText.gameObject.SetActive(true);
-
-        string secondMinute = data.stageCompletedTimer.minutes.ToString();
-        string secondSecond = data.stageCompletedTimer.seconds.ToString();
-
-        timeAlreadyDoneText.text = secondMinute + ":" + secondSecond;
-    }
-
-    public void PlayCurrentStage()
-    {
-        if(currentStageUnit == null)
-        {
-            Debug.Log("this was null");
-            return;
-        }
-
-        //load this stage.
-        GameHandler.instance.sceneLoader.ChangeScene(currentStageUnit.data);
-    }
-
-
-    #endregion
+  
 
     #region CHANGE WORLDS
 
@@ -210,4 +114,10 @@ public class MainMenuUI : MonoBehaviour
     {
         warnText.text = text;
     }
+}
+
+public enum MainMenuHolderType
+{
+    MainMenu = 0,
+    Play = 1,
 }

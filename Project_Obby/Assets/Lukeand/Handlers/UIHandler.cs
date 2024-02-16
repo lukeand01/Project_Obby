@@ -34,6 +34,7 @@ public class UIHandler : MonoBehaviour
     [SerializeField] PlayerUI uiPlayerRef;
     [SerializeField] EndUI uiEndRef;
     [SerializeField] ConfirmationWindowUI uiConfirmatioWindowRef;
+    //[SerializeField] RewardUI uiRewardRef;
     #endregion
 
 
@@ -55,6 +56,8 @@ public class UIHandler : MonoBehaviour
     public EndUI uiEnd { get => uiEndRef; }
 
     public ConfirmationWindowUI uiConfirmationWindow { get => uiConfirmatioWindowRef; }
+
+    //public RewardUI uiReward { get => uiRewardRef; }    
 
     #endregion
 
@@ -112,6 +115,9 @@ public class UIHandler : MonoBehaviour
         holder.SetActive(choice);
 
         uiEnd.Close();
+
+
+        //reward ui only exists if the holder is closed because its only closed in the mainmenu
     }
 
     public void ControlInputButtons(bool isVisible)

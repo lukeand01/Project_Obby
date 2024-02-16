@@ -12,7 +12,8 @@ public class StageUnit : ButtonBase
 {
     
     public StageData data {  get; private set; }
-    MainMenuUI mainMenu;
+    PlayUI handler;
+
     [Separator("STAGE UNIT")]
     [SerializeField] TextMeshProUGUI stageNameText;
     [SerializeField] GameObject blocked;
@@ -44,7 +45,7 @@ public class StageUnit : ButtonBase
         
     }
 
-    public void SetUpStage(MainMenuUI mainMenu, StageData stageData)
+    public void SetUpStage(PlayUI handler, StageData stageData, int playerStageProgress)
     {
         coreOriginalPos = coreHolder.localPosition;
         infoOriginalPos = infoHolder.localPosition;
@@ -53,19 +54,27 @@ public class StageUnit : ButtonBase
         playIcon.SetActive(false);
 
         data = stageData;
-        this.mainMenu = mainMenu;
+        this.handler = handler;
 
 
-        bool isAvailable = PlayerHandler.instance.stageProgress >= data.stageId - 2;
+
+        UpdateAvailabilityUI(playerStageProgress);
+        
+        UpdateUI();
+    }
+
+    public void UpdateAvailabilityUI(int playerStageProgress)
+    {
+        bool isAvailable = playerStageProgress >= data.stageId - 2;
         blocked.SetActive(!isAvailable);
         coinHolder.gameObject.SetActive(isAvailable);
         stageNameText.gameObject.SetActive(isAvailable);
         ControlStarHolderVisibility(isAvailable);
-        
-        this.isAvailable = isAvailable;
 
-        UpdateUI();
+        this.isAvailable = isAvailable;
     }
+
+
 
     void UpdateUI()
     {
@@ -80,7 +89,7 @@ public class StageUnit : ButtonBase
         if (playIcon.activeInHierarchy)
         {
             // this means that you can do this;
-            mainMenu.PlayCurrentStage();
+            handler.PlayCurrentStage();
             return;
         }
 
@@ -88,13 +97,13 @@ public class StageUnit : ButtonBase
         if(isAvailable)
         {
             //it becomes selected.
-            mainMenu.SelectStageUnit(this);
+            handler.SelectStageUnit(this);
         }
         else
         {
             //it wiggles rejecting it.         
             Reject();
-            mainMenu.CancelStageUnit();
+            handler.CancelStageUnit();
         }
 
         //mainMenu.SelectStageUnit(this);

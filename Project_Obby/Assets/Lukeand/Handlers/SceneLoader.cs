@@ -31,7 +31,7 @@ public class SceneLoader : MonoBehaviour
     {
         //then we reload the currentscene.       
         StopAllCoroutines();
-        StartCoroutine(ResetSceneProcess(data));      
+        StartCoroutine(ResetSceneProcess(data, currentTimer));      
     }
 
 
@@ -95,7 +95,7 @@ public class SceneLoader : MonoBehaviour
         PlayerHandler.instance.controller.blockClass.RemoveBlock("MainMenu");
     }
 
-    IEnumerator ResetSceneProcess(StageData data)
+    IEnumerator ResetSceneProcess(StageData data, StageTimeClass timeClass )
     {
         PlayerHandler.instance.controller.blockClass.AddBlock("ChangeScene", BlockClass.BlockType.Complete);
 
@@ -114,7 +114,7 @@ public class SceneLoader : MonoBehaviour
     
         yield return StartCoroutine(PlayerHandler.instance.FixPlayerPositionProcess());
 
-        LocalHandler.instance.StartLocalHandler(data);
+        LocalHandler.instance.StartLocalHandler(data, timeClass);
         PlayerHandler.instance.graphic.StopAnimation();
         //PlayerHandler.instance.cam.ResetCam();
 

@@ -17,7 +17,12 @@ public class GameHandler : MonoBehaviour
 
     public SoundHandler soundHandler { get; private set; }
 
+    public RewardHandler rewardHandler { get; private set; }
+
+
     [SerializeField] List<PowerData> allAvailablePowerList = new();
+
+
 
 
 
@@ -43,16 +48,57 @@ public class GameHandler : MonoBehaviour
         adHandler = GetComponent<AdHandler>();
         graphicalHandler = GetComponent<GraphicalHandler>();
         soundHandler = GetComponent<SoundHandler>();
+        rewardHandler = GetComponent<RewardHandler>();
+
+        //SaveHandler2.DeleteData("0");
+
+
+
+
         DontDestroyOnLoad(gameObject);
     }
+
+    
+
+    void GetSaveData()
+    {
+        
+        if(SaveHandler2.OrderHasFile())
+        {
+            //then we pass the information.
+            Debug.Log("has file");
+
+            SaveClass saveData = SaveHandler2.OrderToLoadData();
+
+            rewardHandler.SetRewardHandler(saveData);
+
+            PlayerHandler player = PlayerHandler.instance;
+
+            if(player != null)
+            {
+
+            }
+
+            
+        }
+        else
+        {
+            rewardHandler.GetNewData();
+
+
+            
+        }
+
+    }
+
+
+
 
     private void Start()
     {
         UIHandler.instance.CreatePowerButtons(allAvailablePowerList);
+        GetSaveData();
     }
 
-    public void CreateSFX(AudioClip clip)
-    {
-        
-    }
+   
 }

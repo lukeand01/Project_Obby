@@ -20,8 +20,13 @@ public class PlayerMovement2 : MonoBehaviour
     [Tooltip("This defines the direction the player takes")][SerializeField] Transform playerOrientation;
 
     [Separator("GROUND MOVEMENT SPEED")]
-    [Tooltip("This is the speed at which it moves")][SerializeField] float moveSpeed;
-    [Tooltip("This is the highest speed this player can reach")][SerializeField] float topSpeed;
+    [Tooltip("This is the speed at which it moves")]
+    [SerializeField] float moveSpeed;
+    [SerializeField] float accelerationRate;
+    [SerializeField] float topAcceleration;
+    [Tooltip("This is the highest speed this player can reach")]
+    [SerializeField] float topSpeed;
+    
 
     [Separator("JUMP VARIABLES")]
     [SerializeField] float jumpForce;
@@ -29,13 +34,13 @@ public class PlayerMovement2 : MonoBehaviour
     [Tooltip("This timer allows for the player to press the button and still jump when the jump is allowed")][SerializeField] float bufferTotal;
     [SerializeField] float HoldJumpTotal;
 
-    [Separator("FALLS SPEED")]
-    [SerializeField] float fallSpeedWhileHolding;
-    [SerializeField] float fallSpeedWhileNotHolding;
 
     [Separator("JUMP POWERS")]
     [Tooltip("For the foguete power")][SerializeField] int JumpQuantityFromPower;
     [Tooltip("For the spring power")][SerializeField] int JumpForceFromPower;
+
+
+
 
     float additionalJumpForceCurrent;
     float jumpQuantityCurrent;
@@ -43,6 +48,8 @@ public class PlayerMovement2 : MonoBehaviour
     float coyoteCurrent;
     float holdJumpCurrent;
     float bufferCurrent;
+
+    float accelerationIncrementCurrent;
 
     LayerMask groundMask;
 
@@ -67,14 +74,11 @@ public class PlayerMovement2 : MonoBehaviour
         canJump = CanJump();
 
         ControlGroundSpeed();
-        ControlFallSpeed();
 
-        HandleCoyote();
         HandleGroundedLogic();
         HandleBufferLogic();
 
-        
-        CallCommandForJumpIfPossible();
+        //Debug.Log("isgrounded " + isGrounded);
 
     }
 
@@ -90,20 +94,48 @@ public class PlayerMovement2 : MonoBehaviour
     {
         Vector3 moveDir = playerOrientation.forward * inputDir.y + playerOrientation.right * inputDir.x;
         //handler.rb.AddForce(moveDir.normalized * moveSpeed, ForceMode.Force);
-        handler.rb.velocity = new Vector3(moveDir.x * moveSpeed, handler.rb.velocity.y, moveDir.z * moveSpeed);
+
+
+        if (inputDir.y > 0.6)
+        {
+            accelerationIncrementCurrent += accelerationRate;
+        }
+
+        if(inputDir.y < -0.3)
+        {
+            accelerationIncrementCurrent = 0;
+        }
+
+        
+
+        float clampedAccelerationSpeed = accelerationIncrementCurrent;
+        clampedAccelerationSpeed = Mathf.Clamp(clampedAccelerationSpeed, 0, topAcceleration);
+
+        
+
+
+        float newSpeed = moveSpeed + clampedAccelerationSpeed;
+
+
+
+        handler.rb.velocity = new Vector3(moveDir.x * newSpeed, handler.rb.velocity.y, moveDir.z * newSpeed);
     }
     public void StopPlayer()
     {
+        accelerationIncrementCurrent = 0;
         handler.rb.velocity = new Vector3(0, handler.rb.velocity.y, 0);
     }
 
     //the fall is not controlled here
     void ControlGroundSpeed()
     {
+
+
         Vector3 flatVel = new Vector3(handler.rb.velocity.x, 0, handler.rb.velocity.z);
 
         if (flatVel.magnitude > topSpeed)
         {
+            Debug.Log("start limit velocity");
             Vector3 limitedVel = flatVel.normalized * topSpeed;
             handler.rb.velocity = new Vector3(limitedVel.x, handler.rb.velocity.y, limitedVel.z);
         }
@@ -113,10 +145,22 @@ public class PlayerMovement2 : MonoBehaviour
 
     #region JUMP
     bool isHoldingJump;
+    bool canHold;
+    bool canRelease { get; set; }
 
     public void PressJump()
     {
+
+
+        if (!canJump)
+        {
+            bufferCurrent = bufferTotal;
+            return;
+        }
+
         isHoldingJump = true;
+        canHold = true;
+        canRelease = true;
 
         jumpQuantityCurrent += 1;
 
@@ -124,9 +168,16 @@ public class PlayerMovement2 : MonoBehaviour
 
         if(jumpQuantityCurrent > 1)
         {
+            GameHandler.instance.soundHandler.CreateSFX(handler.sound.doubleJumpClip);
             jumpModifier = 0.6f;
         }
+        else
+        {
+            GameHandler.instance.soundHandler.CreateSFX(handler.sound.jumpClip);
+        }
 
+
+        holdJumpCurrent = 0;
 
         float actualJumpForce = (jumpForce + additionalJumpForceCurrent) * jumpModifier;
         handler.rb.velocity = new Vector3(handler.rb.velocity.x, 0, handler.rb.velocity.z);
@@ -135,29 +186,50 @@ public class PlayerMovement2 : MonoBehaviour
     public void HoldJump()
     {
 
+        if (!canHold) return;
+
+        holdJumpCurrent += tick;
+
+        if (holdJumpCurrent > HoldJumpTotal)
+        {
+            //if its more it needs to start falling.
+            StartFalling();
+            return;
+        }
+
+        if (holdJumpCurrent > HoldJumpTotal * 0.7f)
+        {
+            //removes gravity.
+
+            handler.rb.AddForce(transform.up * 0.08f, ForceMode.Impulse);
+            return;
+        }
+
+
+
     }
     public void ReleaseJump()
     {
-        isHoldingJump = false;
+        if (!canRelease)
+        {
+            return;
+        }
 
+        StartFalling();
 
-
-
+              
     }
 
-    void ControlFallSpeed()
+    void StartFalling()
     {
-        //if i am holding its one thing if i am not its another.
-
-        if (isHoldingJump)
+        if (handler.rb.velocity.y > 0)
         {
-
-        }
-        else
-        {
-
+            handler.rb.velocity = new Vector3(0, handler.rb.velocity.y * 0.1f, 0);
         }
 
+        canRelease = false;
+        canHold = false;
+        isHoldingJump = false;
 
     }
 
@@ -167,15 +239,20 @@ public class PlayerMovement2 : MonoBehaviour
         //whatever happens when its grounded or when its no longer grounded.
         if (isGrounded)
         {
+            jumpQuantityCurrent = 0;
+            coyoteCurrent = 0;
 
+            if(bufferCurrent > 0)
+            {
+                bufferCurrent = 0;
+                PressJump();
+            }
 
         }
         else
         {
-
+            HandleCoyote();
         }
-
-
 
     }
 
@@ -189,51 +266,33 @@ public class PlayerMovement2 : MonoBehaviour
    
     void HandleCoyote()
     {
-        if (coyoteCurrent >= coyoteTotal)
-        {
-            //coyote is turned off.
-
-        }
-        else
+        if(coyoteTotal > coyoteCurrent)
         {
             coyoteCurrent += tick;
-        }
+        }     
 
     }
 
     
-    void CallCommandForJumpIfPossible()
-    {
-        if(isGrounded && bufferCurrent > 0)
-        {
-            //then we jump.
-            
-
-
-        }
-    }
+    
 
     #endregion
 
     #region UTILS
     bool IsGrounded()
     {
-        float playerHeight = 2.5f;
-        return Physics.Raycast(transform.position, Vector3.down, playerHeight * 0.5f + 0.2f, groundMask);
+        float playerHeight = 0.55f;
+        return Physics.Raycast(transform.position, Vector3.down, playerHeight, groundMask);
     }
 
-    bool IsCloseEnoughToGroundForBuffer()
-    {
-        float playerHeight = 2.5f;
-        return Physics.Raycast(transform.position, Vector3.down, playerHeight * 0.5f + 1.2f, groundMask);
-    }
+    
 
 
     bool CanJump()
     {
         //can jump if you have more 
 
-        if(jumpQuantityTotal >= jumpQuantityCurrent)
+        if(jumpQuantityCurrent >= jumpQuantityTotal)
         {
             return false;
         }
@@ -245,13 +304,13 @@ public class PlayerMovement2 : MonoBehaviour
         }
         else
         {
-            if (coyoteTotal >= coyoteCurrent)
+            if (!isHoldingJump && coyoteCurrent < coyoteTotal)
             {
-                return false;
+                return true;
             }
             else
             {
-                return true;
+                return false;
             }
         }
 
@@ -260,6 +319,33 @@ public class PlayerMovement2 : MonoBehaviour
 
     }
 
+
+    string WhyJump()
+    {
+        if (jumpQuantityCurrent >= jumpQuantityTotal)
+        {
+            return "Failed because there are not enough jump quantitis";
+        }
+
+
+        if (isGrounded)
+        {
+            return "is grounded";
+        }
+        else
+        {
+            if (!isHoldingJump && coyoteCurrent < coyoteTotal)
+            {
+                return "Coyote";
+            }
+            else
+            {
+                return "Not coyote";
+            }
+        }
+    }
+
+    
     #endregion
 
     #region POWERS

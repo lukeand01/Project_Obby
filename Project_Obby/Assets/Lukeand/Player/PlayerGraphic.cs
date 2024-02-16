@@ -5,13 +5,14 @@ using UnityEngine;
 public class PlayerGraphic : MonoBehaviour
 {
     //do i load all the ref here?
+    [SerializeField] RuntimeAnimatorController fallAnimation;
     [SerializeField] GameObject playerBodyHolder;
     GameObject graphic;
     Animator graphicAnimator;
     RuntimeAnimatorController currentVictoryAnimation;
 
-    [SerializeField] int graphicIndex;
-    [SerializeField] int graphicAnimationIndex;
+    public int graphicIndex;
+    public int animationIndex;
 
     private void Start()
     {
@@ -64,7 +65,7 @@ public class PlayerGraphic : MonoBehaviour
     }
     void ChangeAnimation()
     {
-        RuntimeAnimatorController newAnimation = GameHandler.instance.graphicalHandler.GetNewAnimation(graphicAnimationIndex);
+        RuntimeAnimatorController newAnimation = GameHandler.instance.graphicalHandler.GetNewAnimation(animationIndex);
 
         if (newAnimation != null)
         {
@@ -72,7 +73,7 @@ public class PlayerGraphic : MonoBehaviour
         }
         else
         {
-            Debug.LogError("FOUND NOTHING FROM ANIMATION INDEX " + graphicAnimationIndex);
+            Debug.LogError("FOUND NOTHING FROM ANIMATION INDEX " + animationIndex);
         }
 
     }
@@ -102,10 +103,32 @@ public class PlayerGraphic : MonoBehaviour
         graphicAnimator.runtimeAnimatorController = null;
     }
 
+    public void PlayFallAnimation()
+    {
+        if (!HasGraphicAnimation())
+        {
+            Debug.Log("tried to stop but it failed");
+            return;
+        }
+        graphicAnimator.runtimeAnimatorController = fallAnimation;
+    }
+
 
     bool HasGraphicAnimation()
     {
         return graphicAnimator != null;
     }
 
+
+
+    public void SetGraphicIndex(int newValue)
+    {
+        graphicIndex = newValue;
+        ChangeGraphic();
+    }
+    public void SetAnimationIndex(int newValue)
+    {
+        animationIndex = newValue;
+        ChangeAnimation();
+    }
 }
