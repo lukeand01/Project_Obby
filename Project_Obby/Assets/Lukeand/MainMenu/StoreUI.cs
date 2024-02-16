@@ -10,6 +10,10 @@ public class StoreUI : MonoBehaviour
 
 
     //i want to show the character itself.
-    //so i need 
+    //so i need to show the models in 3d.
+    //then we have different selections.
+
+
+
 
 }

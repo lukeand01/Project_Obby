@@ -27,9 +27,15 @@ public abstract class StoreData : ScriptableObject
     protected void BaseBuy()
     {
         //the one thing it always does. is to always infor
-
-
-
+        if(PlayerHandler.instance != null)
+        {
+            PlayerHandler.instance.AddStoreItem(storeIndex);
+        }
+        else
+        {
+            Debug.Log("there was no playerhandlçer to add this fella");
+        }
+        
     }
 
     public abstract void Buy();
