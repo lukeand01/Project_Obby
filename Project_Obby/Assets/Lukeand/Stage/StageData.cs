@@ -7,16 +7,19 @@ public class StageData : ScriptableObject
 {
     public string stageName;
     public int stageId;
+    public bool hasAlreadyRequestedGemAd;
+
+
     public StageTimeClass stageLimitTimer;
     public StageTimeClass stageCompletedTimer {  get; private set; }
 
     public int stageStarGained {  get; private set; }
 
-    public void SetHeartGained(int heartGained)
+    public void SetStarGained(int starGained)
     {
-        if(heartGained > stageStarGained)
+        if(starGained > stageStarGained)
         {
-            stageStarGained = heartGained;
+            stageStarGained = starGained;
         }
     }
 

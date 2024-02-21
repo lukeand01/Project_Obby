@@ -17,19 +17,46 @@ public class SceneLoader : MonoBehaviour
     #region FUNCTIONS
     public void ChangeScene(StageData data)
     {
+        UIHandler.instance.StopEverything();
+
+        if (LocalHandler.instance != null)
+        {
+            LocalHandler.instance.StopEverything();
+        }
+
         StopAllCoroutines();
         StartCoroutine(ChangeSceneProcess(data));
     }
 
     public void ChangeToMainMenu()
     {
+        //everytime we do any of these thigns we kill all courotines.
+        //end ui for process
+
+        Debug.Log("this was called");
+
+        UIHandler.instance.StopEverything();
+
+        if (LocalHandler.instance != null)
+        {
+            LocalHandler.instance.StopEverything();
+        }
+
         StopAllCoroutines();
         StartCoroutine(ChangeToMenuProcess());
     }
 
     public void ResetScene(StageData data, StageTimeClass currentTimer)
     {
-        //then we reload the currentscene.       
+        //then we reload the currentscene.
+
+        if (LocalHandler.instance != null)
+        {
+            LocalHandler.instance.StopEverything();
+        }
+
+        UIHandler.instance.StopEverything();
+
         StopAllCoroutines();
         StartCoroutine(ResetSceneProcess(data, currentTimer));      
     }
@@ -56,11 +83,11 @@ public class SceneLoader : MonoBehaviour
 
         yield return new WaitUntil(() => unloadAsync.isDone);
 
+
         yield return new WaitUntil(() => GameHandler.instance != null && UIHandler.instance != null && PlayerHandler.instance != null);
 
         UIHandler.instance.ControlHolder(false);
         currentScene = 0;
-
 
         yield return StartCoroutine(RaiseCurtainsProcess());
 
@@ -135,10 +162,14 @@ public class SceneLoader : MonoBehaviour
     {
         //we check which sccene it is and we activate
 
+
+        Debug.Log("data " + data.stageName + " " + data.stageId);
+
         AsyncOperation loadAsync = SceneManager.LoadSceneAsync(data.stageId, LoadSceneMode.Additive);
 
         yield return new WaitUntil(() => loadAsync.isDone);
 
+        Debug.Log("Current scene " + currentScene);
 
         AsyncOperation unloadAsync = SceneManager.UnloadSceneAsync(currentScene, UnloadSceneOptions.None);
 

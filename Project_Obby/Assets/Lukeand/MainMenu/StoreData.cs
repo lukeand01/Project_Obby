@@ -49,7 +49,7 @@ public abstract class StoreData : ScriptableObject
         }
         if(currencyType == CurrencyType.Star)
         {
-            certainCurrency = PlayerHandler.instance.star;
+            certainCurrency = PlayerHandler.instance.gems;
         }
 
 

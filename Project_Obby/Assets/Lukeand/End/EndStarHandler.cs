@@ -1,84 +1,50 @@
 using DG.Tweening;
+using MyBox;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.UIElements;
+using static UnityEditor.Progress;
+
 
 public class EndStarUnit : MonoBehaviour
 {
 
     [SerializeField] Transform starHolder;
-    [SerializeField] UnityEngine.UI.Image[] allStars;
-    
+    [SerializeField] EndStarSingle[] allStars;
+    [SerializeField] AudioClip newStarSound;
+    [SerializeField] AudioClip oldStarSound;
+    [SerializeField] GameObject gemTemplate;
+
     Color fullStarColor = Color.white;
     Color emptyStarColor = Color.black;
 
-    Vector3 coinPos;
-    Vector3 heartPos;
-    Vector3 timerPos;
 
-    [SerializeField] UnityEngine.UI.Image templateStar;
+
+    [SerializeField] Image templateStar;
 
     private void Start()
     {
 
 
-        timerPos = UIHandler.instance.uiPlayer.GetTimerPos();
-        heartPos = UIHandler.instance.uiPlayer.GetLifePos();
-        coinPos = UIHandler.instance.uiEnd.GetCoinPos();
     }
 
     //this needs the ref for all places it wants to use.
-    //coin pos, heartpos, timerpos
+   
+  
 
 
-
-
-    public IEnumerator GetStarFromPlacesProcess()
+    IEnumerator ReceiveAnimationProcess(Transform targetTransform, float scaleTarget = 1.3f)
     {
-        //here we will shot a star from the regions that we gained it and take it to the right place.
-        //now we need to get the value and the reasons for the stars.
 
-        //we check every single one.
-        //we instantiate and make it move
-        //and wait for it to complete.
-
-        LocalHandler handler  = LocalHandler.instance;
-
-        
-
-        if (handler.GainedStarByCoin())
-        {
-            Debug.Log("gained star by coin");
-            yield return StartCoroutine(OrderStarAnimation(coinPos));
-        }
-
-        if (handler.GainedStarByHealth())
-        {
-            Debug.Log("gained star by health");
-            yield return StartCoroutine(OrderStarAnimation(heartPos));
-            
-        }
-
-        if (handler.GainedStarByTimer())
-        {
-            Debug.Log("gained star by timer");
-            yield return StartCoroutine(OrderStarAnimation(timerPos));
-        }
-
-       
-    }
-
-
-    IEnumerator ReceiveAnimationProcess()
-    {
         float timer = 0.3f;
-        starHolder.DOScale(1.3f, timer);
+        targetTransform.DOScale(scaleTarget, timer);
         yield return new WaitForSeconds(timer);
-        starHolder.DOScale(1, timer);
+        targetTransform.DOScale(1, timer);
 
     }
+
+
     IEnumerator ShakeProcess()
     {
 
@@ -105,7 +71,9 @@ public class EndStarUnit : MonoBehaviour
 
     }
 
-    IEnumerator OrderStarAnimation(Vector3 pos)
+
+    //
+    public IEnumerator OrderStarAnimation(Vector3 pos)
     {
         int targetIndex = GetNextEmptyStar();
 
@@ -124,18 +92,27 @@ public class EndStarUnit : MonoBehaviour
 
         yield return new WaitForSeconds(timeToReach);
 
-        StartCoroutine(ReceiveAnimationProcess());
-
-        Destroy(newObject);
+        StartCoroutine(ReceiveAnimationProcess(newObject.transform));
+        //we check if the stage data can be
         ActiveTheFirstEmptyStar();
+        Destroy(newObject);
+
+
+        StageData data = LocalHandler.instance.data;
+
+        //call fade ui.
+
+        FadeUI newObjectFade = Instantiate(UIHandler.instance.uiFade);
+        newObjectFade.transform.SetParent(transform);
+        //then we need information in relation
+        
+       
     }
 
 
     
     GameObject GetStarObject(Vector3 pos)
-    {
-
-       
+    {     
         GameObject newObject = Instantiate(templateStar.gameObject, Vector3.zero, Quaternion.identity);
         newObject.SetActive(true);
         newObject.transform.SetParent(transform);
@@ -154,35 +131,79 @@ public class EndStarUnit : MonoBehaviour
     {
         for (int i = 0; i < allStars.Length; i++)
         {
-            if (allStars[i].color == emptyStarColor)
+            if (allStars[i].GetColor() == emptyStarColor)
             {
                 return i;
             }
         }
         return -1;
     }
-
     void ActiveTheFirstEmptyStar()
     {
         //we get the first star that is empty and make it full.
         //everytime we do this we 
-        foreach (var item in allStars)
+
+        for (int i = 0; i < allStars.Length; i++)
         {
-            if(item.color == emptyStarColor)
+            if (allStars[i].GetColor() == emptyStarColor)
             {
-                item.color = fullStarColor;
+                allStars[i].SetColor(fullStarColor);
+                allStars[i].transform.GetChild(0).gameObject.SetActive(true);
+
+                //then we check here if its a new star.
+
                 break;
             }
         }
 
-    }
 
+        
+
+    }
     public void MakeAllStarsEmpty()
     {
         foreach (var item in allStars)
         {
-            item.color = emptyStarColor;
+            item.SetColor(emptyStarColor);
+            item.transform.GetChild(0).gameObject.SetActive(false);
         }
+    }
+
+    //instead we will directly call this
+
+    public bool CallNewStar()
+    {
+        //we return if this is a new coin and should also ad gem.
+
+        //we active the first emptystar and make the effect.
+        //also a sound effect.
+
+        int targetEmptyStar = GetNextEmptyStar();
+        StageData data = LocalHandler.instance.data;
+
+        bool isNewStar = data.stageStarGained > targetEmptyStar;
+
+        float scalingModifier = 0;
+
+
+        if(isNewStar)
+        {
+            GameHandler.instance.soundHandler.CreateSFX(newStarSound);
+            //create a fade ui then a
+            allStars[targetEmptyStar].CallGem();
+
+            scalingModifier = 1.4f;
+        }
+        else
+        {
+            GameHandler.instance.soundHandler.CreateSFX(oldStarSound);           
+            scalingModifier = 1.2f;
+        }
+
+        allStars[targetEmptyStar].SetColor(Color.white);
+        StartCoroutine(ReceiveAnimationProcess(allStars[targetEmptyStar].transform, scalingModifier));
+
+        return isNewStar;
     }
 
 

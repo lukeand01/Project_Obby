@@ -50,7 +50,6 @@ public class RewardHandler : MonoBehaviour
 
         if(GetRemainingTimeForDailyReward().Day >= 2)
         {
-            Debug.Log("need to remove this fella.");
             ResetIndex();
         }
     }
@@ -79,14 +78,14 @@ public class RewardHandler : MonoBehaviour
         int secondDiff = timer.Second - lastDailyRewardTime.Second ;
 
 
-        DateTime newTimer = new DateTime(1, 1, dayDiff, hourDiff, minuteDiff, secondDiff);
+        //DateTime newTimer = new DateTime(1, 1, dayDiff, hourDiff, minuteDiff, secondDiff);
 
 
         //TimeSpan newTimer = new TimeSpan(lastDailyRewardTime.Hour - timer.Hour , lastDailyRewardTime.Minute - timer.Minute , lastDailyRewardTime.Second - timer.Second);
 
         //Debug.Log("new timespawn " + newTimer.ToString());
 
-        return newTimer;
+        return DateTime.UtcNow;
     }
 
 

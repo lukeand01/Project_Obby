@@ -197,19 +197,19 @@ public class PlayerHandler : MonoBehaviour
     }
 
 
-    public int star { get; private set; }
+    public int gems { get; private set; }
 
-    public void ChangeStar(int amount)
+    public void ChangeGem(int amount)
     {
-        star += amount;
+        gems += amount;
     }
-    public void SetStar(int amount)
+    public void SetGem(int amount)
     {
-        star = amount;
+        gems = amount;
     }
-    public bool HasEnoughStar(int amount)
+    public bool HasEnoughGem(int amount)
     {
-        return star >= amount;
+        return gems >= amount;
     }
 
     #endregion
@@ -547,7 +547,6 @@ public class PlayerHandler : MonoBehaviour
 
     public void SetStageProgress(int value)
     {
-        Debug.Log("set stage");
 
         stageProgress = value;
 
@@ -566,40 +565,16 @@ public class PlayerHandler : MonoBehaviour
 
     public void PlayerWon()
     {
-        StartCoroutine(PlayerWonProcess());
-    }
-
-    IEnumerator PlayerWonProcess()
-    {
-        //the player stops.
-        //the camera leaves and goes to another holder. then it rotates back.
-        //the camera should rotate as it moves. and it should be instantly.
-
-
         LocalHandler.instance.StopTimer();
         UIHandler.instance.ControlInputButtons(false);
-
+        //i also want to hide everything else.
         graphic.PlayVictoryAnimation();
-
         float timer = 1.5f;
-
         StartCoroutine(cam.RotateCameraForDanceProcess(timer));
-
-        yield return new WaitForSeconds(0.35f);
-
-
-        //start the dance.
-        yield return new WaitForSeconds(0.5f);
-
         UIHandler.instance.uiEnd.StartVictory();
-
-
-
-        //dance done but it keeps looping in the backgorund and ui appears.
-
-
-        
     }
+
+  
 
 
     #endregion

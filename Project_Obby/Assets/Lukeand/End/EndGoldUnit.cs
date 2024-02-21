@@ -21,6 +21,12 @@ public class EndGoldUnit : ButtonBase
 
     public IEnumerator CountCoinProcess()
     {
+
+        Debug.Log("this was called");
+
+        yield break;
+
+
         alreadyClicked = false;
 
         int coinsReserved = LocalHandler.instance.gainedCoin;

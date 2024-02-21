@@ -304,5 +304,49 @@
 
 
 
-//PUTTING THE MAIN MENU SYSTEM
+
+
+//NEW TASKS
+
+//SELECAO DE FASE UI
+//todos os efeitos do outros
+//mas agora a camera pode mexer de um lado
+///o ultimo n tem conecao
 //
+
+//PLAYER UI
+///hearts
+///timer
+//coin
+//stars
+
+///PAUSE UI
+//teh game stops.
+//its always above other ui.
+
+
+//VICTORY UI
+//all effects from the last ui.
+//turn off other ui as you turn the camera around
+//
+
+
+//DEFEAT UI
+//
+
+//INVENTORY UI
+
+
+//STORE UI
+
+
+//REWARD UI
+
+
+
+//CLICK THE BUTTON TO WATCH AN AD AND GAIN 500 GOLD
+
+
+//OTHER TASKS
+//player needs to lose when the game gets to 0
+//the player always get one star for completing the stage

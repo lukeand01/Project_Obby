@@ -24,7 +24,6 @@ public class PlayerGraphic : MonoBehaviour
     {
         if(graphic != null)
         {
-            Debug.Log("there was a graphic here before");
             Destroy(graphic);
             graphic = null; 
             graphicAnimator = null;
@@ -36,7 +35,7 @@ public class PlayerGraphic : MonoBehaviour
 
         if(template != null )
         {
-            Debug.Log("found template");
+            //Debug.Log("found template");
         }
         else
         {
