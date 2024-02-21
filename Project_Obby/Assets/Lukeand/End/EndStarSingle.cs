@@ -18,19 +18,17 @@ public class EndStarSingle : MonoBehaviour
 
     public void CallGem()
     {
-        Debug.Log("call gem");
         //just make it go up.
-        gem.SetActive(true);
-        gem.transform.DOLocalMove(gemOriginalPos + new Vector3(0, 150, 0), 1);
+              
         StartCoroutine(GemProcess());
     }
 
     IEnumerator GemProcess()
     {
-        yield return new WaitForSeconds(1);
-
+        gem.SetActive(true);
+        gem.transform.DOLocalMove(gemOriginalPos + new Vector3(0, 150, 0), 1.5f);
+        yield return new WaitForSeconds(1.5f);
         //then we start fading to disappear.
-
         gem.SetActive(false);
         gem.transform.localPosition = gemOriginalPos;
     }

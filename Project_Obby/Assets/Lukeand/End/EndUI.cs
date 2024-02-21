@@ -23,9 +23,7 @@ public class EndUI : MonoBehaviour
     [SerializeField] GameObject victoryHolder;
     [SerializeField] Image victoryBackground;
     [SerializeField] GameObject victoryTitleHolder;
-    [SerializeField] GameObject victoryNextStageButton;
-    [SerializeField] GameObject victoryRetryStageButton;
-    [SerializeField] GameObject victoryMainMenuButton;
+    [SerializeField] Transform victoryButtonHolder;
 
 
     [Separator("DEFEAT")]
@@ -88,7 +86,7 @@ public class EndUI : MonoBehaviour
 
         nextStage = handler.stageHandler.GetNextStageData(currentData);
 
-        victoryNextStageButton.SetActive(nextStage != null);
+        victoryButtonHolder.gameObject.SetActive(nextStage != null);
 
 
 
@@ -135,14 +133,11 @@ public class EndUI : MonoBehaviour
 
 
 
-        float timerForButton = 1f;
+        float timerForButton = 0.5f;
         Vector3 buttonOffset = new Vector3(0, 120, 0);
-        victoryNextStageButton.transform.DOMove(victoryNextStageButton.transform.position + buttonOffset, timerForButton);
-        victoryRetryStageButton.transform.DOMove(victoryRetryStageButton.transform.position + buttonOffset, timerForButton);
-        victoryMainMenuButton.transform.DOMove(victoryMainMenuButton.transform.position + buttonOffset, timerForButton);
+        victoryButtonHolder.DOMove(victoryButtonHolder.transform.position + buttonOffset, timerForButton);
 
         yield return new WaitForSeconds(timerForButton);
-
 
         float timerForHolders = 0.5f;
 
@@ -160,20 +155,32 @@ public class EndUI : MonoBehaviour
      
         yield return new WaitForSeconds(timerForHolders);
 
+        //i want it to come from the thing?
+
 
         bool isTitleSuccess = achievementHolder.CallTitle();
+
+        yield return new WaitForSeconds(1);
+
 
         if(isTitleSuccess)
         {
             //then we add a heart.
             //if the hearts is new then we also ad the gem.
-            GainStarLogic();
+            yield return StartCoroutine(StarHolder.CallStarProcess(achievementHolder.GetTitlePos()));
         }
 
 
         yield return StartCoroutine(achievementHolder.CallCoinProcess());
 
-        rewardHolder.CreateRewardGold();
+        int currentCoin = LocalHandler.instance.gainedCoin;
+        bool hasAllCoin = currentCoin >= LocalHandler.instance.coins.Length;
+
+        rewardHolder.AddToRewardGold(currentCoin);
+        rewardHolder.CreateAdButton(hasAllCoin);
+
+        //create button
+        //rewardHolder.CreateAdButton();
 
         float timeTimer = 1f;
 
@@ -184,8 +191,13 @@ public class EndUI : MonoBehaviour
 
         if(isTimerSuccess)
         {
-            GainStarLogic();
+            yield return StartCoroutine(StarHolder.CallStarProcess(achievementHolder.GetTimerPos()));
         }
+        else
+        {
+            //show that timer failed.
+        }
+        
 
         float heartTimer = 1;
 
@@ -195,35 +207,21 @@ public class EndUI : MonoBehaviour
 
         if (isHeartSuccess)
         {
-            GainStarLogic();
+           yield return StartCoroutine(StarHolder.CallStarProcess(achievementHolder.GetHeartPos()));
+        }
+        else
+        {
+            //show that it failed.
         }
 
         yield return new WaitForSeconds(0.5f);
-
-
-        if(localData.stageStarGained >= 3 && !localData.hasAlreadyRequestedGemAd)
-        {
-            //this means we can offer a ad gem. create an effect.
-            rewardHolder.CreateRewardGemAd();
-        }
         
 
 
     }
 
     //we only really have to ask in the last if the player got all stars.
-    void GainStarLogic()
-    {
-        bool isStarNew = StarHolder.CallNewStar();
-        //with this we create a new star and we retunr only if its worht new gems.
-        if (isStarNew)
-        {
-            //we create effect from the star.
-            //we give to the reward.
-            rewardHolder.CreateRewardGem();
-        }
-
-    }
+    
 
 
     //so now we will show the achievements as we give stars
@@ -266,6 +264,10 @@ public class EndUI : MonoBehaviour
     #endregion
 
     #region DECIDE
+
+    //really important. when we decide on things we should pass the value.
+
+
     public void DecidedToNextStage()
     {
         //ccheck if you can go to the next.
@@ -274,7 +276,8 @@ public class EndUI : MonoBehaviour
             Debug.Log("next stage is null");
             return;
         }
-       
+        LocalHandler.instance.CompleteStage();
+        //here we will also tell localhandler to give all the values to the player.
         GameHandler.instance.sceneLoader.ChangeScene(nextStage);
     }
     public void DecideUseHealth()
@@ -291,19 +294,32 @@ public class EndUI : MonoBehaviour
         }
 
     }
-    public void DecideStartStageFromStart()
+    public void DecideStartStageFromStart(bool HasWon)
     {
         //
+
+        if (HasWon)
+        {
+            LocalHandler.instance.CompleteStage();
+        }
+
+
         PlayerHandler.instance.RespawnUsingNothing();
     }
-    public void DecideGoBackToMenu()
+    public void DecideGoBackToMenu(bool HasWon)
     {
+        if (HasWon)
+        {
+            LocalHandler.instance.CompleteStage();
+        }
+
+
         GameHandler.instance.sceneLoader.ChangeToMainMenu();
     }
-    public void DecideThisStageAsCompleted()
+    
+    public void DecideWatchGoldAd()
     {
-        //if the player wants to retry the stage it will be still be seen as completed.
-        PlayerHandler.instance.ChangeProgress(1);
+        GameHandler.instance.adHandler.RequestRewardAd(RewardType.ModifyCoinValue);
     }
 
     #endregion

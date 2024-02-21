@@ -7,7 +7,7 @@ public class StageData : ScriptableObject
 {
     public string stageName;
     public int stageId;
-    public bool hasAlreadyRequestedGemAd;
+
 
 
     public StageTimeClass stageLimitTimer;
@@ -21,6 +21,24 @@ public class StageData : ScriptableObject
         {
             stageStarGained = starGained;
         }
+    }
+
+    public void SetNewRecord(StageTimeClass newTimer)
+    {
+        int newValue = newTimer.GetTotalTimer();
+        int oldValue = 0;
+
+        if(stageCompletedTimer != null)
+        {
+            oldValue = stageCompletedTimer.GetTotalTimer();
+        }
+
+
+        if(newValue > oldValue)
+        {
+            stageCompletedTimer = newTimer;
+        }
+
     }
 
 
@@ -74,6 +92,12 @@ public class StageTimeClass
         int totalValue = minutes + seconds;
         return totalValue != 0;
     }
+
+    public int GetTotalTimer()
+    {
+        return (minutes * 60) + seconds;
+    }
+
 
     public bool LittleTimeLeft()
     {

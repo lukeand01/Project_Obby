@@ -22,6 +22,7 @@ public class LocalHandler : MonoBehaviour
     public int gainedCoin {  get; private set; }
     public int gainedGems { get; private set; }
 
+    int gainedStars;
 
     [Separator("DEBUG")]
     [SerializeField] bool debugDoNotCallPresentation;
@@ -54,7 +55,23 @@ public class LocalHandler : MonoBehaviour
 
     //localhandler will just hold the list and the playter will use it.
 
+    public void CompleteStage()
+    {
+        //coin
+        //gem
 
+        PlayerHandler.instance.ChangeGold(gainedCoin);
+        PlayerHandler.instance.ChangeGem(gainedGems);
+        PlayerHandler.instance.ChangeProgress();
+
+        //and we give the stage stars to the data.
+        //and when we load another scene we save all the data.
+
+        Debug.Log("this was the quantity of gained stars " + gainedStars);
+
+        data.SetStarGained(gainedStars);
+        data.SetNewRecord(currentTimer);
+    }
 
     public void StartLocalHandler(StageData stage, StageTimeClass forcedTimer = null)
     {
@@ -111,7 +128,7 @@ public class LocalHandler : MonoBehaviour
 
     public void StopTimer()
     {
-        StopCoroutine(CountTimerProcess());
+        StopAllCoroutines();
     }
 
     IEnumerator StartStageProcess()
@@ -177,45 +194,27 @@ public class LocalHandler : MonoBehaviour
         UIHandler.instance.uiPlayer.LeaveTimerRed();
     }
 
-    public void CompleteStage()
-    {
-        StopAllCoroutines();
-
-        int starsGained = 1;
-
-        //int currentHealth = PlayerHandler.instance.currentHealth;
-
-        if (GainedStarByCoin())
-        {
-            starsGained++;
-        }     
-
-        if (currentTimer.IsCurrentMoreThanHalfTheOriginal())
-        {
-            starsGained++;
-        }
-
-        data.SetStarGained(starsGained);
-
-    }
+    
 
     public void MultiplyCoinGained()
     {
 
         //we will create the whole logic here.
-        bool hasAllStars = data.stageStarGained >= 3 && data.hasAlreadyRequestedGemAd;
+        bool gotAllCoins = gainedCoin >= coins.Length - 1;
+        int additionalQuantity = 0;
 
-        if(hasAllStars)
+        if(gotAllCoins)
         {
-            gainedCoin *= 3;
+            additionalQuantity = gainedCoin * 2;
         }
         else
         {
-            gainedCoin *= 2;
+            additionalQuantity = gainedCoin;
         }
 
+        gainedCoin += additionalQuantity;
 
-        UIHandler.instance.uiEnd.rewardHolder.MergeGoldAndAd();
+        UIHandler.instance.uiEnd.rewardHolder.AddToRewardGold(additionalQuantity);
     }
 
 
@@ -303,7 +302,7 @@ public class LocalHandler : MonoBehaviour
             counting += 1;
         }
 
-
+        gainedStars = counting;
         int newlyAcquiredStars = -starsAlreadyObtained;
         newlyAcquiredStars += counting;
 

@@ -1,58 +1,80 @@
+using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class EndRewardHandler : MonoBehaviour
 {
     [SerializeField] EndRewardUnit rewardGold;
-    [SerializeField] EndRewardUnit rewardGoldAd;
+    [SerializeField] ButtonBase rewardGoldAdButton; 
     [SerializeField] EndRewardUnit rewardGem;
-    [SerializeField] EndRewardUnit rewardGemAd;
 
-
-    public void CreateRewardGold()
+    public void AddToRewardGold(int value)
     {
-        int coinObtained = LocalHandler.instance.gainedCoin;
-        bool hasObtainedAllCoin = coinObtained >= LocalHandler.instance.coins.Length;
-
-
         rewardGold.gameObject.SetActive(true);
-        rewardGold.SetUp(coinObtained);
+        rewardGold.Add(value);
+    }
 
-        int coinAd = coinObtained;
+    public void CreateAdButton(bool gotAllCoin)
+    {
+        //we need to know if it got all coins or not.
+        string adString = "";
 
-        if (hasObtainedAllCoin)
+        if (gotAllCoin)
         {
-            rewardGoldAd.CallFadeUI("You Got all Coins!");
-            coinAd = coinObtained + coinObtained;
+            adString = "3X Your Coin";
+        }
+        else
+        {
+            adString = "2X Your Coin";
         }
 
-        rewardGoldAd.gameObject.SetActive(true);
-        rewardGoldAd.SetUp(coinAd);
+        rewardGoldAdButton.SetText(adString);
+        rewardGoldAdButton.gameObject.SetActive(true);
+
+       StartCoroutine(AdButtonScaleProcess());
+       StartCoroutine(AdButtonRotateProcess());
     }
 
-
-    public void MergeGoldAndAd()
+    IEnumerator AdButtonScaleProcess()
     {
-        //do an effect where you merge themtogether.
+        //i will shake it and increase it.
+        float timer = 1.5f;
+
+        rewardGoldAdButton.transform.DOScale(0.35f, timer);
+
+        yield return new WaitForSeconds(timer);
+
+        rewardGoldAdButton.transform.DOScale(0.3f, timer);
+
+        yield return new WaitForSeconds(timer);
+
+        StartCoroutine(AdButtonScaleProcess());
+
     }
-
-
-    public void CreateRewardGem()
+    IEnumerator AdButtonRotateProcess()
     {
-        //no gem ad.
-        //
+        float timer = 1;
+        rewardGoldAdButton.transform.DOLocalRotate(new Vector3(0, 0, 3), timer);
 
+        yield return new WaitForSeconds(timer);
 
+        rewardGoldAdButton.transform.DOLocalRotate(new Vector3(0, 0, -3), timer);
 
+        yield return new WaitForSeconds(timer);
+
+        StartCoroutine(AdButtonRotateProcess());
     }
 
-    public void CreateRewardGemAd()
+   
+    public void AddToRewardGem(int value)
     {
-        //its always the same value as long as you have completed and not have requested.
-
-
-
+        rewardGem.gameObject.SetActive(true);
+        rewardGem.Add(value);   
     }
+
+    
+
 
 }

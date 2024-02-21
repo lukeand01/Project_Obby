@@ -158,6 +158,7 @@ public class PlayerHandler : MonoBehaviour
     [ContextMenu("Debug Victory")]
     public void DebugVictory()
     {
+        LocalHandler.instance.AddLocalCoin(3);
         PlayerWon();
     }
     [ContextMenu("Debug Change Graphic")]

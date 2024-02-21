@@ -1,4 +1,5 @@
 using DG.Tweening;
+using MyBox;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -16,6 +17,10 @@ public class EndAchievementUnit : MonoBehaviour
     [SerializeField] TextMeshProUGUI timerText;
     [SerializeField] GameObject heartHolder;
     [SerializeField] Image[] hearts;
+
+    [Separator("SOUND")]
+    [SerializeField] AudioClip gainCoinSound;
+
 
     float offset = 100;
 
@@ -70,34 +75,45 @@ public class EndAchievementUnit : MonoBehaviour
 
     public IEnumerator CallCoinProcess()
     {
-        float speed = 1;
-        coinText.transform.DOMove(coinText.transform.position + Vector3.right * offset, speed);
-
-        yield return new WaitForSeconds(speed);
-
         int obtainedCoins = LocalHandler.instance.gainedCoin;
         int totalCoins = LocalHandler.instance.coins.Length;
         int currentCoins = 0;
 
+        float speed = 1;
+
+        coinText.text = $"Coins: {currentCoins} / {totalCoins}";
+        coinText.transform.DOMove(coinText.transform.position + Vector3.right * offset, speed);
+
+        yield return new WaitForSeconds(speed);
+
+       
         while (obtainedCoins > currentCoins)
         {
-            coinText.transform.DOScale(1.2f, 0.1f);
+            currentCoins += 1;
 
-            coinText.text = $"   Coins: {currentCoins} / {totalCoins}";
+            coinText.transform.DOScale(1.2f, 0.25f);
 
-            yield return new WaitForSeconds(0.1f);
+            coinText.text = $"Coins: {currentCoins} / {totalCoins}";
 
-            coinText.transform.DOScale(1, 0.1f);
+            GameHandler.instance.soundHandler.CreateSFX(gainCoinSound);
 
-            yield return new WaitForSeconds(0.1f);
+            yield return new WaitForSeconds(0.25f);
+
+            coinText.transform.DOScale(1, 0.25f);
+
+            yield return new WaitForSeconds(0.25f);
         }
 
-        coinText.transform.DOScale(1.4f, 0.2f);
 
-        yield return new WaitForSeconds(0.2f);
+        
 
-        coinText.transform.DOScale(1, 0.2f);
 
+        //then here we send all the coins towards the reward.
+        //and it stacks in the 
+        
+
+
+     
 
     }
 
@@ -109,7 +125,7 @@ public class EndAchievementUnit : MonoBehaviour
         bool isSuccess = currentTimeClass.IsCurrentMoreThanHalfTheOriginal();
 
         timerText.transform.DOMove(timerText.transform.position + Vector3.right * offset, timer);
-        timerText.text = $"      Timer {currentTimeClass.minutes} : {currentTimeClass.seconds}";
+        timerText.text = $"Timer {currentTimeClass.minutes} : {currentTimeClass.seconds}";
 
         return isSuccess;
     }
@@ -166,4 +182,12 @@ public class EndAchievementUnit : MonoBehaviour
 
     }
 
+
+
+    public Vector3 GetTitlePos() => titleText.transform.position;
+    public Vector3 GetTimerPos() => timerText.transform.position;   
+
+    public Vector3 GetCoinPos() => coinText.transform.position;
+
+    public Vector3 GetHeartPos() => heartHolder.transform.position;
 }

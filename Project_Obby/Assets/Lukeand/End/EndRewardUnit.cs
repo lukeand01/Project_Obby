@@ -1,3 +1,4 @@
+using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -20,24 +21,33 @@ public class EndRewardUnit : ButtonBase
     int valueStored = 0;
 
     bool isUsed;
-    public void SetUp(int value)
+
+    int valueTotal;
+    int valueCurrent;
+
+
+    public void Add(int newValue)
     {
-        coinText.text = value.ToString();
-        valueStored = value;
+        valueTotal += newValue;
+        StopAllCoroutines();
+        StartCoroutine(CountRewardProcess());
+    }
 
+    IEnumerator CountRewardProcess()
+    {
+        transform.DOScale(0.65f, 0.2f);
 
-        if (isAd)
+        while (valueTotal > valueCurrent)
         {
-            //then we are going to start shaking the thing.
+            valueCurrent += 1;
+            coinText.text = valueCurrent.ToString();
+            yield return new WaitForSeconds(0.2f);
         }
-    }
 
-    public void Add()
-    {
-
-
+        transform.DOScale(0.5f, 0.2f);
 
     }
+
 
     public void CallFadeUI(string value)
     {

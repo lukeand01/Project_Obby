@@ -14,6 +14,7 @@ public class EndStarUnit : MonoBehaviour
     [SerializeField] EndStarSingle[] allStars;
     [SerializeField] AudioClip newStarSound;
     [SerializeField] AudioClip oldStarSound;
+    [SerializeField] AudioClip createStarSound;
     [SerializeField] GameObject gemTemplate;
 
     Color fullStarColor = Color.white;
@@ -23,11 +24,6 @@ public class EndStarUnit : MonoBehaviour
 
     [SerializeField] Image templateStar;
 
-    private void Start()
-    {
-
-
-    }
 
     //this needs the ref for all places it wants to use.
    
@@ -119,7 +115,7 @@ public class EndStarUnit : MonoBehaviour
         newObject.transform.position = pos;
 
         newObject.transform.localScale = new Vector3(0.1f, 0.1f, 0.1f);
-        newObject.transform.DOScale(1, 0.3f);
+        newObject.transform.DOScale(1, 0.6f);
 
 
         return newObject;
@@ -186,25 +182,49 @@ public class EndStarUnit : MonoBehaviour
         float scalingModifier = 0;
 
 
-        if(isNewStar)
+        return isNewStar;
+
+      
+    }
+
+    
+
+    public IEnumerator CallStarProcess(Vector3 pos)
+    {
+        float timeToReach = 1;
+
+        int targetIndex = GetNextEmptyStar();
+        GameObject newObject = GetStarObject(pos);
+        StageData data = LocalHandler.instance.data;
+        bool isNewStar = targetIndex + 1 > data.stageStarGained;
+
+        GameHandler.instance.soundHandler.CreateSFX(createStarSound);
+
+        yield return new WaitForSeconds(0.5f);
+
+        newObject.transform.DOMove(allStars[targetIndex].transform.position, timeToReach);
+
+        yield return new WaitForSeconds(timeToReach);
+
+        Destroy(newObject);
+        ActiveTheFirstEmptyStar();
+        StartCoroutine(ReceiveAnimationProcess(allStars[targetIndex].transform, 1.4f));
+
+
+        if (isNewStar)
         {
             GameHandler.instance.soundHandler.CreateSFX(newStarSound);
-            //create a fade ui then a
-            allStars[targetEmptyStar].CallGem();
+            allStars[targetIndex].CallGem();
+            //THIS IS DONE TERRIBLY BUT DOESNT MATTER NOW
+            UIHandler.instance.uiEnd.rewardHolder.AddToRewardGem(5);
 
-            scalingModifier = 1.4f;
         }
         else
         {
-            GameHandler.instance.soundHandler.CreateSFX(oldStarSound);           
-            scalingModifier = 1.2f;
+            GameHandler.instance.soundHandler.CreateSFX(oldStarSound);
         }
 
-        allStars[targetEmptyStar].SetColor(Color.white);
-        StartCoroutine(ReceiveAnimationProcess(allStars[targetEmptyStar].transform, scalingModifier));
 
-        return isNewStar;
     }
-
 
 }
