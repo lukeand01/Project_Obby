@@ -200,9 +200,16 @@ public class AdHandler : MonoBehaviour
             {
                 Debug.Log("there was something wrong because you cant multiply it by 0");
             }
-            LocalHandler.instance.MultiplyGoinGained((int)reward.Amount);
-
+            LocalHandler.instance.MultiplyCoinGained();
+            return;
         }
+
+        if(reward.Type == RewardType.ModiftyGemValue.ToString())
+        {
+            LocalHandler.instance.MultiplyGemGained();
+            return;
+        }
+
         if (reward.Type == RewardType.AnotherLife.ToString())
         {
 
@@ -225,6 +232,7 @@ public enum RewardType
 {
     Nothing,
     ModifyCoinValue,
+    ModiftyGemValue,
     AnotherLife,
     DailyReward
 }

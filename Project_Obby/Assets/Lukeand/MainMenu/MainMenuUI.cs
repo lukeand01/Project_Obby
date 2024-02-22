@@ -50,7 +50,11 @@ public class MainMenuUI : MonoBehaviour
         //the banner is taking the ui in the top.
         GameHandler.instance.adHandler.RequestBanner();
 
-        playUI.CreateStageUnits(GameHandler.instance.stageHandler.stageList);
+        goldText.text = PlayerHandler.instance.gold.ToString();
+        starText.text = PlayerHandler.instance.gems.ToString(); 
+
+
+        playUI.CreateStageUnits2(GameHandler.instance.stageHandler.stageList);
     }
 
 
@@ -74,7 +78,7 @@ public class MainMenuUI : MonoBehaviour
         //update both lives and gold.
 
         goldText.text = "Gold: " + PlayerHandler.instance.gold.ToString();
-        starText.text = "Lives: " + PlayerHandler.instance.star.ToString();
+        starText.text = "Lives: " + PlayerHandler.instance.gems.ToString();
 
     }
 

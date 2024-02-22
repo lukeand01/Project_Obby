@@ -17,11 +17,18 @@ public class LocalHandler : MonoBehaviour
     [SerializeField] StageData debugStart;
 
     public TouchCoin[] coins { get; private set; }
+
+    //these two are the values that will be given. the only real values.
     public int gainedCoin {  get; private set; }
-    //we put here because we only give to the player when he wins it.
+    public int gainedGems { get; private set; }
+
+    int gainedStars;
+
     [Separator("DEBUG")]
     [SerializeField] bool debugDoNotCallPresentation;
 
+
+    public StageTimeClass currentTimer {  get; private set; }
 
     private void Awake()
     {
@@ -48,7 +55,23 @@ public class LocalHandler : MonoBehaviour
 
     //localhandler will just hold the list and the playter will use it.
 
-    StageTimeClass currentTimer;
+    public void CompleteStage()
+    {
+        //coin
+        //gem
+
+        PlayerHandler.instance.ChangeGold(gainedCoin);
+        PlayerHandler.instance.ChangeGem(gainedGems);
+        PlayerHandler.instance.ChangeProgress();
+
+        //and we give the stage stars to the data.
+        //and when we load another scene we save all the data.
+
+        Debug.Log("this was the quantity of gained stars " + gainedStars);
+
+        data.SetStarGained(gainedStars);
+        data.SetNewRecord(currentTimer);
+    }
 
     public void StartLocalHandler(StageData stage, StageTimeClass forcedTimer = null)
     {
@@ -105,7 +128,7 @@ public class LocalHandler : MonoBehaviour
 
     public void StopTimer()
     {
-        StopCoroutine(CountTimerProcess());
+        StopAllCoroutines();
     }
 
     IEnumerator StartStageProcess()
@@ -171,43 +194,46 @@ public class LocalHandler : MonoBehaviour
         UIHandler.instance.uiPlayer.LeaveTimerRed();
     }
 
-    public void CompleteStage()
+    
+
+    public void MultiplyCoinGained()
     {
-        StopAllCoroutines();
 
-        int starsGained = 0;
+        //we will create the whole logic here.
+        bool gotAllCoins = gainedCoin >= coins.Length - 1;
+        int additionalQuantity = 0;
 
-        int currentHealth = PlayerHandler.instance.currentHealth;
-
-        if (GainedStarByCoin())
+        if(gotAllCoins)
         {
-            starsGained++;
+            additionalQuantity = gainedCoin * 2;
+        }
+        else
+        {
+            additionalQuantity = gainedCoin;
         }
 
-        if(currentHealth >= 3)
-        {
-            starsGained++;
-        }
+        gainedCoin += additionalQuantity;
 
-        if (currentTimer.IsCurrentMoreThanHalfTheOriginal())
-        {
-            starsGained++;
-        }
+        UIHandler.instance.uiEnd.rewardHolder.AddToRewardGold(additionalQuantity);
+    }
 
-        data.SetHeartGained(starsGained);
+
+    public void AddGem(int value)
+    {
+        gainedGems += value;
+    }
+
+
+    public void MultiplyGemGained()
+    {
+        //we get the stuff here. only here.
+        gainedGems += 15;
+
+        //its always just 15.
 
     }
 
-    public void MultiplyGoinGained(int value)
-    {
 
-        int additionalValue = (gainedCoin * value) - gainedCoin;
-
-        gainedCoin *= value;
-
-
-       StartCoroutine(UIHandler.instance.uiEnd.goldHolder.CoinMultiplierProcess(additionalValue));
-    }
 
 
     public bool GainedStarByCoin()
@@ -255,5 +281,43 @@ public class LocalHandler : MonoBehaviour
     {
         //i want to pass information regarding the time the player died.
         GameHandler.instance.sceneLoader.ResetScene(data, currentTimer);
+    }
+
+
+    //the problem is that i probably want to especify why i gained each star.
+    public void CalculateGainedGems()
+    {
+        int starsAlreadyObtained = data.stageStarGained;
+        int counting = 0;
+
+        counting += 1;
+
+        if(PlayerHandler.instance.currentHealth == 3)
+        {
+            counting += 1;
+        }
+
+        if(currentTimer.IsCurrentMoreThanHalfTheOriginal())
+        {
+            counting += 1;
+        }
+
+        gainedStars = counting;
+        int newlyAcquiredStars = -starsAlreadyObtained;
+        newlyAcquiredStars += counting;
+
+        Debug.Log("got new stars " + newlyAcquiredStars);
+
+        for (int i = 0; i < newlyAcquiredStars; i++)
+        {
+            AddGem(5);
+        }
+
+    }
+
+
+    public void StopEverything()
+    {
+        StopAllCoroutines();
     }
 }

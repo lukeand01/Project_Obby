@@ -35,6 +35,11 @@ public class UIHandler : MonoBehaviour
     [SerializeField] EndUI uiEndRef;
     [SerializeField] ConfirmationWindowUI uiConfirmatioWindowRef;
     //[SerializeField] RewardUI uiRewardRef;
+
+    [Separator("TEMPLATE REFERENCES")]
+    [SerializeField] FadeUI uiFadeRef;
+
+
     #endregion
 
 
@@ -60,6 +65,13 @@ public class UIHandler : MonoBehaviour
     //public RewardUI uiReward { get => uiRewardRef; }    
 
     #endregion
+
+    #region GETTERS TEMPLATE
+
+    public FadeUI uiFade{ get => uiFadeRef; }
+
+    #endregion
+
 
     #region POWER BUTTONS
     public void CreatePowerButtons(List<PowerData> powerDataList)
@@ -120,9 +132,21 @@ public class UIHandler : MonoBehaviour
         //reward ui only exists if the holder is closed because its only closed in the mainmenu
     }
 
+    public void StopEverything()
+    {
+        uiEnd.Close();
+        uiPause.StopPause();
+    }
+
+
     public void ControlInputButtons(bool isVisible)
     {
         inputHolder.SetActive(isVisible);
+    }
+
+    public void ControlPlayerUI(bool isVisible)
+    {
+
     }
 
 }

@@ -6,8 +6,8 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/MainMenu.unity
-    guid: 42ac83ef04a76184e9b7af069f5adf9d
+    path: Assets/Scenes/UI/Menu.unity
+    guid: 4d34076e14bbfa642b066782669c4d93
   - enabled: 1
     path: Assets/Scenes/LoadingScene.unity
     guid: 4c15a9f5aae930a42a37f1f113e1bf5d
@@ -17,4 +17,13 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Sky_lv2.unity
     guid: cae278c5ae72e814aa429beec7fcf186
+  - enabled: 1
+    path: Assets/Scenes/Sky_lv3.unity
+    guid: 90f0b4f4a02d6cc4f862986ac5adda1b
+  - enabled: 1
+    path: Assets/Scenes/Sky_lv4.unity
+    guid: b6d9c821cd4685c4fa0649854504ca26
+  - enabled: 1
+    path: Assets/Scenes/Sky_lv5.unity
+    guid: 11430f44d7bf1dd4284e73e26615903f
   m_configObjects: {}

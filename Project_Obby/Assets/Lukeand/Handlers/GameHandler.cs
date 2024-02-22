@@ -24,6 +24,15 @@ public class GameHandler : MonoBehaviour
 
 
 
+    public void PauseTimeScale()
+    {
+        Time.timeScale = 0;
+    }
+
+    public void ResumeTimeScale()
+    {
+        Time.timeScale = 1;
+    }
 
 
     private void Update()
@@ -66,7 +75,6 @@ public class GameHandler : MonoBehaviour
         if(SaveHandler2.OrderHasFile())
         {
             //then we pass the information.
-            Debug.Log("has file");
 
             SaveClass saveData = SaveHandler2.OrderToLoadData();
 
@@ -76,7 +84,7 @@ public class GameHandler : MonoBehaviour
 
             if(player != null)
             {
-
+                player.UseSaveData(saveData);
             }
 
             

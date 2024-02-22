@@ -6,7 +6,7 @@ using System.Runtime.InteropServices.WindowsRuntime;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.UIElements;
+
 
 public class EndUI : MonoBehaviour
 {
@@ -15,15 +15,15 @@ public class EndUI : MonoBehaviour
 
     //
     [Separator("END")]
-    [SerializeField] EndStarUnit StarHolder;
-    [SerializeField] public EndGoldUnit goldHolder;
-
+    public EndStarUnit StarHolder;
+    public EndRewardHandler rewardHolder;
+    [SerializeField] EndAchievementUnit achievementHolder;
 
     [Separator("VICTORY")] 
     [SerializeField] GameObject victoryHolder;
-    [SerializeField] GameObject victoryNextStageButton;
-    [SerializeField] GameObject victoryRetryStageButton;
-    [SerializeField] GameObject victoryMainMenuButton;
+    [SerializeField] Image victoryBackground;
+    [SerializeField] GameObject victoryTitleHolder;
+    [SerializeField] Transform victoryButtonHolder;
 
 
     [Separator("DEFEAT")]
@@ -59,6 +59,12 @@ public class EndUI : MonoBehaviour
     public void Close()
     {
         holder.SetActive(false);
+
+
+        StopAllCoroutines();
+        StarHolder.StopAllCoroutines();
+        rewardHolder.StopAllCoroutines();
+        achievementHolder.StopAllCoroutines();
     }
 
     public void StartVictory()
@@ -68,77 +74,169 @@ public class EndUI : MonoBehaviour
         victoryHolder.SetActive(true);
         defeatHolder.SetActive(false);
 
+
+        victoryTitleHolder.transform.position = victoryTitleHolder.transform.position + new Vector3(0, 150, 0);
+
+       var alpha = victoryBackground.color;
+        alpha.a = 0;
+        victoryBackground.color = alpha;
+
         StageData currentData = LocalHandler.instance.data;
         GameHandler handler = GameHandler.instance;
 
         nextStage = handler.stageHandler.GetNextStageData(currentData);
 
-        victoryNextStageButton.SetActive(nextStage != null);
+        victoryButtonHolder.gameObject.SetActive(nextStage != null);
 
-
-        int currentGold = 0;
-        int totalGold = 0;
-
-        int starsGained = 0;
 
 
         //goldText.text = currentGold + " / " + totalGold;
+
         StarHolder.gameObject.SetActive(false);
-        goldHolder.gameObject.SetActive(false);
-
-
-
+        rewardHolder.gameObject.SetActive(false);
 
         StartCoroutine(VictoryProcess());
 
     }
 
-    IEnumerator VictoryProcess()
+
+
+    float StartVictoryTitle()
     {
-        //first we call everybutton up from its hiding spot.
-        //scale up both gold and stars.
-
-
-
-
         float timerForButton = 1.5f;
         Vector3 buttonOffset = new Vector3(0, 150, 0);
-        victoryNextStageButton.transform.DOMove(victoryNextStageButton.transform.position + buttonOffset, timerForButton);
-        victoryRetryStageButton.transform.DOMove(victoryRetryStageButton.transform.position + buttonOffset, timerForButton);
-        victoryMainMenuButton.transform.DOMove(victoryMainMenuButton.transform.position + buttonOffset, timerForButton);
+        victoryTitleHolder.transform.DOMove(victoryTitleHolder.transform.position - buttonOffset, timerForButton);
+        return timerForButton;
+    }
+
+
+    IEnumerator VictoryProcess()
+    {
+
+        StageData localData = LocalHandler.instance.data;
+
+        achievementHolder.PutAllPiecesInStartingPos();
+
+
+       float timeForTitle =  StartVictoryTitle();
+
+        yield return new WaitForSeconds(timeForTitle);
+
+        var alpha = victoryBackground.color;
+
+        while (victoryBackground.color.a < 0.7f)
+        {
+            alpha.a += 0.01f;
+            victoryBackground.color = alpha;
+            yield return new WaitForSeconds(0.01f);
+        }
+
+
+
+        float timerForButton = 0.5f;
+        Vector3 buttonOffset = new Vector3(0, 120, 0);
+        victoryButtonHolder.DOMove(victoryButtonHolder.transform.position + buttonOffset, timerForButton);
 
         yield return new WaitForSeconds(timerForButton);
-
 
         float timerForHolders = 0.5f;
 
         StarHolder.MakeAllStarsEmpty();
 
         StarHolder.transform.localScale = new Vector3(0.01f, 0.01f, 0.01f);
-        goldHolder.transform.localScale = new Vector3(0.01f, 0.01f, 0.01f);
+        rewardHolder.transform.localScale = new Vector3(0.01f, 0.01f, 0.01f);
 
         StarHolder.gameObject.SetActive(true);
-        goldHolder.gameObject.SetActive(true);
+        rewardHolder.gameObject.SetActive(true);
 
-        StarHolder.transform.DOScale(1, timerForHolders);
-        goldHolder.transform.DOScale(1, timerForHolders);
+        StarHolder.transform.DOScale(0.8f, timerForHolders);
+        rewardHolder.transform.DOScale(0.8f, timerForHolders);
 
-
+     
         yield return new WaitForSeconds(timerForHolders);
 
-
-        //coin the coins.
-        yield return StartCoroutine(goldHolder.CountCoinProcess());
+        //i want it to come from the thing?
 
 
-        yield return StartCoroutine(StarHolder.GetStarFromPlacesProcess());
+        bool isTitleSuccess = achievementHolder.CallTitle();
+
+        yield return new WaitForSeconds(1);
+
+
+        if(isTitleSuccess)
+        {
+            //then we add a heart.
+            //if the hearts is new then we also ad the gem.
+            yield return StartCoroutine(StarHolder.CallStarProcess(achievementHolder.GetTitlePos()));
+        }
+
+
+        yield return StartCoroutine(achievementHolder.CallCoinProcess());
+
+        int currentCoin = LocalHandler.instance.gainedCoin;
+        bool hasAllCoin = currentCoin >= LocalHandler.instance.coins.Length;
+
+        rewardHolder.AddToRewardGold(currentCoin);
+        rewardHolder.CreateAdButton(hasAllCoin);
+
+        //create button
+        //rewardHolder.CreateAdButton();
+
+        float timeTimer = 1f;
+
+        bool isTimerSuccess = achievementHolder.CallTimer(timeTimer);
+
+        yield return new WaitForSeconds(timeTimer + 0.5f);
+
+
+        if(isTimerSuccess)
+        {
+            yield return StartCoroutine(StarHolder.CallStarProcess(achievementHolder.GetTimerPos()));
+        }
+        else
+        {
+            //show that timer failed.
+        }
+        
+
+        float heartTimer = 1;
+
+        bool isHeartSuccess = achievementHolder.CallHeart(heartTimer);
+
+        yield return new WaitForSeconds(heartTimer + 0.5f);
+
+        if (isHeartSuccess)
+        {
+           yield return StartCoroutine(StarHolder.CallStarProcess(achievementHolder.GetHeartPos()));
+        }
+        else
+        {
+            //show that it failed.
+        }
+
+        yield return new WaitForSeconds(0.5f);
+        
 
 
     }
 
+    //we only really have to ask in the last if the player got all stars.
+    
+
+
+    //so now we will show the achievements as we give stars
+    //then each star grants five.
+
 
     public void StartDefeat(int currentHealth, bool hasAlreadyWatchedAD)
     {       
+
+        //what do i do here?
+
+        //i have potenl
+
+
+
         holder.SetActive(true);
         victoryHolder.SetActive(false);
         defeatHolder.SetActive(true);
@@ -166,6 +264,10 @@ public class EndUI : MonoBehaviour
     #endregion
 
     #region DECIDE
+
+    //really important. when we decide on things we should pass the value.
+
+
     public void DecidedToNextStage()
     {
         //ccheck if you can go to the next.
@@ -174,7 +276,8 @@ public class EndUI : MonoBehaviour
             Debug.Log("next stage is null");
             return;
         }
-       
+        LocalHandler.instance.CompleteStage();
+        //here we will also tell localhandler to give all the values to the player.
         GameHandler.instance.sceneLoader.ChangeScene(nextStage);
     }
     public void DecideUseHealth()
@@ -191,19 +294,32 @@ public class EndUI : MonoBehaviour
         }
 
     }
-    public void DecideStartStageFromStart()
+    public void DecideStartStageFromStart(bool HasWon)
     {
         //
+
+        if (HasWon)
+        {
+            LocalHandler.instance.CompleteStage();
+        }
+
+
         PlayerHandler.instance.RespawnUsingNothing();
     }
-    public void DecideGoBackToMenu()
+    public void DecideGoBackToMenu(bool HasWon)
     {
+        if (HasWon)
+        {
+            LocalHandler.instance.CompleteStage();
+        }
+
+
         GameHandler.instance.sceneLoader.ChangeToMainMenu();
     }
-    public void DecideThisStageAsCompleted()
+    
+    public void DecideWatchGoldAd()
     {
-        //if the player wants to retry the stage it will be still be seen as completed.
-        PlayerHandler.instance.ChangeProgress(1);
+        GameHandler.instance.adHandler.RequestRewardAd(RewardType.ModifyCoinValue);
     }
 
     #endregion
@@ -211,6 +327,26 @@ public class EndUI : MonoBehaviour
 
     //
 
-    public Vector3 GetCoinPos() => goldHolder.transform.position;
     
 }
+///new victory progress
+///first we show the title.
+///we remove all the other ui
+///then we let him dance 
+///then call the transparent beackground
+///then we list all the achievements.
+///as we do the achievemnts we call things
+///when it shows all teh coin grabbed. then we create a reward for it
+///we also create a reward ad which shows the additional coins to be gained by doing which can be 2x or 3x
+///it gives a star at first.
+///it gives a star after timer and after health if conditions are met.
+//everytime is a new star there will be a fade ui saying 'new star' and the player will gain gems
+//five per star. it appears above and appear by the rewards.
+//when we are no longer counting the gems if it is 
+//we need to count the coin.
+//
+
+
+//and then we count the coin
+//and then we count the stars.
+//then each new star gained gives gems

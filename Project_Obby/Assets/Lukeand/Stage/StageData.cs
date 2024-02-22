@@ -7,17 +7,38 @@ public class StageData : ScriptableObject
 {
     public string stageName;
     public int stageId;
+
+
+
     public StageTimeClass stageLimitTimer;
     public StageTimeClass stageCompletedTimer {  get; private set; }
 
     public int stageStarGained {  get; private set; }
 
-    public void SetHeartGained(int heartGained)
+    public void SetStarGained(int starGained)
     {
-        if(heartGained > stageStarGained)
+        if(starGained > stageStarGained)
         {
-            stageStarGained = heartGained;
+            stageStarGained = starGained;
         }
+    }
+
+    public void SetNewRecord(StageTimeClass newTimer)
+    {
+        int newValue = newTimer.GetTotalTimer();
+        int oldValue = 0;
+
+        if(stageCompletedTimer != null)
+        {
+            oldValue = stageCompletedTimer.GetTotalTimer();
+        }
+
+
+        if(newValue > oldValue)
+        {
+            stageCompletedTimer = newTimer;
+        }
+
     }
 
 
@@ -71,6 +92,12 @@ public class StageTimeClass
         int totalValue = minutes + seconds;
         return totalValue != 0;
     }
+
+    public int GetTotalTimer()
+    {
+        return (minutes * 60) + seconds;
+    }
+
 
     public bool LittleTimeLeft()
     {
