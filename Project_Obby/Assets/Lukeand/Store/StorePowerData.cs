@@ -12,5 +12,7 @@ public class StorePowerData : StoreData
         PlayerHandler.instance.AddPower(powerData);
     }
 
+    public override StorePowerData GetPower() => this;
     
+
 }

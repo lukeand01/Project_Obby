@@ -75,6 +75,9 @@ public class PlayerHandler : MonoBehaviour
         UIHandler.instance.uiPlayer.UpdateGold(gold);
         UIHandler.instance.uiPlayer.UpdateLives(currentHealth);
 
+
+        StartStore();
+
         cam.ResetCam();
         //cam.ResetCamToIntroduction();
     }
@@ -107,7 +110,39 @@ public class PlayerHandler : MonoBehaviour
 
     #region STORE
     //each item is a 
+    //if you do not have any item then we award the player two values. 
 
+    void StartStore()
+    {
+        if(storeItensOwnedList == null)
+        {
+            storeItensOwnedList = new();
+        }
+
+        if(storeItensOwnedList.Count == 0)
+        {
+            int boyIndex = 2;
+            int girlIndex = 4;
+            int chickenDanceIndex = 5;
+
+            AddStoreItem(boyIndex);
+            AddStoreItem(girlIndex);
+            AddStoreItem(chickenDanceIndex);
+
+            //these are all teh fellas.
+            //but now how we update teh fellas.
+
+            StoreData graphicData = GameHandler.instance.storeHandler.GetStoreData(boyIndex);
+            int graphicIndex =  (int)graphicData.GetGraphic().graphicType;
+            graphic.SetGraphicIndex(graphicIndex);
+
+
+            StoreData animationData = GameHandler.instance.storeHandler.GetStoreData(chickenDanceIndex);
+            int animationIndex = (int)animationData.GetAnimation().animationType;
+            graphic.SetAnimationIndex(animationIndex);
+        }
+    }
+  
     public List<int> storeItensOwnedList { get; private set; } = new();
 
     public void AddStoreItem(int index)
@@ -116,6 +151,12 @@ public class PlayerHandler : MonoBehaviour
     }
     public bool HasStoreItem(int index)
     {
+        if(storeItensOwnedList == null)
+        {
+            storeItensOwnedList = new List<int>();
+        }
+
+
         foreach (var item in storeItensOwnedList)
         {
             if (item == index) return true;
@@ -161,19 +202,8 @@ public class PlayerHandler : MonoBehaviour
         LocalHandler.instance.AddLocalCoin(3);
         PlayerWon();
     }
-    [ContextMenu("Debug Change Graphic")]
-    public void DebugChangeGraphic()
-    {
-        graphic.animationIndex = 3;
-        SaveHandler2.OrderToSaveData();
-    }
-    [ContextMenu("Debug Change Animation")]
-    public void DebugChangeAnimation()
-    {
-        graphic.graphicIndex = 3;
-        SaveHandler2.OrderToSaveData();
-    }
 
+    
     #endregion
 
 

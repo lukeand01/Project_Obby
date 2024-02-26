@@ -6,11 +6,14 @@ using UnityEngine;
 public class StoreAnimationData : StoreData
 {
 
-    [SerializeField] AnimationType animationType;
+    public AnimationType animationType;
 
 
     public override void Buy()
     {
         
     }
+
+    public override StoreAnimationData GetAnimation() => this;
+    
 }

@@ -24,6 +24,8 @@ public class SceneLoader : MonoBehaviour
             LocalHandler.instance.StopEverything();
         }
 
+
+
         StopAllCoroutines();
         StartCoroutine(ChangeSceneProcess(data));
     }
@@ -42,6 +44,8 @@ public class SceneLoader : MonoBehaviour
             LocalHandler.instance.StopEverything();
         }
 
+
+
         StopAllCoroutines();
         StartCoroutine(ChangeToMenuProcess());
     }
@@ -56,6 +60,7 @@ public class SceneLoader : MonoBehaviour
         }
 
         UIHandler.instance.StopEverything();
+
 
         StopAllCoroutines();
         StartCoroutine(ResetSceneProcess(data, currentTimer));      

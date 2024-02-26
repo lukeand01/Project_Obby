@@ -13,6 +13,7 @@ public class MainMenuUI : MonoBehaviour
 
     public static MainMenuUI instance;
 
+    [SerializeField] Camera cameraCanvas;
 
     [SerializeField] List<GameObject> holderLIst = new();
 
@@ -55,6 +56,8 @@ public class MainMenuUI : MonoBehaviour
 
 
         playUI.CreateStageUnits2(GameHandler.instance.stageHandler.stageList);
+
+
     }
 
 

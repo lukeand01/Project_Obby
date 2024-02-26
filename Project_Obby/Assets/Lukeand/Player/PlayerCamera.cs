@@ -7,7 +7,7 @@ using UnityEngine;
 public class PlayerCamera : MonoBehaviour
 {
 
-    Camera cam;
+    [SerializeField] Camera cam;
 
     public float cameraSensitivityX;
     public float cameraSensitivityY;
@@ -45,9 +45,12 @@ public class PlayerCamera : MonoBehaviour
     }
 
 
+    
+
+
     private void Awake()
     {
-        cam = Camera.main;
+        //cam = Camera.main;
     }
 
     public void MakeCamWatchFallDeath()

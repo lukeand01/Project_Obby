@@ -24,7 +24,7 @@ public class MyGrid : LayoutGroup
 
     [Separator("Limit")]
     public int limitPerLine = 3 ;
-
+    [SerializeField] float increaseSizeByLine;
     
 
     RectTransform container;

@@ -11,8 +11,8 @@ public class PlayerGraphic : MonoBehaviour
     Animator graphicAnimator;
     RuntimeAnimatorController currentVictoryAnimation;
 
-    public int graphicIndex;
-    public int animationIndex;
+    public int graphicIndex {  get; private set; }
+    public int animationIndex { get; private set; }
 
     private void Start()
     {

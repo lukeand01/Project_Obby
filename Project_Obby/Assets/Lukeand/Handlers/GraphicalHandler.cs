@@ -5,6 +5,7 @@ using UnityEngine;
 public class GraphicalHandler : MonoBehaviour
 {
     [SerializeField] List<GameObject> graphicList = new();
+    [SerializeField] List<GameObject> previewGraphicList = new();
     [SerializeField] List<RuntimeAnimatorController> animationList = new();
 
 
@@ -12,6 +13,14 @@ public class GraphicalHandler : MonoBehaviour
     {
         return graphicList[index];
     }
+
+    public GameObject GetCopyNewGraphic(int index)
+    {
+        GameObject newObject = Instantiate(previewGraphicList[index]);
+        return newObject;
+    }
+
+
     public RuntimeAnimatorController GetNewAnimation(int index)
     {
         return animationList[index];

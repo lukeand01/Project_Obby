@@ -362,3 +362,25 @@
 //then we create the button to increase the gold from watching an ad.
 
 
+
+//for me to display objetc i need to make sure the canvas camera is the main one, not the player. 
+
+//STORE UI
+///can click to open different categories. when we change the category we move the focus to the new target.
+//can open the different holders.
+//when you select a skin or dance it will show a preview. all skins dance to your current dance. all animations dance using your current skin.
+//each holder is created dinamically by puting the data in the storehandler. it si created at the started.
+//also purchases are show in the ui
+//save system interact with it.
+
+
+//why not showing the stageui
+
+//THINGS TO CHANGE ABOUT STAGE UI
+///playter starts with two owned skins and one owned dance.
+///when change category close the thing as well.
+///double clicking something owned makes you wear it.
+///clicking on something shows in the preview.
+///if you already own something then it should show.
+///the dance should be show under the confirmation window.
+///the dances you already own.
