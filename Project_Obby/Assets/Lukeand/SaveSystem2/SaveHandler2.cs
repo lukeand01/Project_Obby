@@ -17,20 +17,78 @@ public static class SaveHandler2
     {
         //we just put all information here
         SaveClass newSaveClass = new SaveClass();
-        newSaveClass.playerGold = PlayerHandler.instance.gold;
-        newSaveClass.playerHealth = PlayerHandler.instance.currentHealth;
-        newSaveClass.playerStageProgress = PlayerHandler.instance.stageProgress;
+        PlayerHandler player = PlayerHandler.instance;
+
+
+        //ECONOMY
+        newSaveClass.playerCoin = player.gold;
+        newSaveClass.playerGem = player.gems;
+
+        //STAGE PROGRESS
+        newSaveClass.playerStageProgress = player.stageProgress;
+
+        //ANIMATION AND GRAPHICS
+        newSaveClass.playerCurrentAnimationIndex = player.graphic.animationIndex;
+        newSaveClass.playerCurrentGraphicIndex = player.graphic.graphicIndex;
+
+        //STORE 
+        newSaveClass.playerItemsList = PlayerHandler.instance.storeItensOwnedList;
+
+        //INDIVIDUAL STAGES
+        newSaveClass.stageList = GameHandler.instance.stageHandler.GetSaveClassStageList();
+
 
         bool success = SaveData("0", newSaveClass, true);
 
-        Debug.Log("save was a sucess: " + success);
 
     }
 
-    public static SaveClass OrderToLoadData()
+    public static void OrderToLoadData()
     {
-        return LoadData<SaveClass>("0", true);
+        //i think should give all information right away with this one here.
+        PlayerHandler player = PlayerHandler.instance;
+        StageHandler stage = GameHandler.instance.stageHandler;
 
+        if (OrderHasFile())
+        {          
+
+            SaveClass saveClass = LoadData<SaveClass>("0", true);
+
+            //CURRENCY
+            player.SetCoin(saveClass.playerCoin);
+            player.SetGem(saveClass.playerGem);
+
+            //STAGE PROGRESSIOn
+            player.SetStageProgress(saveClass.playerStageProgress);
+
+            //STORE ITEMS
+            player.SetNewItemOwnedList(saveClass.playerItemsList);
+
+
+            //GRAPHIC AND ANIMATION
+            player.graphic.SetGraphicIndex(saveClass.playerCurrentGraphicIndex);
+            player.graphic.SetAnimationIndex(saveClass.playerCurrentAnimationIndex);
+
+            //INDIVIDUAL STAGES
+            stage.ReceiveStageDataList(saveClass.stageList);
+
+        }
+        else
+        {
+            //then we give new data. start something new;
+            player.UseEmptyData();
+            stage.ResetAllStages();
+        }
+
+
+
+        
+
+    }
+
+    public static bool OrderHasFile()
+    {
+        return HasFile("0");
     }
 
     #endregion
@@ -90,7 +148,7 @@ public static class SaveHandler2
 
     public static void DeleteData(string saveName)
     {
-        Debug.Log("delete save fil");
+
         string path = Application.persistentDataPath + saveName;
         File.Delete(path);
     }

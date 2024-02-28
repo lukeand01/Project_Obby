@@ -7,19 +7,62 @@ public class StageData : ScriptableObject
 {
     public string stageName;
     public int stageId;
+
+
+
     public StageTimeClass stageLimitTimer;
-    public StageTimeClass stageCompletedTimer {  get; private set; }
+    public StageTimeClass stageCompletedTimer;
 
-    public int stageHeartGained {  get; private set; }
+    public int stageStarGained;
 
-    public void SetHeartGained(int heartGained)
+    public void SetStarGained(int starGained)
     {
-        if(heartGained > stageHeartGained)
+        if(starGained > stageStarGained)
         {
-            stageHeartGained = heartGained;
+            stageStarGained = starGained;
         }
     }
 
+    public void SetNewRecord(StageTimeClass newTimer)
+    {
+        int newValue = newTimer.GetTotalTimer();
+        int oldValue = 0;
+
+        if(stageCompletedTimer != null)
+        {
+            oldValue = stageCompletedTimer.GetTotalTimer();
+        }
+
+
+        if(newValue > oldValue)
+        {
+            stageCompletedTimer = newTimer;
+        }
+
+    }
+
+
+    public void ReceiveSaveData(int stars, int minutes, int seconds)
+    {
+        stageStarGained = stars;
+        stageCompletedTimer = new StageTimeClass(minutes, seconds);
+    }
+
+
+    [ContextMenu("DEBUG WIN STAGE")]
+    public void DebugWinStage()
+    {
+        SetStarGained(3);
+        SetNewRecord(new StageTimeClass(0, 20));
+       
+    }
+
+    [ContextMenu("DEBUG CLEAR STAGE")]
+    public void ResetStage()
+    {
+        stageStarGained = 0;
+        stageCompletedTimer = null;
+    }
 
     //what are the stars based on?
     //based in not losing health and based in completing 
@@ -71,6 +114,12 @@ public class StageTimeClass
         int totalValue = minutes + seconds;
         return totalValue != 0;
     }
+
+    public int GetTotalTimer()
+    {
+        return (minutes * 60) + seconds;
+    }
+
 
     public bool LittleTimeLeft()
     {

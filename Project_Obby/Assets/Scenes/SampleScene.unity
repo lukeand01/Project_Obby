@@ -1266,7 +1266,6 @@ MonoBehaviour:
   - {fileID: 1530089623}
   - {fileID: 1087816765}
   debugStart: {fileID: 11400000, guid: b7f6f38eea22254468b57d98c4a7d648, type: 2}
-  localCoinList: []
 --- !u!4 &1342861603
 Transform:
   m_ObjectHideFlags: 0
@@ -2517,6 +2516,10 @@ PrefabInstance:
       propertyPath: nextStageButton
       value: 
       objectReference: {fileID: 339312056}
+    - target: {fileID: 7794029814214501402, guid: d92dd8c8b91b2ec42a491216faf3971a, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8269431166707250269, guid: d92dd8c8b91b2ec42a491216faf3971a, type: 3}
       propertyPath: m_Pivot.x
       value: 0

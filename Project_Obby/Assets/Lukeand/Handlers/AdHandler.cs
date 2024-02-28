@@ -41,7 +41,7 @@ public class AdHandler : MonoBehaviour
     public void RequestBanner()
     {      
         //THis is the android version.      
-        bannerView = new BannerView(adUnitId, AdSize.SmartBanner, AdPosition.Bottom);
+        bannerView = new BannerView(adUnitId, AdSize.SmartBanner, AdPosition.Top);
 
         AdRequest request = new AdRequest.Builder().Build();
 
@@ -200,12 +200,34 @@ public class AdHandler : MonoBehaviour
             {
                 Debug.Log("there was something wrong because you cant multiply it by 0");
             }
-            LocalHandler.instance.MultiplyGoinGained((int)reward.Amount);
-
+            LocalHandler.instance.MultiplyCoinGained();
+            return;
         }
+
+        if(reward.Type == RewardType.ModiftyGemValue.ToString())
+        {
+            LocalHandler.instance.MultiplyGemGained();
+            return;
+        }
+
         if (reward.Type == RewardType.AnotherLife.ToString())
         {
+            //then we ask if localhandler is in the situation
 
+            if(LocalHandler.instance != null)
+            {
+                PlayerHandler.instance.RespawnUsingAd();
+            }
+            else
+            {
+                Debug.LogError("couldnt load another life");
+            }
+            return;
+
+        }
+        if (reward.Type == RewardType.DailyReward.ToString())
+        {
+            GameHandler.instance.rewardHandler.GrantDailyReward();
         }
 
     }
@@ -221,5 +243,7 @@ public enum RewardType
 {
     Nothing,
     ModifyCoinValue,
+    ModiftyGemValue,
     AnotherLife,
+    DailyReward
 }

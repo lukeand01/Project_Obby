@@ -1,7 +1,5 @@
 using MyBox;
-using System.Collections;
 using System.Collections.Generic;
-using UnityEditor.Networking.PlayerConnection;
 using UnityEngine;
 
 public class UIHandler : MonoBehaviour
@@ -13,11 +11,12 @@ public class UIHandler : MonoBehaviour
     GameObject holder;
 
 
-    
+
 
     //GUIDE - this is for putting refernces. then its for getting references. they are separated to prevent changing refereneces from script.
     #region REFERENCES
     [Separator("Input")]
+    [SerializeField] GameObject inputHolder;
     [SerializeField] Joystick moveJoystickRef;
     [SerializeField] Joystick cameraJoystickRef;
     [SerializeField] InputButton inputButtonJumpRef;
@@ -36,6 +35,12 @@ public class UIHandler : MonoBehaviour
     [SerializeField] PlayerUI uiPlayerRef;
     [SerializeField] EndUI uiEndRef;
     [SerializeField] ConfirmationWindowUI uiConfirmatioWindowRef;
+    //[SerializeField] RewardUI uiRewardRef;
+
+    [Separator("TEMPLATE REFERENCES")]
+    [SerializeField] FadeUI uiFadeRef;
+
+
     #endregion
 
 
@@ -58,7 +63,16 @@ public class UIHandler : MonoBehaviour
 
     public ConfirmationWindowUI uiConfirmationWindow { get => uiConfirmatioWindowRef; }
 
+    //public RewardUI uiReward { get => uiRewardRef; }    
+
     #endregion
+
+    #region GETTERS TEMPLATE
+
+    public FadeUI uiFade{ get => uiFadeRef; }
+
+    #endregion
+
 
     #region POWER BUTTONS
     public void CreatePowerButtons(List<PowerData> powerDataList)
@@ -91,7 +105,7 @@ public class UIHandler : MonoBehaviour
     #endregion
 
 
-    [SerializeField] GameObject inputHolder;
+
 
     private void Awake()
     {
@@ -112,13 +126,30 @@ public class UIHandler : MonoBehaviour
     public void ControlHolder(bool choice)
     {
         holder.SetActive(choice);
+        ControlInputButtons(choice);
 
+        uiPlayerRef.ControlHolder(choice);
         uiEnd.Close();
+
+
+        //reward ui only exists if the holder is closed because its only closed in the mainmenu
     }
+
+    public void StopEverything()
+    {
+        uiEnd.Close();
+        uiPause.StopPause();
+    }
+
 
     public void ControlInputButtons(bool isVisible)
     {
         inputHolder.SetActive(isVisible);
+    }
+
+    public void ControlPlayerUI(bool isVisible)
+    {
+
     }
 
 }

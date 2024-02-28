@@ -240,17 +240,194 @@
 
 //NEXT
 //solve the animation mechanic.
-
+///fix the model falling. it should already be in the ground.
 
 //NEXT
 //create save system
 
 
 
-
+//NOW I NEED 
+//change the playe model.
+//alloow it to easily change the 
 
 
 //LAST THINGS TO MAKE COMMIT
-//animation
-//save
-//fix the fall speed of the character
+///animation
+///save. its not working buts its there.
+///fix the fall speed of the character. i hope i did.
+///
+
+//GOALS
+///controle do player e movimento melhorado
+//its getting stuck in colliders
+///add animacao para a queda.
+///colocar sistema de checkpoint
+///criar sistema de som. 
+//melhorar o ui de derrota. <= NOT NOW
+//criar sistema de save. e usar os dados salvos no jogo.
+//consertar bugs: build n chamando a presentacao
+//remcompensa diaria <= Teste
+//report <= Teste
+//rework in the store system.
+//create an inventory. which are just the itens bought by the player.
+
+
+
+//THESE ARE THE TASKS
+
+//CREATE THE MAIN MENU
+///when it starts we pass the information to create stage selection
+///can open and close the different ui.
+
+
+//REPORT AND DAILY REWARD.
+//can send information directly to a set email <= NEED TO TEST
+//can detect which was the last time that the player got the daily reward.
+//use that information to decide if it is too late or allowed time. show the amount of time left.
+
+//SAVE SYSTEM
+//load all the stageunits to properly show the currentstage the player has.
+//display playergold and playerStar from the save
+//put the right player graphic and animation
+//everytime the player buys something it needs
+
+//STORE AND INVENTORY SYSTEM
+//need to create dynamically. need to have categories.
+//the inventory also has categories.
+
+//RECONQUERING THE MOVEMENT SYSTEM
+//check coyote
+//check buffer
+//check jump
+//check falling
+
+
+
+
+
+//NEW TASKS
+
+//SELECAO DE FASE UI
+//todos os efeitos do outros
+//mas agora a camera pode mexer de um lado
+///o ultimo n tem conecao
+//
+
+//PLAYER UI
+///hearts
+///timer
+//coin
+//stars
+
+///PAUSE UI
+///teh game stops.
+///its always above other ui.
+
+
+//VICTORY UI
+//all effects from the last ui.
+//turn off other ui as you turn the camera around
+//
+
+
+//DEFEAT UI
+//
+
+//INVENTORY UI
+
+
+//STORE UI
+
+
+//REWARD UI
+
+
+
+//CLICK THE BUTTON TO WATCH AN AD AND GAIN 500 GOLD
+
+
+//OTHER TASKS
+//player needs to lose when the game gets to 0
+///the player always get one star for completing the stage
+//actually give the resources gained.
+//make sure the save system is working
+
+
+
+//FOR VICTORY UI
+///call the star from teh achievemnt. makei ti very clear that the thing does it.
+///coint the coin up.
+///then deliver the coin to the reward.
+//then we create the button to increase the gold from watching an ad.
+
+
+
+//for me to display objetc i need to make sure the canvas camera is the main one, not the player. 
+
+//STORE UI
+///can click to open different categories. when we change the category we move the focus to the new target.
+///can open the different holders.
+///when you select a skin or dance it will show a preview. all skins dance to your current dance. all animations dance using your current skin.
+///each holder is created dinamically by puting the data in the storehandler. it si created at the started.
+//also purchases are show in the ui
+//save system interact with it.
+
+
+//why not showing the stageui
+
+//THINGS TO CHANGE ABOUT STAGE UI
+///playter starts with two owned skins and one owned dance.
+///when change category close the thing as well.
+///double clicking something owned makes you wear it.
+///clicking on something shows in the preview.
+///if you already own something then it should show.
+///the dance should be show under the confirmation window.
+///the dances you already own.
+///
+
+//GOAL
+///finish the power part of the store.
+///can buy the things
+///if player gets to 0 timer he loses. <= Teste
+///make sure the camera isnt bugging when going between scenes.
+
+///make the owned stuff always appear first in the list.
+
+//GOAL 
+///the power that are bought do not appear in the scenes. <= Teste
+///finish and test the defeat ui and funcionalities
+///the player movement is not fixed. 
+//save system
+
+
+//GOAL TOMORROW
+//fix the camera.
+//reward system
+//the animationunit is not changing properly.
+
+//what to test for save system
+///test money and gem
+///test player stage progression
+///test current skin and current dance
+///test owned store items
+///test perma powers.
+///the stage needs to remember your timer and your last total stars gained.
+
+//also it should save after a few other things.
+///when you buy anything new.
+//when you get daily reward.
+
+//THEN TEST WIHTOUT DATA
+//test money and gem
+//test player stage progression
+//test current skin and current dance
+//test owned store items
+//test perma powers.
+//the stage needs to remember your timer and your last total stars gained.
+
+
+
+//i need the timer and the thing.
+//so everytime you complete a stage it should send that data but only accept if its better than the last.
+

@@ -1,8 +1,5 @@
-using System;
+
 using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
-using UnityEditor.Presets;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -17,24 +14,64 @@ public class SceneLoader : MonoBehaviour
     int currentForBigAd;
     bool first; 
 
+    
+
     #region FUNCTIONS
     public void ChangeScene(StageData data)
     {
+        UIHandler.instance.StopEverything();
+
+        if (LocalHandler.instance != null)
+        {
+            LocalHandler.instance.StopEverything();
+        }
+
+        SaveHandler2.OrderToSaveData();
+
         StopAllCoroutines();
         StartCoroutine(ChangeSceneProcess(data));
     }
 
     public void ChangeToMainMenu()
     {
+        //everytime we do any of these thigns we kill all courotines.
+        //end ui for process
+
+        Debug.Log("this was called");
+
+        UIHandler.instance.StopEverything();
+
+        if (LocalHandler.instance != null)
+        {
+            LocalHandler.instance.StopEverything();
+        }
+
+        //
+
+        SaveHandler2.OrderToSaveData();
+
+
+
+
+
         StopAllCoroutines();
         StartCoroutine(ChangeToMenuProcess());
     }
 
-    public void ResetScene(StageData data)
+    public void ResetScene(StageData data, StageTimeClass currentTimer)
     {
-        //then we reload the currentscene.       
+        //then we reload the currentscene.
+
+        if (LocalHandler.instance != null)
+        {
+            LocalHandler.instance.StopEverything();
+        }
+
+        UIHandler.instance.StopEverything();
+        SaveHandler2.OrderToSaveData();
+
         StopAllCoroutines();
-        StartCoroutine(ResetSceneProcess(data));      
+        StartCoroutine(ResetSceneProcess(data, currentTimer));      
     }
 
 
@@ -59,11 +96,11 @@ public class SceneLoader : MonoBehaviour
 
         yield return new WaitUntil(() => unloadAsync.isDone);
 
+
         yield return new WaitUntil(() => GameHandler.instance != null && UIHandler.instance != null && PlayerHandler.instance != null);
 
         UIHandler.instance.ControlHolder(false);
         currentScene = 0;
-
 
         yield return StartCoroutine(RaiseCurtainsProcess());
 
@@ -84,12 +121,13 @@ public class SceneLoader : MonoBehaviour
         currentScene = data.stageId;
         //so here before we raise the curtains we always get the player position fixed.
         //we now tell teh player what it should do.
-        LocalHandler.instance.StartLocalHandler(data);
         PlayerHandler.instance.ResetScenePlayer();
+        LocalHandler.instance.StartLocalHandler(data);
 
         yield return StartCoroutine(PlayerHandler.instance.FixPlayerPositionProcess());
 
         PlayerHandler.instance.ChangeProgress(); //this makes that the currentscene
+        PlayerHandler.instance.graphic.StopAnimation();
 
         yield return StartCoroutine(RaiseCurtainsProcess());
 
@@ -97,7 +135,7 @@ public class SceneLoader : MonoBehaviour
         PlayerHandler.instance.controller.blockClass.RemoveBlock("MainMenu");
     }
 
-    IEnumerator ResetSceneProcess(StageData data)
+    IEnumerator ResetSceneProcess(StageData data, StageTimeClass timeClass )
     {
         PlayerHandler.instance.controller.blockClass.AddBlock("ChangeScene", BlockClass.BlockType.Complete);
 
@@ -116,8 +154,8 @@ public class SceneLoader : MonoBehaviour
     
         yield return StartCoroutine(PlayerHandler.instance.FixPlayerPositionProcess());
 
-        LocalHandler.instance.StartLocalHandler(data);
-
+        LocalHandler.instance.StartLocalHandler(data, timeClass);
+        PlayerHandler.instance.graphic.StopAnimation();
         //PlayerHandler.instance.cam.ResetCam();
 
         PlayerHandler.instance.RemoveIsDead();
@@ -137,9 +175,13 @@ public class SceneLoader : MonoBehaviour
     {
         //we check which sccene it is and we activate
 
+
+
+
         AsyncOperation loadAsync = SceneManager.LoadSceneAsync(data.stageId, LoadSceneMode.Additive);
 
         yield return new WaitUntil(() => loadAsync.isDone);
+
 
 
         AsyncOperation unloadAsync = SceneManager.UnloadSceneAsync(currentScene, UnloadSceneOptions.None);
@@ -148,9 +190,7 @@ public class SceneLoader : MonoBehaviour
         yield return new WaitUntil(() => unloadAsync.isDone);
 
 
-        SaveClass save = new SaveClass();
 
-        SaveHandler2.SaveData("0", save, true);
      
         yield return new WaitUntil(() => GameHandler.instance != null && UIHandler.instance != null);
 
@@ -199,7 +239,7 @@ public class SceneLoader : MonoBehaviour
 
         if(adHandler.debugShouldNotShowAd) 
         {
-            Debug.Log("do not show ads");
+
             yield break;
         }
 

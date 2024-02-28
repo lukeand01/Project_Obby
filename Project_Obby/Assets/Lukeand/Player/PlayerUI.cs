@@ -9,7 +9,7 @@ using UnityEngine.UI;
 public class PlayerUI : MonoBehaviour
 {
     //this shows the powers, health and moeny
-
+    GameObject holder;
     [SerializeField] TextMeshProUGUI goldText;
     [SerializeField] GameObject heartHolder;
     [SerializeField] Transform heartPosRef;
@@ -24,8 +24,14 @@ public class PlayerUI : MonoBehaviour
         emptyHeartColor = Color.black;
 
         timerOriginalPos = timerHolder.transform.position;
+
+        holder = transform.GetChild(0).gameObject;
     }
 
+    public void ControlHolder(bool shouldBeVisible)
+    {
+        holder.SetActive(shouldBeVisible);
+    }
 
     public void UpdateGold(int amount, int change = 0)
     {

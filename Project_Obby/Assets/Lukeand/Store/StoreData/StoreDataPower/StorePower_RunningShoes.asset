@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1c4c57533c494fc4789c0768ce8af0e1, type: 3}
+  m_Name: StorePower_RunningShoes
+  m_EditorClassIdentifier: 
+  storeItemName: Running Shoes
+  storePurchaseDescription: Permanently buy running shoes for 50 gems
+  storeItemSprite: {fileID: 0}
+  currencyType: 1
+  storePrice: 50
+  storeDescription: 
+  powerData: {fileID: 11400000, guid: f3a483f67a4d1e544bf282634383cefe, type: 2}

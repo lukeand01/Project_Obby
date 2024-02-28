@@ -5,7 +5,7 @@ using UnityEngine;
 public class TouchPower : MonoBehaviour
 {
     bool hasTouched;
-    [SerializeField] PowerData power;
+    public PowerData data;
 
     private void OnTriggerEnter(Collider other)
     {
@@ -26,7 +26,7 @@ public class TouchPower : MonoBehaviour
         confirmationWindow.eventConfirm += OnConfirmed;
         confirmationWindow.eventCancel += OnCancelled;
 
-        confirmationWindow.StartConfirmationWindow(power.stageDescription);
+        confirmationWindow.StartConfirmationWindow(data.temporaryPowerDescription);
 
         //also if you move the buttons or do anything you get close it.
     }
@@ -50,7 +50,7 @@ public class TouchPower : MonoBehaviour
     void OnConfirmed()
     {
         ResetTouch();
-        power.AddPower();
+        PlayerHandler.instance.AddTempPower(data);
         Destroy(gameObject);
         Debug.Log("confimed");
     }

@@ -3,29 +3,40 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class MainMenuUI : MonoBehaviour
 {
     //will handle stage stuff here.
 
-    [SerializeField] GameObject DEBUGStageHolder;
-    [SerializeField] Transform DEBUGStageContainer;
-    [SerializeField] StageUnit DEBUGStageTemplate;
+    //[SerializeField] GameObject DEBUGStageHolder;
+
+    public static MainMenuUI instance;
+
+    [SerializeField] Camera cameraCanvas;
+
     [SerializeField] List<GameObject> holderLIst = new();
+
+    [Separator("REFERENCES TO UI")]
+    public PlayUI playUI;
+    public StoreUI storeUI;
+    public InventoryUI inventoryUI;
+    public RewardUI rewardUI;
+    public ReportUI reportUI;
+
 
     [Separator("PLAYER STUFF")]
     [SerializeField] TextMeshProUGUI goldText;
-    [SerializeField] TextMeshProUGUI livesText;
+    [SerializeField] TextMeshProUGUI gemText;
 
-    [Separator("DESCRIPTION")]
-    [SerializeField] GameObject descriptionHolder;
-    [SerializeField] TextMeshProUGUI nameText;
-    [SerializeField] TextMeshProUGUI timeLimitText;
-    [SerializeField] TextMeshProUGUI timeAlreadyDoneText;
+    [Separator("WARNING")]
+    [SerializeField] TextMeshProUGUI warnText;
 
-    [Separator("STORE")]
-    [SerializeField] GameObject storeHolder;
 
+    private void Awake()
+    {
+        instance = this;
+    }
 
     private void Start()
     {
@@ -40,11 +51,23 @@ public class MainMenuUI : MonoBehaviour
         //the banner is taking the ui in the top.
         GameHandler.instance.adHandler.RequestBanner();
 
+        UpdatePlayerCurrencies();
 
-        CreateStageUnits(GameHandler.instance.stageHandler.stageList);
+        playUI.CreateStageUnits2(GameHandler.instance.stageHandler.stageList);
+
+
     }
 
+    public void UpdatePlayerCurrencies()
+    {
 
+
+
+        goldText.text = PlayerHandler.instance.gold.ToString();
+        gemText.text = PlayerHandler.instance.gems.ToString();
+    }
+
+   
     public void OpenWithIndex(int index)
     {
         CloseAll();
@@ -64,98 +87,26 @@ public class MainMenuUI : MonoBehaviour
         //update both lives and gold.
 
         goldText.text = "Gold: " + PlayerHandler.instance.gold.ToString();
-        livesText.text = "Lives: " + PlayerHandler.instance.currentHealth;
+        gemText.text = "Lives: " + PlayerHandler.instance.gems.ToString();
 
     }
 
 
-    #region HANDLE STAGES
+  
 
+    #region CHANGE WORLDS
 
-
-
-    void CreateStageUnits(List<StageData> stageList)
+    void ChangeWorld()
     {
-        foreach (StageData stageData in stageList)
-        {
-            StageUnit newObject = Instantiate(DEBUGStageTemplate, Vector2.zero, Quaternion.identity);
-            newObject.SetUpStage(this, stageData);
-            newObject.transform.parent = DEBUGStageContainer.transform;
-
-
-        }
 
     }
-
-    StageUnit currentStageUnit;
-    public void SelectStageUnit(StageUnit stageUnit)
+    void CalculateTotalStarForWorld()
     {
 
-        if(currentStageUnit != null)
-        {
-            currentStageUnit.Unselect();
-        }
-
-        currentStageUnit = stageUnit;
-        currentStageUnit.Select();
-        DescribeStage();
-    }
-
-
-    void DescribeStage()
-    {
-        if(currentStageUnit == null)
-        {
-            Debug.Log("problem");
-        }
-        if (currentStageUnit.data == null)
-        {
-            Debug.Log("problem 2");
-        }
-
-        StageData data = currentStageUnit.data;
-
-
-
-
-        nameText.text = data.stageName;
-
-        string firstMinute = data.stageLimitTimer.minutes.ToString();
-        string firstSecond = data.stageLimitTimer.seconds.ToString();
-
-        timeLimitText.text = "Time Limit: " + firstMinute + ":" + firstSecond;
-
-
-        return;
-        if (!data.stageCompletedTimer.HasSomething())
-        {
-            timeAlreadyDoneText.gameObject.SetActive(false);
-            return;
-        }
-
-        timeAlreadyDoneText.gameObject.SetActive(true);
-
-        string secondMinute = data.stageCompletedTimer.minutes.ToString();
-        string secondSecond = data.stageCompletedTimer.seconds.ToString();
-
-        timeAlreadyDoneText.text = secondMinute + ":" + secondSecond;
-    }
-
-    public void PlayCurrentStage()
-    {
-        if(currentStageUnit == null)
-        {
-            Debug.Log("this was null");
-            return;
-        }
-
-        //load this stage.
-        GameHandler.instance.sceneLoader.ChangeScene(currentStageUnit.data);
     }
 
 
     #endregion
-
 
     #region STORE
 
@@ -172,5 +123,14 @@ public class MainMenuUI : MonoBehaviour
 
     #endregion
 
+    public void SetWarn(string text)
+    {
+        warnText.text = text;
+    }
+}
 
+public enum MainMenuHolderType
+{
+    MainMenu = 0,
+    Play = 1,
 }

@@ -7,7 +7,7 @@ using UnityEngine;
 public class PlayerCamera : MonoBehaviour
 {
 
-    Camera cam;
+    [SerializeField] Camera cam;
 
     public float cameraSensitivityX;
     public float cameraSensitivityY;
@@ -45,15 +45,16 @@ public class PlayerCamera : MonoBehaviour
     }
 
 
-    private void Awake()
-    {
-        cam = Camera.main;
-    }
+    
+
+
+    
 
     public void MakeCamWatchFallDeath()
     {
-        //
-        //make it have no parent.
+       
+
+
         cam.transform.parent = null;
         cam.transform.position += new Vector3(0, 5, 0);
         cam.transform.localRotation = Quaternion.Euler(90, 0, 0);
@@ -64,7 +65,7 @@ public class PlayerCamera : MonoBehaviour
 
         cam.transform.SetParent(cameraHolderForDance);
         cam.transform.DOLocalMove(Vector3.zero, timer);
-        cam.transform.DORotate(new Vector3(0, 180, 0), timer);
+        cam.transform.DOLocalRotate(new Vector3(0, 180, 0), timer);
 
         yield return new WaitForSeconds(timer);
 
@@ -80,7 +81,6 @@ public class PlayerCamera : MonoBehaviour
     }
     public void EspecialResetCam()
     {
-        Debug.Log("especial rest was called");
         cam.transform.SetParent(cameraHolder);
         cam.transform.localPosition = Vector3.zero;
         //cam.transform.rotation = Quaternion.Euler(0, 180, 0);
@@ -93,15 +93,23 @@ public class PlayerCamera : MonoBehaviour
         cam.transform.localRotation = Quaternion.Euler(0, 0, 0);
     }
 
+    public void CallCamIntroductionProcess()
+    {
+        StartCoroutine(CamIntroductionProcess());
+    }
+
     public IEnumerator CamIntroductionProcess()
     {
-        yield return new WaitForSeconds(0.5f);
+
+        yield return new WaitForSeconds(0.6f);
 
         float timer = 1.2f;
 
         cam.transform.DOMove(cameraHolder.position, timer);
 
         yield return new WaitForSeconds(timer);
+
+
 
         ResetCam();
 

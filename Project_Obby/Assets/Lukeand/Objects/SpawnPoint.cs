@@ -14,7 +14,7 @@ public class SpawnPoint : MonoBehaviour
 
     private void Awake()
     {
-        rend = gameObject.GetComponent<MeshRenderer>();
+        rend = transform.GetChild(0).gameObject.GetComponent<MeshRenderer>();
         myCollider = gameObject.GetComponent<BoxCollider>();
     }
 
@@ -34,8 +34,6 @@ public class SpawnPoint : MonoBehaviour
             Debug.Log("is dead could not interact");
             return;
         }
-
-
 
         Used();
     }
@@ -71,7 +69,7 @@ public class SpawnPoint : MonoBehaviour
         {
             rend.enabled = false;
         }
-       
+
     }
 
     public Vector3 GetRotation() => transform.rotation.eulerAngles;
