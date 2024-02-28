@@ -12,6 +12,8 @@ public class StoreGraphicData : StoreData
     {
         BaseBuy();
 
+        Debug.Log("this is the graphic index " +  graphicType);
+
         //and then we give give the skin to the player right away.
         PlayerHandler.instance.graphic.SetGraphicIndex((int)graphicType);
 

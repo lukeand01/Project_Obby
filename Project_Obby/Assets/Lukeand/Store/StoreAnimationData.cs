@@ -11,7 +11,10 @@ public class StoreAnimationData : StoreData
 
     public override void Buy()
     {
-        
+        //we give this index to the player
+        Debug.Log("this was called");
+        BaseBuy();
+        PlayerHandler.instance.graphic.SetAnimationIndex((int)animationType);
     }
 
     public override StoreAnimationData GetAnimation() => this;

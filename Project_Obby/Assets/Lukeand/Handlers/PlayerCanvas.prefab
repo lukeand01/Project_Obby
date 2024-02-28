@@ -477,6 +477,7 @@ MonoBehaviour:
   spacingY: 0
   stackFromCenter: 0
   limitPerLine: 4
+  increaseSizeByLine: 0
 --- !u!1 &421748918026254921
 GameObject:
   m_ObjectHideFlags: 0
@@ -1560,6 +1561,7 @@ MonoBehaviour:
   spacingY: 0
   stackFromCenter: 0
   limitPerLine: 3
+  increaseSizeByLine: 0
 --- !u!1 &1278163710513434631
 GameObject:
   m_ObjectHideFlags: 0
@@ -6735,7 +6737,7 @@ GameObject:
   - component: {fileID: 3405291297999367925}
   - component: {fileID: 6548807634088103627}
   m_Layer: 5
-  m_Name: Btn_MainButton_Yellow
+  m_Name: Btn_Continue
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6843,7 +6845,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 3405291297999367925}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 7364173432644877735}
+        m_TargetAssemblyTypeName: EndUI, Assembly-CSharp
+        m_MethodName: DecidedWatchSpawnAd
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &1744351208706841551
 GameObject:
   m_ObjectHideFlags: 0
@@ -11790,9 +11804,9 @@ MonoBehaviour:
   victoryTitleHolder: {fileID: 7522131530158958709}
   victoryButtonHolder: {fileID: 0}
   defeatHolder: {fileID: 3790213705547828525}
-  defeatUseHealthButton: {fileID: 0}
-  defeatRetryStageButton: {fileID: 0}
-  defeatMainMenuButton: {fileID: 0}
+  defeatUseHealthButton: {fileID: 3388718354472931304}
+  defeatRetryStageButton: {fileID: 3456575707748627755}
+  defeatMainMenuButton: {fileID: 2287752767192606657}
   stageText: {fileID: 0}
   liveText: {fileID: 0}
   useHealthButton: {fileID: 0}
@@ -12205,6 +12219,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   titleText: {fileID: 5787511040126773338}
+  confirmText: {fileID: 0}
+  cancelText: {fileID: 0}
+  screenButton: {fileID: 0}
 --- !u!1 &2195343444166798084
 GameObject:
   m_ObjectHideFlags: 0
@@ -12657,7 +12674,7 @@ GameObject:
   - component: {fileID: 6359199356076455052}
   - component: {fileID: 1580036706349082714}
   m_Layer: 5
-  m_Name: Btn_MainButton_Yellow (1)
+  m_Name: Btn_ReturnToMainMenu
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -12765,7 +12782,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 6359199356076455052}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 7364173432644877735}
+        m_TargetAssemblyTypeName: EndUI, Assembly-CSharp
+        m_MethodName: DecideGoBackToMenu
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &2557563070026503187
 GameObject:
   m_ObjectHideFlags: 0
@@ -13477,7 +13506,7 @@ GameObject:
   - component: {fileID: 3929453253605466411}
   - component: {fileID: 8105960477164045405}
   m_Layer: 5
-  m_Name: UseHealthButton
+  m_Name: Btn_UseHealthButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -13585,7 +13614,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 3929453253605466411}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 7364173432644877735}
+        m_TargetAssemblyTypeName: EndUI, Assembly-CSharp
+        m_MethodName: DecideUseHealth
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &3456575707748627755
 GameObject:
   m_ObjectHideFlags: 0
@@ -13599,7 +13640,7 @@ GameObject:
   - component: {fileID: 741939663680915750}
   - component: {fileID: 496348782044004545}
   m_Layer: 5
-  m_Name: Btn_MainButton_Sky
+  m_Name: Btn_Restart
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -13706,7 +13747,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 741939663680915750}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 7364173432644877735}
+        m_TargetAssemblyTypeName: EndUI, Assembly-CSharp
+        m_MethodName: DecideStartStageFromStart
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &3498831423486000065
 GameObject:
   m_ObjectHideFlags: 0
@@ -14284,6 +14337,7 @@ MonoBehaviour:
   spacingY: 0
   stackFromCenter: 0
   limitPerLine: 3
+  increaseSizeByLine: 0
 --- !u!1 &3601375423382476016
 GameObject:
   m_ObjectHideFlags: 0
@@ -15034,10 +15088,10 @@ RectTransform:
   - {fileID: 6159216292280562929}
   m_Father: {fileID: 7514900800995407107}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 570.8139, y: -181.36197}
+  m_SizeDelta: {x: 165, y: 199}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3174419854826775568
 CanvasRenderer:
@@ -15464,7 +15518,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &5353944239730484249
 RectTransform:
   m_ObjectHideFlags: 0
@@ -20757,10 +20811,10 @@ RectTransform:
   - {fileID: 7059884870696768755}
   m_Father: {fileID: 7514900800995407107}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 855.15393, y: -181.36197}
+  m_SizeDelta: {x: 165, y: 199}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3326406335078182623
 CanvasRenderer:
@@ -26004,6 +26058,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5597496ccca9cf44b8d654aeb4d46aa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  inputHolder: {fileID: 6520712061290263814}
   moveJoystickRef: {fileID: 555942263824449154}
   cameraJoystickRef: {fileID: 6857126114576248826}
   inputButtonJumpRef: {fileID: 1881803971881226187}
@@ -26016,7 +26071,6 @@ MonoBehaviour:
   uiEndRef: {fileID: 7364173432644877735}
   uiConfirmatioWindowRef: {fileID: 1080640886251475093}
   uiFadeRef: {fileID: 7427351375631977441, guid: a4ff05ad241ccdb46a571114faab0589, type: 3}
-  inputHolder: {fileID: 6520712061290263814}
 --- !u!1 &5534319450292619872
 GameObject:
   m_ObjectHideFlags: 0
@@ -36961,7 +37015,7 @@ GameObject:
   - component: {fileID: 6529926802825138666}
   - component: {fileID: 5392781219875934369}
   m_Layer: 5
-  m_Name: Container
+  m_Name: Container_Button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -37014,6 +37068,7 @@ MonoBehaviour:
   spacingY: 0
   stackFromCenter: 0
   limitPerLine: 4
+  increaseSizeByLine: 0
 --- !u!1 &6297410045717990197
 GameObject:
   m_ObjectHideFlags: 0
@@ -37726,6 +37781,7 @@ MonoBehaviour:
   spacingY: 0
   stackFromCenter: 0
   limitPerLine: 3
+  increaseSizeByLine: 0
 --- !u!1 &6781782082862444275
 GameObject:
   m_ObjectHideFlags: 0
@@ -60372,6 +60428,7 @@ PrefabInstance:
     - {fileID: 4023766976032582208, guid: c40f618992f6e4c43a76aea8e0d17557, type: 3}
     - {fileID: 4023766974926203491, guid: c40f618992f6e4c43a76aea8e0d17557, type: 3}
     - {fileID: 4023766975583076907, guid: c40f618992f6e4c43a76aea8e0d17557, type: 3}
+    - {fileID: 4023766974795171735, guid: c40f618992f6e4c43a76aea8e0d17557, type: 3}
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: 4023766975255749434, guid: c40f618992f6e4c43a76aea8e0d17557, type: 3}
       insertIndex: -1

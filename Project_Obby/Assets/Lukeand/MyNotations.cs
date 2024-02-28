@@ -367,9 +367,9 @@
 
 //STORE UI
 ///can click to open different categories. when we change the category we move the focus to the new target.
-//can open the different holders.
-//when you select a skin or dance it will show a preview. all skins dance to your current dance. all animations dance using your current skin.
-//each holder is created dinamically by puting the data in the storehandler. it si created at the started.
+///can open the different holders.
+///when you select a skin or dance it will show a preview. all skins dance to your current dance. all animations dance using your current skin.
+///each holder is created dinamically by puting the data in the storehandler. it si created at the started.
 //also purchases are show in the ui
 //save system interact with it.
 
@@ -384,3 +384,50 @@
 ///if you already own something then it should show.
 ///the dance should be show under the confirmation window.
 ///the dances you already own.
+///
+
+//GOAL
+///finish the power part of the store.
+///can buy the things
+///if player gets to 0 timer he loses. <= Teste
+///make sure the camera isnt bugging when going between scenes.
+
+///make the owned stuff always appear first in the list.
+
+//GOAL 
+///the power that are bought do not appear in the scenes. <= Teste
+///finish and test the defeat ui and funcionalities
+///the player movement is not fixed. 
+//save system
+
+
+//GOAL TOMORROW
+//fix the camera.
+//reward system
+//the animationunit is not changing properly.
+
+//what to test for save system
+///test money and gem
+///test player stage progression
+///test current skin and current dance
+///test owned store items
+///test perma powers.
+///the stage needs to remember your timer and your last total stars gained.
+
+//also it should save after a few other things.
+///when you buy anything new.
+//when you get daily reward.
+
+//THEN TEST WIHTOUT DATA
+//test money and gem
+//test player stage progression
+//test current skin and current dance
+//test owned store items
+//test perma powers.
+//the stage needs to remember your timer and your last total stars gained.
+
+
+
+//i need the timer and the thing.
+//so everytime you complete a stage it should send that data but only accept if its better than the last.
+

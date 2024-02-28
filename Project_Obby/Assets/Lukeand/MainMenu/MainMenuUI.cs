@@ -27,7 +27,7 @@ public class MainMenuUI : MonoBehaviour
 
     [Separator("PLAYER STUFF")]
     [SerializeField] TextMeshProUGUI goldText;
-    [SerializeField] TextMeshProUGUI starText;
+    [SerializeField] TextMeshProUGUI gemText;
 
     [Separator("WARNING")]
     [SerializeField] TextMeshProUGUI warnText;
@@ -51,15 +51,21 @@ public class MainMenuUI : MonoBehaviour
         //the banner is taking the ui in the top.
         GameHandler.instance.adHandler.RequestBanner();
 
-        goldText.text = PlayerHandler.instance.gold.ToString();
-        starText.text = PlayerHandler.instance.gems.ToString(); 
-
+        UpdatePlayerCurrencies();
 
         playUI.CreateStageUnits2(GameHandler.instance.stageHandler.stageList);
 
 
     }
 
+    public void UpdatePlayerCurrencies()
+    {
+
+
+
+        goldText.text = PlayerHandler.instance.gold.ToString();
+        gemText.text = PlayerHandler.instance.gems.ToString();
+    }
 
    
     public void OpenWithIndex(int index)
@@ -81,7 +87,7 @@ public class MainMenuUI : MonoBehaviour
         //update both lives and gold.
 
         goldText.text = "Gold: " + PlayerHandler.instance.gold.ToString();
-        starText.text = "Lives: " + PlayerHandler.instance.gems.ToString();
+        gemText.text = "Lives: " + PlayerHandler.instance.gems.ToString();
 
     }
 

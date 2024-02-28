@@ -59,7 +59,7 @@ public class StageUnit2 : ButtonBase
         UpdateInsideFrame();
         UpdatePath(pathOrderList, playerProgress);
         UpdatePlayIcon();
-
+        UpdateStars();
 
     }
 
@@ -151,6 +151,21 @@ public class StageUnit2 : ButtonBase
 
         stageNameText.gameObject.SetActive(!isSelected);
         
+    }
+
+    void UpdateStars()
+    {
+        for (int i = 0; i < stars.Length; i++)
+        {
+            if(data.stageStarGained > i)
+            {
+                stars[i].color = Color.white;
+            }
+            else
+            {
+                stars[i].color = Color.black;
+            }
+        }
     }
 
 

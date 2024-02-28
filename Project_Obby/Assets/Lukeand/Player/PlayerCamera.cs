@@ -48,15 +48,13 @@ public class PlayerCamera : MonoBehaviour
     
 
 
-    private void Awake()
-    {
-        //cam = Camera.main;
-    }
+    
 
     public void MakeCamWatchFallDeath()
     {
-        //
-        //make it have no parent.
+       
+
+
         cam.transform.parent = null;
         cam.transform.position += new Vector3(0, 5, 0);
         cam.transform.localRotation = Quaternion.Euler(90, 0, 0);

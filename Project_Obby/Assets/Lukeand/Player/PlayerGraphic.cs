@@ -61,6 +61,8 @@ public class PlayerGraphic : MonoBehaviour
 
         graphic = newObject;
         graphicAnimator = newAnimator;
+
+        SaveHandler2.OrderToSaveData();
     }
     void ChangeAnimation()
     {
@@ -124,10 +126,12 @@ public class PlayerGraphic : MonoBehaviour
     {
         graphicIndex = newValue;
         ChangeGraphic();
+        SaveHandler2.OrderToSaveData();
     }
     public void SetAnimationIndex(int newValue)
     {
         animationIndex = newValue;
         ChangeAnimation();
+        SaveHandler2.OrderToSaveData();
     }
 }

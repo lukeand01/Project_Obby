@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Net.Sockets;
 using System.Runtime.InteropServices.WindowsRuntime;
+using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
 
@@ -40,8 +41,8 @@ public class StoreUI : MonoBehaviour
 
     [Separator("POWER")]
     [SerializeField] GameObject powerHolder;
-    [SerializeField] GameObject powerContainer;
-    
+    [SerializeField] Transform powerContainer;
+    [SerializeField] StorePowerUnit powerUnitTemplate; 
 
     [Separator("COIN")]
     [SerializeField] GameObject coinHolder;
@@ -62,14 +63,18 @@ public class StoreUI : MonoBehaviour
     {
        GenerateGraphicalUnits();
         GenerateAnimationlUnits();
+        GeneratePowerUnits();
     }
 
-    public void OpenUI()
+    public void OpenUI(int index)
     {
         //we always select the first cateogry.
-        SelectThisCategory(buttons[0], StoreCategoryType.Graphical);
+      if(index == 0)  SelectThisCategory(buttons[0], StoreCategoryType.Graphical);
+      if(index == 1) SelectThisCategory(buttons[1], StoreCategoryType.Animation);
+      if(index == 2) SelectThisCategory(buttons[2], StoreCategoryType.Power);
+      if (index == 3) SelectThisCategory(buttons[3], StoreCategoryType.Coin);
+      if (index == 4) SelectThisCategory(buttons[4], StoreCategoryType.Gem);
 
-        
     }
 
     //need to first do this. gems and gold are not dinamicallty set they are always the same thing.
@@ -107,10 +112,6 @@ public class StoreUI : MonoBehaviour
 
     public void StartBuyItem(StoreData data, StoreBaseUnit storeUnit)
     {
-        
-
-        //
-
         if (!data.CanBuy())
         {
             //then we show something else.
@@ -118,7 +119,7 @@ public class StoreUI : MonoBehaviour
 
             string text = "";
 
-            if(data.currencyType == CurrencyType.Gold)
+            if(data.currencyType == CurrencyType.Coin)
             {
                 text = "You dont have enough Coins!";
             }
@@ -133,7 +134,7 @@ public class StoreUI : MonoBehaviour
 
             confirmationWindow.eventConfirm += CloseBuyItem;
 
-            if (data.currencyType == CurrencyType.Gold)
+            if (data.currencyType == CurrencyType.Coin)
             {
                 confirmationWindow.eventConfirm += TakeToCoin;
                 confirmationWindow.ChangeConfirmText("Go to the Gold Section");
@@ -359,6 +360,7 @@ public class StoreUI : MonoBehaviour
 
 
         List<StoreData> graphicalList = GameHandler.instance.storeHandler.GetStoreItemListByStoreByCategory(StoreType.Graphic);
+        List<StoreGraphicUnit> organizationList = new();
         graphicUnitList.Clear();
 
         foreach (var item in graphicalList)
@@ -371,12 +373,28 @@ public class StoreUI : MonoBehaviour
                 return;
             }
 
-            StoreGraphicUnit newObject = Instantiate(graphicUnitTemplate);
+            StoreGraphicUnit newObject = Instantiate(graphicUnitTemplate, new Vector3(0, 0, 0), Quaternion.identity);
             newObject.SetUp(item.GetGraphic(), this);
             newObject.transform.SetParent(graphicContainer);
 
+            if (newObject.isAlreadyOwned)
+            {
+                organizationList.Add(newObject);
+            }
+
+           
+
             graphicUnitList.Add(newObject);
         }
+
+
+        for (int i = 0; i < organizationList.Count; i++)
+        {
+            organizationList[i].transform.SetSiblingIndex(i);
+        }
+
+        //we need to get the list and a way to tell who is owned.
+
 
         //each item will ask the player if he owns him.
 
@@ -439,6 +457,8 @@ public class StoreUI : MonoBehaviour
     {
         List<StoreData> animationList = GameHandler.instance.storeHandler.GetStoreItemListByStoreByCategory(StoreType.Animation);
         animationUnitList.Clear();
+        List<StoreAnimationUnit> organizationList = new();
+
 
         foreach (var item in animationList)
         {
@@ -450,14 +470,27 @@ public class StoreUI : MonoBehaviour
                 return;
             }
 
-            StoreAnimationUnit newObject = Instantiate(animatationUnitTemplate);
+            StoreAnimationUnit newObject = Instantiate(animatationUnitTemplate, new Vector3(0,0,0), Quaternion.identity);
             newObject.SetUp(item.GetAnimation(), this);
-            newObject.transform.SetParent(graphicContainer);
+            newObject.transform.SetParent(animationContainer);
+
+
+            if (newObject.isAlreadyOwned)
+            {
+                organizationList.Add(newObject);
+            }
+            
+            
 
             animationUnitList.Add(newObject);
         }
 
         //each item will ask the player if he owns him.
+
+        for (int i = 0; i < organizationList.Count; i++)
+        {
+            organizationList[i].transform.SetSiblingIndex(i);
+        }
 
     }
 
@@ -476,7 +509,6 @@ public class StoreUI : MonoBehaviour
 
         ChangePreviewAnimation(newAnimation.GetAnimationIndex());
 
-
         if (currentAnimation != null)
         {
             currentAnimation.UnSelect();
@@ -484,6 +516,14 @@ public class StoreUI : MonoBehaviour
 
         currentAnimation = newAnimation;
         currentAnimation.Select();
+    }
+
+    public void UpdateAllAnimation()
+    {
+        foreach (var item in animationUnitList)
+        {
+            item.UpdateOwnership();
+        }
     }
 
     void RemoveCurrentAnimation()
@@ -498,6 +538,62 @@ public class StoreUI : MonoBehaviour
     #region POWER
     StorePowerUnit currentPower;
 
+    //buy this fella.
+
+    void GeneratePowerUnits()
+    {
+        List<StoreData> powerList = GameHandler.instance.storeHandler.GetStoreItemListByStoreByCategory(StoreType.Power);
+        List<StorePowerUnit> organizationList = new();
+
+
+
+        foreach (var item in powerList)
+        {
+            StorePowerData powerData = item.GetPower();
+
+            if (powerData == null)
+            {
+                Debug.LogError("this is not power " + item.name);
+                return;
+            }
+
+            StorePowerUnit newObject = Instantiate(powerUnitTemplate);
+            newObject.SetUp(item.GetPower(), this);
+            newObject.transform.SetParent(powerContainer);
+
+            if(newObject.isAlreadyOwned)
+            {
+                organizationList.Add(newObject);
+            }
+        }
+
+        for (int i = 0; i < organizationList.Count; i++)
+        {
+            organizationList[i].transform.SetSiblingIndex(i);
+        }
+
+    }
+
+    public void SelectPower(StorePowerUnit newPower)
+    {
+        if (cannotSelect) return;
+
+        //when you select you get information about it.
+        //we do nothing for preview at the moment.
+
+       
+
+        if (currentPower != null)
+        {
+            currentPower.UnSelect();
+        }
+
+        currentPower = newPower;
+        currentPower.Select();
+    }
+
+    
+
     void OpenPower()
     {
         powerHolder.SetActive(true);
@@ -508,7 +604,7 @@ public class StoreUI : MonoBehaviour
     {
         if (currentPower != null)
         {
-            currentPower.UnSelected();
+            currentPower.UnSelect();
         }
     }
 
@@ -518,6 +614,8 @@ public class StoreUI : MonoBehaviour
     #region COIN
 
     StoreCurrencyUnit currentCoin;
+
+
 
     void OpenCoin()
     {

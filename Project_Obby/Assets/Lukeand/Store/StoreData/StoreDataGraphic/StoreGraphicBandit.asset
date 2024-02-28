@@ -18,4 +18,4 @@ MonoBehaviour:
   currencyType: 1
   storePrice: 50
   storeDescription: Bandit Description
-  graphicType: 0
+  graphicType: 1

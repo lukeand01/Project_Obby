@@ -14,6 +14,8 @@ public class SceneLoader : MonoBehaviour
     int currentForBigAd;
     bool first; 
 
+    
+
     #region FUNCTIONS
     public void ChangeScene(StageData data)
     {
@@ -24,7 +26,7 @@ public class SceneLoader : MonoBehaviour
             LocalHandler.instance.StopEverything();
         }
 
-
+        SaveHandler2.OrderToSaveData();
 
         StopAllCoroutines();
         StartCoroutine(ChangeSceneProcess(data));
@@ -44,6 +46,12 @@ public class SceneLoader : MonoBehaviour
             LocalHandler.instance.StopEverything();
         }
 
+        //
+
+        SaveHandler2.OrderToSaveData();
+
+
+
 
 
         StopAllCoroutines();
@@ -60,7 +68,7 @@ public class SceneLoader : MonoBehaviour
         }
 
         UIHandler.instance.StopEverything();
-
+        SaveHandler2.OrderToSaveData();
 
         StopAllCoroutines();
         StartCoroutine(ResetSceneProcess(data, currentTimer));      
@@ -168,13 +176,13 @@ public class SceneLoader : MonoBehaviour
         //we check which sccene it is and we activate
 
 
-        Debug.Log("data " + data.stageName + " " + data.stageId);
+
 
         AsyncOperation loadAsync = SceneManager.LoadSceneAsync(data.stageId, LoadSceneMode.Additive);
 
         yield return new WaitUntil(() => loadAsync.isDone);
 
-        Debug.Log("Current scene " + currentScene);
+
 
         AsyncOperation unloadAsync = SceneManager.UnloadSceneAsync(currentScene, UnloadSceneOptions.None);
 
@@ -182,9 +190,7 @@ public class SceneLoader : MonoBehaviour
         yield return new WaitUntil(() => unloadAsync.isDone);
 
 
-        SaveClass save = new SaveClass();
 
-        SaveHandler2.SaveData("0", save, true);
      
         yield return new WaitUntil(() => GameHandler.instance != null && UIHandler.instance != null);
 
@@ -233,7 +239,7 @@ public class SceneLoader : MonoBehaviour
 
         if(adHandler.debugShouldNotShowAd) 
         {
-            Debug.Log("do not show ads");
+
             yield break;
         }
 

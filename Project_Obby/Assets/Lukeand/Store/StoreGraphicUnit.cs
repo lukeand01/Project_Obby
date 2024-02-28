@@ -21,9 +21,13 @@ public class StoreGraphicUnit : StoreBaseUnit
     [SerializeField] GameObject priceHolder;
     [SerializeField] TextMeshProUGUI stateText;
 
-    bool isAlreadyOwned;
+    public bool isAlreadyOwned {  get; private set; }
     bool isSelected;
     bool isCurrentlyUsing; //different dates will ask different questions.
+
+
+   
+
 
     private void Awake()
     {
@@ -67,7 +71,7 @@ public class StoreGraphicUnit : StoreBaseUnit
 
 
         gemSymbol.SetActive(data.currencyType == CurrencyType.Gem);
-        goldSymbol.SetActive(data.currencyType == CurrencyType.Gold);
+        goldSymbol.SetActive(data.currencyType == CurrencyType.Coin);
         valueText.text = data.storePrice.ToString();
 
         UpdateOwnership();

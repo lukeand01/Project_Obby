@@ -17,3 +17,7 @@ MonoBehaviour:
   stageLimitTimer:
     minutes: 0
     seconds: 15
+  stageCompletedTimer:
+    minutes: 0
+    seconds: 0
+  stageStarGained: 0

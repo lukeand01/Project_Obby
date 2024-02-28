@@ -5,12 +5,16 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Store / Power")]
 public class StorePowerData : StoreData
 {
-    [SerializeField] PowerData powerData;
+    public PowerData powerData;
 
     public override void Buy()
     {
-        PlayerHandler.instance.AddPower(powerData);
+        BaseBuy();
+        PlayerHandler.instance.AddPermaPower(powerData);
     }
+
+    //also when we buy that pwoer we pass to a player list so it can deal with it.
+
 
     public override StorePowerData GetPower() => this;
     

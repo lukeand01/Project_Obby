@@ -156,7 +156,7 @@ public class PlayUI : MonoBehaviour
 
     public void CancelStageUnit2()
     {
-        Debug.Log("i want to cancel this");
+
         if (currentStageUnit2 != null)
         {
             currentStageUnit2.Unselect();

@@ -70,45 +70,22 @@ public class GameHandler : MonoBehaviour
         DontDestroyOnLoad(gameObject);
     }
 
-    
 
-    void GetSaveData()
+
+    [ContextMenu("DEBUG SAVE DATA")]
+    public void DebugSaveData()
     {
-        
-        if(SaveHandler2.OrderHasFile())
-        {
-            //then we pass the information.
-
-            SaveClass saveData = SaveHandler2.OrderToLoadData();
-
-            rewardHandler.SetRewardHandler(saveData);
-
-            PlayerHandler player = PlayerHandler.instance;
-
-            if(player != null)
-            {
-                player.UseSaveData(saveData);
-            }
-
-            
-        }
-        else
-        {
-            rewardHandler.GetNewData();
-
-
-            
-        }
-
+        SaveHandler2.OrderToSaveData();
     }
-
 
 
 
     private void Start()
     {
         UIHandler.instance.CreatePowerButtons(allAvailablePowerList);
-        GetSaveData();
+        SaveHandler2.OrderToLoadData();
+
+
     }
 
    

@@ -112,11 +112,7 @@ public class PlayerMovement2 : MonoBehaviour
         clampedAccelerationSpeed = Mathf.Clamp(clampedAccelerationSpeed, 0, topAcceleration);
 
         
-
-
         float newSpeed = moveSpeed + clampedAccelerationSpeed;
-
-
 
         handler.rb.velocity = new Vector3(moveDir.x * newSpeed, handler.rb.velocity.y, moveDir.z * newSpeed);
     }
@@ -129,13 +125,10 @@ public class PlayerMovement2 : MonoBehaviour
     //the fall is not controlled here
     void ControlGroundSpeed()
     {
-
-
         Vector3 flatVel = new Vector3(handler.rb.velocity.x, 0, handler.rb.velocity.z);
 
         if (flatVel.magnitude > topSpeed)
         {
-            Debug.Log("start limit velocity");
             Vector3 limitedVel = flatVel.normalized * topSpeed;
             handler.rb.velocity = new Vector3(limitedVel.x, handler.rb.velocity.y, limitedVel.z);
         }
@@ -345,26 +338,34 @@ public class PlayerMovement2 : MonoBehaviour
         }
     }
 
-    
+
     #endregion
 
     #region POWERS
+    [Separator("DEBUG POWER")]
+    [SerializeField] bool DEBUGHASDOUBLEJUMP;
+    [SerializeField] bool DEBUGHASJUMPINCREMENT;
+
     public void AddDoubleJump()
     {
         jumpQuantityTotal = JumpQuantityFromPower;
+        DEBUGHASDOUBLEJUMP = true;
     }
     public void RemoveDoubleJump()
     {
         jumpQuantityTotal = 1;
+        DEBUGHASDOUBLEJUMP = false;
     }
 
     public void AddJumpIncrement()
     {
         additionalJumpForceCurrent = JumpForceFromPower;
+        DEBUGHASJUMPINCREMENT = true;
     }
     public void RemoveJumpIncrement()
     {
         additionalJumpForceCurrent = 0;
+        DEBUGHASJUMPINCREMENT = false;
     }
 
     #endregion

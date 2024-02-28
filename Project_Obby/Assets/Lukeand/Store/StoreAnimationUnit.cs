@@ -22,8 +22,14 @@ public class StoreAnimationUnit : StoreBaseUnit
     [SerializeField] GameObject selected;
 
     bool isSelected;
-    bool isAlreadyOwned;
+    public bool isAlreadyOwned {  get; private set; }
     bool isCurrentlyUsing;
+
+
+    private void Update()
+    {
+        
+    }
 
     public void SetUp(StoreAnimationData data, StoreUI handler)
     {
@@ -36,6 +42,9 @@ public class StoreAnimationUnit : StoreBaseUnit
 
     public void UpdateOwnership()
     {
+
+
+
         isAlreadyOwned = PlayerHandler.instance.HasStoreItem(data.storeIndex);
         isCurrentlyUsing = PlayerHandler.instance.graphic.animationIndex == (int)data.animationType;
 
@@ -57,7 +66,9 @@ public class StoreAnimationUnit : StoreBaseUnit
         dancePriceText.text = data.storePrice.ToString();
 
         gemSimbol.SetActive(data.currencyType == CurrencyType.Gem);
-        coinSimbol.SetActive(data.currencyType == CurrencyType.Gold);
+        coinSimbol.SetActive(data.currencyType == CurrencyType.Coin);
+
+        UpdateOwnership();
     }
 
 
@@ -66,7 +77,7 @@ public class StoreAnimationUnit : StoreBaseUnit
         isSelected = true;
         float time = 0.15f;
         selected.transform.DOKill();
-        selected.transform.DOScale(new Vector3(2.1f, 1.12f, 0), time);
+        selected.transform.DOScale(new Vector3(1.1f, 1.4f, 0), time);
     }
     public void UnSelect()
     {
@@ -81,28 +92,44 @@ public class StoreAnimationUnit : StoreBaseUnit
 
     }
 
+    public override void UpdateAfterBuying()
+    {
+        base.UpdateAfterBuying();
+        UnSelect();
+        isAlreadyOwned = true;
+        isCurrentlyUsing = true;
+
+        //we need to give that skin to the player but that is done in the handler.
+
+        UpdateUI();
+    }
+
+
     public override void OnPointerClick(PointerEventData eventData)
     {
         base.OnPointerClick(eventData);
+
+        
 
         if (isSelected)
         {
             if (isAlreadyOwned)
             {
                 //then we start using this thing.
-
+                Debug.Log("change");
                 ChangeAnimation();
             }
             else
             {
                 //then we ask for confirmation to buy it.
+                Debug.Log("buy item");
                 handler.StartBuyItem(data, this);
             }
         }
         else
         {
             //then we select it.
-
+            Debug.Log("select");
             handler.SelectAnimation(this);
         }
     }
