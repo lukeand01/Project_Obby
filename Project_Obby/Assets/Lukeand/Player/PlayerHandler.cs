@@ -32,12 +32,8 @@ public class PlayerHandler : MonoBehaviour
 
     //this defines what stage the player can palyer.
     public int stageProgress { get; private set; }
+    [SerializeField] bool debugLiberateAllStages;
 
-    public void DebugStageProgress()
-    {
-        stageProgress +=1;
-        SaveHandler2.OrderToSaveData();
-    }
 
 
 
@@ -70,14 +66,17 @@ public class PlayerHandler : MonoBehaviour
     private void Start()
     {
         currentHealth = debugInitialHealth;
-        gold = initialGold;
+
 
         UIHandler.instance.uiPlayer.UpdateGold(gold);
         UIHandler.instance.uiPlayer.UpdateLives(currentHealth);
 
+
         cam.ResetCam();
         //cam.ResetCamToIntroduction();
     }
+
+
 
     private void Update()
     {
@@ -99,7 +98,7 @@ public class PlayerHandler : MonoBehaviour
         hasAlreadyWatchedAd = false;
         lastSpawnPoint = null;
         lastSpawnPointIndex = 0;
-        ResetPowerList();
+        ResetTempPowerList();
         RemoveIsDead();
         RemoveShield();
 
@@ -107,15 +106,56 @@ public class PlayerHandler : MonoBehaviour
 
     #region STORE
     //each item is a 
+    //if you do not have any item then we award the player two values. 
 
-    public List<int> storeItensOwnedList { get; private set; } = new();
+    void StartStore()
+    {
+        //this should only be called by the savehandler when there is no data.
+
+        if(storeItensOwnedList == null)
+        {
+            storeItensOwnedList = new();
+        }
+
+        if(storeItensOwnedList.Count == 0)
+        {
+            int boyIndex = 2;
+            int girlIndex = 4;
+            int chickenDanceIndex = 5;
+
+            AddStoreItem(boyIndex);
+            AddStoreItem(girlIndex);
+            AddStoreItem(chickenDanceIndex);
+
+            //these are all teh fellas.
+            //but now how we update teh fellas.
+
+            StoreData graphicData = GameHandler.instance.storeHandler.GetStoreData(boyIndex);
+            int graphicIndex =  (int)graphicData.GetGraphic().graphicType;
+            graphic.SetGraphicIndex(graphicIndex);
+
+
+            StoreData animationData = GameHandler.instance.storeHandler.GetStoreData(chickenDanceIndex);
+            int animationIndex = (int)animationData.GetAnimation().animationType;
+            graphic.SetAnimationIndex(animationIndex);
+        }
+    }
+  
+    public List<int> storeItensOwnedList  = new();
 
     public void AddStoreItem(int index)
     {
         storeItensOwnedList.Add(index);
+        SaveHandler2.OrderToSaveData();
     }
     public bool HasStoreItem(int index)
     {
+        if(storeItensOwnedList == null)
+        {
+            storeItensOwnedList = new List<int>();
+        }
+
+
         foreach (var item in storeItensOwnedList)
         {
             if (item == index) return true;
@@ -123,15 +163,34 @@ public class PlayerHandler : MonoBehaviour
         return false;
     }
 
+    //now how do we handle this with saved data?
+    //i need this list just to add the power. because the grpahic and animation work without manually adding them
+    public void SetNewItemOwnedList(List<int> storeItensList)
+    {
+        GameHandler.instance.storeHandler.AddAllPowersFromThisList(storeItensList);
+
+        storeItensOwnedList = storeItensList;
+    }
+
 
     #endregion
 
+    //we save data everytime we load a new scene.
 
 
     #region SAVE
     public void UseSaveData(SaveClass save)
     {
-        SetStageProgress(save.playerStageProgress);
+        if (debugLiberateAllStages)
+        {
+            //then we get the all the stageprogression.
+           stageProgress = GameHandler.instance.stageHandler.stageList.Count;
+        }
+        else
+        {
+            SetStageProgress(save.playerStageProgress);
+        }
+        
 
         graphic.SetAnimationIndex(save.playerCurrentAnimationIndex);
         graphic.SetGraphicIndex(save.playerCurrentGraphicIndex);
@@ -148,7 +207,26 @@ public class PlayerHandler : MonoBehaviour
     public void UseEmptyData()
     {
         //just reset to the start.
+        gold = initialGold;
+        gems = initialGem;
 
+        if (debugLiberateAllStages)
+        {
+            //then we get the all the stageprogression.
+            stageProgress = GameHandler.instance.stageHandler.stageList.Count;
+        }
+        else
+        {
+            stageProgress = 1;
+        }
+
+        StartStore();
+
+        foreach (var item in powerPermaList)
+        {
+            item.RemovePower();
+        }
+        powerPermaList.Clear();
 
     }
 
@@ -161,18 +239,28 @@ public class PlayerHandler : MonoBehaviour
         LocalHandler.instance.AddLocalCoin(3);
         PlayerWon();
     }
-    [ContextMenu("Debug Change Graphic")]
-    public void DebugChangeGraphic()
+
+
+    [ContextMenu("Debug Gain 10 Coin")]
+    public void DebugGainCoin()
     {
-        graphic.animationIndex = 3;
+        ChangeCoin(10);
+    }
+
+    [ContextMenu("Debug Gain 10 Gems")]
+    public void DebugGainGems()
+    {
+        ChangeGem(10);
+    }
+
+    [ContextMenu("Debug set stage progress to 5")]
+    public void DebugStageProgress()
+    {
+
+        SetStageProgress(5);
         SaveHandler2.OrderToSaveData();
     }
-    [ContextMenu("Debug Change Animation")]
-    public void DebugChangeAnimation()
-    {
-        graphic.graphicIndex = 3;
-        SaveHandler2.OrderToSaveData();
-    }
+
 
     #endregion
 
@@ -180,61 +268,104 @@ public class PlayerHandler : MonoBehaviour
     #region ECONOMY
 
     [SerializeField] int initialGold;
+
     public int gold { get; private set; }
 
-    public void ChangeGold(int amount)
+    public void ChangeCoin(int amount)
     {
         gold += amount;
         UIHandler.instance.uiPlayer.UpdateGold(gold, amount);
+        UpdateMainMenuCurrency();
     }
-    public void SetGold(int amount)
+    public void SetCoin(int amount)
     {
         gold = amount;
         UIHandler.instance.uiPlayer.UpdateGold(gold);
+        UpdateMainMenuCurrency();
+
+
     }
     public bool HasEnoughGold(int amount)
     {
         return gold >= amount;
     }
 
-
+    [SerializeField] int initialGem;
     public int gems { get; private set; }
 
     public void ChangeGem(int amount)
     {
         gems += amount;
+        UpdateMainMenuCurrency();
     }
     public void SetGem(int amount)
     {
         gems = amount;
+        UpdateMainMenuCurrency();
     }
     public bool HasEnoughGem(int amount)
     {
         return gems >= amount;
     }
 
+
+    void UpdateMainMenuCurrency()
+    {
+
+        if(MainMenuUI.instance != null)
+        {
+            MainMenuUI.instance.UpdatePlayerCurrencies();
+        }
+    }
+
     #endregion
 
     #region POWER
 
-    List<PowerData> powerList = new();
+    //i need to send information here but how do i store it?
+    //we have this list so we can remove it later.
+    //but we need another list for perma power.
 
-    public void ResetPowerList()
+    //we need to send the list to the gamehandler and from there i retrieves everything the player needs.
+
+    [SerializeField] List<PowerData> powerPermaList = new();
+
+    public void AddPermaPower(PowerData newPower)
     {
-        foreach (var item in powerList)
+        newPower.AddPower();
+        powerPermaList.Add(newPower);
+    }
+
+    public bool HasPermaPower(PowerData data)
+    {
+        foreach (var item in powerPermaList)
+        {
+            if (item == data) return true;
+        }
+        return false;
+    }
+
+
+
+    List<PowerData> powerTempList = new();
+
+    public void ResetTempPowerList()
+    {
+        foreach (var item in powerTempList)
         {
             item.RemovePower();
         }
     }
 
-    public void AddPower(PowerData newPower)
+    public void AddTempPower(PowerData newPower)
     {
-        powerList.Add(newPower);
+        newPower.AddPower();
+        powerTempList.Add(newPower);
     }
 
-    public bool HasPower(PowerData data)
+    public bool HasTempPower(PowerData data)
     {
-        foreach (var item in powerList)
+        foreach (var item in powerTempList)
         {
             if (item == data) return true;
         }
@@ -286,15 +417,33 @@ public class PlayerHandler : MonoBehaviour
 
     public void RespawnUsingHealth()
     {
-        currentHealth -= 1;
-        UIHandler.instance.uiPlayer.UpdateLives(currentHealth);
-        LocalHandler.instance.ResetScene();
+        if (isDead)
+        {
+            currentHealth -= 1;
+            UIHandler.instance.uiPlayer.UpdateLives(currentHealth);
+            LocalHandler.instance.ResetScene();
+        }
+        else
+        {
+            Debug.LogError("Something wrong about respawn using health");
+        }
+       
     }
 
     public void RespawnUsingAd()
     {
-        hasAlreadyWatchedAd = true;
-        LocalHandler.instance.ResetScene();
+
+        if (isDead)
+        {
+            hasAlreadyWatchedAd = true;
+            LocalHandler.instance.ResetScene();
+        }
+        else
+        {
+            Debug.LogError("something wrong happened about respawn using ad");
+        }
+
+       
     }
 
     public void RespawnUsingNothing()
@@ -309,7 +458,11 @@ public class PlayerHandler : MonoBehaviour
     //the fella that call this is the sceneloader everytime it loads the game.
     //the respawn decisions are called from the button and they just change the values that will be changed later.
 
-    
+    public void OrderToEndGameFromTimer()
+    {
+        isDead = true;
+        UIHandler.instance.uiEnd.StartDefeat(currentHealth, hasAlreadyWatchedAd);
+    }
 
 
 
@@ -507,6 +660,7 @@ public class PlayerHandler : MonoBehaviour
     {
         LocalHandler.instance.StopTimer();
 
+
         isDieFromFallProcess = true;
         controller.blockClass.AddBlock("FallDeath", BlockClass.BlockType.Complete);
         cam.MakeCamWatchFallDeath();
@@ -516,9 +670,6 @@ public class PlayerHandler : MonoBehaviour
         rb.velocity = new Vector3(0, rb.velocity.y, 0);
 
         //Time.timeScale = 0.3f;
-
-
-
 
         yield return new WaitForSeconds(1.5f);
 
@@ -548,6 +699,8 @@ public class PlayerHandler : MonoBehaviour
 
     public void SetStageProgress(int value)
     {
+
+
 
         stageProgress = value;
 
@@ -606,7 +759,20 @@ public class PlayerHandler : MonoBehaviour
     #endregion
 
 
+    #region TIME POWER
+    public float TimerModifier { get; private set; } = 1;
 
+    public void AddTimerModifier()
+    {
+        TimerModifier = 0.7f;
+    }
+    public void RemoveTimerModifier()
+    {
+        TimerModifier = 1;
+    }
+
+
+    #endregion
 
 }
 

@@ -11,11 +11,12 @@ public class UIHandler : MonoBehaviour
     GameObject holder;
 
 
-    
+
 
     //GUIDE - this is for putting refernces. then its for getting references. they are separated to prevent changing refereneces from script.
     #region REFERENCES
     [Separator("Input")]
+    [SerializeField] GameObject inputHolder;
     [SerializeField] Joystick moveJoystickRef;
     [SerializeField] Joystick cameraJoystickRef;
     [SerializeField] InputButton inputButtonJumpRef;
@@ -104,7 +105,7 @@ public class UIHandler : MonoBehaviour
     #endregion
 
 
-    [SerializeField] GameObject inputHolder;
+
 
     private void Awake()
     {
@@ -125,7 +126,9 @@ public class UIHandler : MonoBehaviour
     public void ControlHolder(bool choice)
     {
         holder.SetActive(choice);
+        ControlInputButtons(choice);
 
+        uiPlayerRef.ControlHolder(choice);
         uiEnd.Close();
 
 

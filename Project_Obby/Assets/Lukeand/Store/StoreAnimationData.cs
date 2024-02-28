@@ -6,11 +6,17 @@ using UnityEngine;
 public class StoreAnimationData : StoreData
 {
 
-    [SerializeField] AnimationType animationType;
+    public AnimationType animationType;
 
 
     public override void Buy()
     {
-        
+        //we give this index to the player
+        Debug.Log("this was called");
+        BaseBuy();
+        PlayerHandler.instance.graphic.SetAnimationIndex((int)animationType);
     }
+
+    public override StoreAnimationData GetAnimation() => this;
+    
 }

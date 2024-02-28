@@ -24,7 +24,7 @@ public class ButtonPower : ButtonBase
 
 
 
-        if(handler.HasPower(power))
+        if(handler.HasTempPower(power))
         {
             Debug.Log("has power already");
             return;

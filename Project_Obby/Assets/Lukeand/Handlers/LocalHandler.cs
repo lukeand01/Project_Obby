@@ -30,9 +30,31 @@ public class LocalHandler : MonoBehaviour
 
     public StageTimeClass currentTimer {  get; private set; }
 
+    TouchPower[] allTouchPowers;
+
+
     private void Awake()
     {
         instance = this;
+
+        //this is heavy so it can be done only once and at the beginning.
+        allTouchPowers = FindObjectsOfType<TouchPower>();
+
+        //we remove the fellas.
+
+        foreach (var item in allTouchPowers)
+        {
+            if (PlayerHandler.instance.HasPermaPower(item.data))
+            {
+                Destroy(item.gameObject);
+            }
+            
+
+            
+        }
+
+
+        //at the start we get a list of all power stuff and we change them.
     }
 
     private void Start()
@@ -60,7 +82,7 @@ public class LocalHandler : MonoBehaviour
         //coin
         //gem
 
-        PlayerHandler.instance.ChangeGold(gainedCoin);
+        PlayerHandler.instance.ChangeCoin(gainedCoin);
         PlayerHandler.instance.ChangeGem(gainedGems);
         PlayerHandler.instance.ChangeProgress();
 
@@ -141,6 +163,9 @@ public class LocalHandler : MonoBehaviour
 
         //i will fix 
 
+        
+
+
         PlayerHandler handler = PlayerHandler.instance;
         PlayerUI playerUI = UIHandler.instance.uiPlayer;
 
@@ -179,6 +204,8 @@ public class LocalHandler : MonoBehaviour
 
     IEnumerator CountTimerProcess()
     {
+        
+
         while (currentTimer.TimeLeft())
         {
             currentTimer.CountTimeDown();
@@ -189,9 +216,16 @@ public class LocalHandler : MonoBehaviour
                 UIHandler.instance.uiPlayer.TriggerTimerRedWarning();
             }
 
-            yield return new WaitForSeconds(1);
+            float timerModifier = PlayerHandler.instance.TimerModifier;
+
+            yield return new WaitForSeconds(1 * timerModifier);
         }
         UIHandler.instance.uiPlayer.LeaveTimerRed();
+        PlayerHandler.instance.OrderToEndGameFromTimer();
+        //we must also end the game
+        
+
+
     }
 
     

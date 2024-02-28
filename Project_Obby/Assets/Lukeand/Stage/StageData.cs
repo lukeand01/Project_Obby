@@ -11,9 +11,9 @@ public class StageData : ScriptableObject
 
 
     public StageTimeClass stageLimitTimer;
-    public StageTimeClass stageCompletedTimer {  get; private set; }
+    public StageTimeClass stageCompletedTimer;
 
-    public int stageStarGained {  get; private set; }
+    public int stageStarGained;
 
     public void SetStarGained(int starGained)
     {
@@ -41,6 +41,28 @@ public class StageData : ScriptableObject
 
     }
 
+
+    public void ReceiveSaveData(int stars, int minutes, int seconds)
+    {
+        stageStarGained = stars;
+        stageCompletedTimer = new StageTimeClass(minutes, seconds);
+    }
+
+
+    [ContextMenu("DEBUG WIN STAGE")]
+    public void DebugWinStage()
+    {
+        SetStarGained(3);
+        SetNewRecord(new StageTimeClass(0, 20));
+       
+    }
+
+    [ContextMenu("DEBUG CLEAR STAGE")]
+    public void ResetStage()
+    {
+        stageStarGained = 0;
+        stageCompletedTimer = null;
+    }
 
     //what are the stars based on?
     //based in not losing health and based in completing 

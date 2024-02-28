@@ -10,14 +10,16 @@ public abstract class StoreData : ScriptableObject
 
     [Separator("STORE")]
     public string storeItemName;
+    [TextArea]public string storePurchaseDescription;
     StoreType storeType;
     public Sprite storeItemSprite;
     public CurrencyType currencyType;
     public int storePrice;   
     [TextArea]public string storeDescription;
 
+        
 
-    public int storeIndex {  get; private set; }
+    public int storeIndex {  get; private set; } //this needs to be set at the start.
 
     public void SetStoreIndex(int newValue)
     {
@@ -27,6 +29,17 @@ public abstract class StoreData : ScriptableObject
     protected void BaseBuy()
     {
         //the one thing it always does. is to always infor
+
+        if(currencyType == CurrencyType.Coin)
+        {
+            PlayerHandler.instance.ChangeCoin(-storePrice);
+        }
+        if(currencyType == CurrencyType.Gem)
+        {
+            PlayerHandler.instance.ChangeGem(-storePrice);
+        }
+
+
         if(PlayerHandler.instance != null)
         {
             PlayerHandler.instance.AddStoreItem(storeIndex);
@@ -43,14 +56,15 @@ public abstract class StoreData : ScriptableObject
     {
         int certainCurrency = 0;
 
-        if(currencyType == CurrencyType.Gold)
+        if(currencyType == CurrencyType.Coin)
         {
             certainCurrency = PlayerHandler.instance.gold;
         }
-        if(currencyType == CurrencyType.Star)
+        if(currencyType == CurrencyType.Gem)
         {
             certainCurrency = PlayerHandler.instance.gems;
         }
+
 
 
         return certainCurrency >= storePrice;
@@ -74,6 +88,6 @@ public enum StoreType
 
 public enum CurrencyType
 {
-    Gold,
-    Star
+    Coin,
+    Gem
 }

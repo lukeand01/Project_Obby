@@ -15,7 +15,7 @@ public class PowerData : ScriptableObject
 
     public virtual void AddPower()
     {
-        PlayerHandler.instance.AddPower(this);
+
     }
     public virtual void RemovePower()
     {

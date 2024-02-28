@@ -29,11 +29,12 @@ public class EndUI : MonoBehaviour
     [Separator("DEFEAT")]
     [SerializeField] GameObject defeatHolder;
     [SerializeField] GameObject defeatUseHealthButton;
+    [SerializeField] GameObject defeatWatchAd;
     [SerializeField] GameObject defeatRetryStageButton;
     [SerializeField] GameObject defeatMainMenuButton;
     [SerializeField] TextMeshProUGUI stageText;
     [SerializeField] TextMeshProUGUI liveText;
-    [SerializeField] ButtonBase useHealthButton;
+
 
 
     Color fullStarColor;
@@ -227,6 +228,8 @@ public class EndUI : MonoBehaviour
     //so now we will show the achievements as we give stars
     //then each star grants five.
 
+    //i want 
+
 
     public void StartDefeat(int currentHealth, bool hasAlreadyWatchedAD)
     {       
@@ -241,24 +244,13 @@ public class EndUI : MonoBehaviour
         victoryHolder.SetActive(false);
         defeatHolder.SetActive(true);
 
-        liveText.text = "Lives: " + currentHealth.ToString();
+        //liveText.text = "Lives: " + currentHealth.ToString();
 
+        defeatUseHealthButton.gameObject.SetActive(currentHealth > 0);
+        defeatWatchAd.SetActive(!hasAlreadyWatchedAD);
 
-        useHealthButton.gameObject.SetActive(currentHealth > 0 || !hasAlreadyWatchedAD);
 
         canUseHealth = currentHealth > 0;
-
-        if(currentHealth > 0)
-        {
-            useHealthButton.SetText("Use Health");
-        }
-        else if (!hasAlreadyWatchedAD)
-        {
-            useHealthButton.SetText("Watch an ad");
-        }
-
-
-
     }
 
     #endregion
@@ -289,11 +281,17 @@ public class EndUI : MonoBehaviour
         }
         else
         {
-            //watch an ad and does the same.
-            //just call the ad for now i wont care.
+            Debug.Log("the player should be able to clikc it");
         }
+        
 
     }
+    public void DecidedWatchSpawnAd()
+    {
+        //watch an ad
+        GameHandler.instance.adHandler.RequestRewardAd(RewardType.AnotherLife);
+    }
+
     public void DecideStartStageFromStart(bool HasWon)
     {
         //

@@ -32,6 +32,12 @@ public class StoreHandler : MonoBehaviour
         }
     }
 
+   public StoreData GetStoreData(int index)
+    {
+        return allStoreItensList[index];
+    }
+
+
     void CreateStoreCategories()
     {
         allStoreItensDividedByCategoryDictionary.Clear();
@@ -61,6 +67,27 @@ public class StoreHandler : MonoBehaviour
 
     }
 
+    public List<StoreData> GetStoreItemListByStoreByCategory(StoreType store)
+    {
+        if (!allStoreItensDividedByCategoryDictionary.ContainsKey(store)) return null;
+        return allStoreItensDividedByCategoryDictionary[store];
+    }
 
+
+    public void AddAllPowersFromThisList(List<int> playerOwnedItemList)
+    {
+        foreach (var item in playerOwnedItemList)
+        {
+            StorePowerData powerData = allStoreItensList[item].GetPower();
+
+            if (powerData != null)
+            {
+                //not null but we dont want to ad it back to the list again. so we only care about the power itself.
+                powerData.powerData.AddPower();
+            }
+        }
+    }
 
 }
+
+//the ui will ask for everything at the start to fill its holders.

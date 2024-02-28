@@ -268,9 +268,14 @@ public class PlayerMovement : MonoBehaviour
     #endregion
 
     #region MOVEMENT POWER UPS
+
+    [SerializeField] bool DEBUGDOUBLEJUMP;
+
     public void AddDoubleJump()
     {
         totalJumpAmountAllowed = 2;
+
+        DEBUGDOUBLEJUMP = true;
     }
     public void RemoveDoubleJump()
     {
@@ -280,6 +285,8 @@ public class PlayerMovement : MonoBehaviour
     public void AddJumpIncrement()
     {
         jumpIncrement = 5;
+
+        DEBUGDOUBLEJUMP = true;
     }
     public void RemoveJumpIncrement()
     {

@@ -132,6 +132,10 @@ public class PlayUI : MonoBehaviour
             newObject.transform.SetParent(stageContainer2);
         }
 
+        foreach (var item in allStageUnitList2)
+        {
+            item.transform.localPosition = new Vector3(item.transform.localPosition.x, item.transform.localPosition.y, 0);
+        }
 
     }
 
@@ -152,7 +156,7 @@ public class PlayUI : MonoBehaviour
 
     public void CancelStageUnit2()
     {
-        Debug.Log("i want to cancel this");
+
         if (currentStageUnit2 != null)
         {
             currentStageUnit2.Unselect();

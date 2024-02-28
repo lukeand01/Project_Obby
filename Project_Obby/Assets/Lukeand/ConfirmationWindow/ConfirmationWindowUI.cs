@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using DG.Tweening;
+using UnityEngine.Rendering;
 
 public class ConfirmationWindowUI : MonoBehaviour
 {
@@ -12,6 +13,9 @@ public class ConfirmationWindowUI : MonoBehaviour
     GameObject holder;
 
     [SerializeField] TextMeshProUGUI titleText;
+    [SerializeField] TextMeshProUGUI confirmText;
+    [SerializeField] TextMeshProUGUI cancelText;
+    [SerializeField] GameObject screenButton;
 
     bool inProcess = false;
 
@@ -23,7 +27,7 @@ public class ConfirmationWindowUI : MonoBehaviour
         holder = transform.GetChild(0).gameObject;
     }
 
-    public void StartConfirmationWindow(string title)
+    public void StartConfirmationWindow(string title, bool hasScreenButton = false)
     {
         //you assign something and then send the information to show here.
         if (holder.activeInHierarchy)
@@ -32,12 +36,28 @@ public class ConfirmationWindowUI : MonoBehaviour
             return;
         }
 
+        screenButton.SetActive(hasScreenButton);
+
+        ChangeConfirmText("Confirm");
+        ChangeCancelText("Cancel");
+
         titleText.text = title;
         StopAllCoroutines();
         StartCoroutine(OpenProcess());
 
     }
 
+    
+
+
+    public void ChangeConfirmText(string text)
+    {
+        confirmText.text = text;
+    }
+    public void ChangeCancelText(string text)
+    {
+        cancelText.text = text;
+    }
     
     //if move away from the thing it closes.
 
@@ -83,5 +103,11 @@ public class ConfirmationWindowUI : MonoBehaviour
         }
     }
 
+    public void ForceClose()
+    {
+        Debug.Log("force close was clicked");
+        StopAllCoroutines();
+        StartCoroutine(CloseProcess());
+    }
 
 }

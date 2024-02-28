@@ -24,7 +24,7 @@ public class MyGrid : LayoutGroup
 
     [Separator("Limit")]
     public int limitPerLine = 3 ;
-
+    [SerializeField] float increaseSizeByLine;
     
 
     RectTransform container;
@@ -77,11 +77,16 @@ public class MyGrid : LayoutGroup
             }
 
 
-            
+
 
             SetChildAlongAxis(item, 0, posX + padding.left + padding.right);
             SetChildAlongAxis(item, 1, posY + padding.top + padding.bottom); //placing in the y axis.
             posX += (int)(itemWidth + spacing);
+
+
+            Vector3 pos = item.transform.localPosition;
+            pos.z = 0;
+            item.transform.localPosition = pos;
         }
     }
 
@@ -125,9 +130,14 @@ public class MyGrid : LayoutGroup
                 }
             }
 
+
+
+
             SetChildAlongAxis(item, 0, sideModifier * (posX + padding.left + padding.right));
             SetChildAlongAxis(item, 1, padding.top);
             posX += (int)(itemWidth + spacing);
+
+
 
         }
     }

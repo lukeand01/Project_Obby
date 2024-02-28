@@ -48,6 +48,88 @@ public class StageHandler : MonoBehaviour
 
     }
 
+    public List<SaveClassStage> GetSaveClassStageList()
+    {
+
+        //actually we only save up to playerprogress. that way we dont save unecessary stuff.
+        List<SaveClassStage> stageSaveList = new();
+        int playerProgress = PlayerHandler.instance.stageProgress;
+
+        for (int i = 0; i < playerProgress; i++)
+        {
+            if(i > stageList.Count)
+            {
+                Debug.Log("problem here");
+                continue;
+            }
+
+            StageData stageData = stageList[i];
+            int bestMinute = 0;
+            int bestSecond = 0;
+
+           if(stageData.stageCompletedTimer != null)
+            {
+                bestMinute = stageData.stageCompletedTimer.minutes;
+                bestSecond = stageData.stageCompletedTimer.seconds;
+            }
+
+            SaveClassStage save = new SaveClassStage(i, stageData.stageStarGained, bestMinute, bestSecond);
+            stageSaveList.Add(save);
+        }
+
+
+        return stageSaveList;
+    }
+
+    public void ReceiveStageDataList(List<SaveClassStage> saveClassStageList)
+    {
+        if (saveClassStageList == null) return;
+
+
+        for (int i = 0; i < saveClassStageList.Count; i++)
+        {
+            if (i > stageList.Count)
+            {
+                Debug.Log("there are more itens in savelist than stagelist");
+                return;
+            }
+
+            StageData data = stageList[i];
+            SaveClassStage save = saveClassStageList[i];
+
+
+            if(data == null)
+            {
+                Debug.Log("there was no data here");
+                continue;
+            }
+
+            if(save.stageIndex != i)
+            {
+                Debug.Log("there was something wrong");
+                continue;
+            }
+
+
+            data.ReceiveSaveData(save.stageStarsQuantity, save.bestTimerMinute, save.bestTimerSecond);
+
+
+        }
+
+
+        for (int i = saveClassStageList.Count; i < stageList.Count; i++)
+        {
+            stageList[i].ResetStage();
+        }
+    }
+
+    public void ResetAllStages()
+    {
+        foreach (var item in stageList)
+        {
+            item.ResetStage();
+        }
+    }
 
     //we save the time in every spawn.
     //
