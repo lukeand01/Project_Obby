@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1c4c57533c494fc4789c0768ce8af0e1, type: 3}
-  m_Name: StorePowerJetpack
+  m_Name: StorePowerClock
   m_EditorClassIdentifier: 
-  storeItemName: Jetpack
+  storeItemName: Clock
   storePurchaseDescription: 
-  storeItemSprite: {fileID: 21300000, guid: 6ec7bc901118214448f5e29de43ca796, type: 3}
+  storeItemSprite: {fileID: 0}
   currencyType: 1
   storePrice: 15
-  storeDescription: Buy the jetpack power for every game
-  powerData: {fileID: 11400000, guid: 0ccf5d855c1419741966d1fb9c1f3b48, type: 2}
+  storeDescription: Buy the Clock power for every game
+  powerData: {fileID: 11400000, guid: f3a483f67a4d1e544bf282634383cefe, type: 2}
