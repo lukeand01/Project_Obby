@@ -118,7 +118,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &8911630397407791229
 Transform:
   m_ObjectHideFlags: 0
@@ -237,6 +237,7 @@ Transform:
   - {fileID: 8911630397407791229}
   - {fileID: 6975533874801817148}
   - {fileID: 1302653712348495201}
+  - {fileID: 5430125335434801500}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &2850341787693513217
@@ -283,10 +284,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   stageList:
   - {fileID: 11400000, guid: b7f6f38eea22254468b57d98c4a7d648, type: 2}
-  - {fileID: 11400000, guid: b7f6f38eea22254468b57d98c4a7d648, type: 2}
+  - {fileID: 11400000, guid: 231333ff2b8ad024d9ad55e165f25e0d, type: 2}
   - {fileID: 11400000, guid: 71b501c51afca2841a6bd738ddc7702c, type: 2}
   - {fileID: 11400000, guid: ba4df6562b6532f41b75c0cff9fef213, type: 2}
   - {fileID: 11400000, guid: 10b65d54ee13f2f4ba6d03f72b52e2ad, type: 2}
+  - {fileID: 11400000, guid: a607e4bdfa63e9e408d93e6c5602b3cf, type: 2}
+  - {fileID: 11400000, guid: 829d3432815232d488208c59cab8fc41, type: 2}
+  - {fileID: 11400000, guid: 1dbd3b34df88723498f714c02c7daa13, type: 2}
+  - {fileID: 11400000, guid: eb6542170c3cd8b46bc7aad872034a2f, type: 2}
+  - {fileID: 11400000, guid: 78e9b4a7b678cdd4caafb9db80b27e19, type: 2}
+  - {fileID: 11400000, guid: 0941883b486bf8e4e89b359ab9d61f86, type: 2}
+  - {fileID: 11400000, guid: 03f0cb26e71b5f9439058d763231374e, type: 2}
 --- !u!114 &3017299814110990104
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -377,7 +385,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   soundContainer: {fileID: 1302653712348495201}
   sfxVolume: 0
-  backgroundMusicVolumeInitial: 0
+  backgroundMusicVolumeInitial: 50
 --- !u!114 &7858686483885659678
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -511,6 +519,74 @@ MonoBehaviour:
   - {fileID: 11400000, guid: fa4f3abac9e5dba48b1000a40fe367b3, type: 2}
   - {fileID: 11400000, guid: 122628798fb6c76478e4d41dea496fc9, type: 2}
   - {fileID: 11400000, guid: c45de3a4b0a46074db86c09dcda0eeee, type: 2}
+--- !u!1 &5996326194338035616
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5430125335434801500}
+  - component: {fileID: 1367489789680252735}
+  - component: {fileID: 9034552982341323443}
+  m_Layer: 0
+  m_Name: EventSystem
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5430125335434801500
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5996326194338035616}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5496072489374881157}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1367489789680252735
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5996326194338035616}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 76c392e42b5098c458856cdf6ecaaaa1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_FirstSelected: {fileID: 0}
+  m_sendNavigationEvents: 1
+  m_DragThreshold: 10
+--- !u!114 &9034552982341323443
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5996326194338035616}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4f231c4fb786f3946a6b90b886c48677, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SendPointerHoverToParent: 1
+  m_HorizontalAxis: Horizontal
+  m_VerticalAxis: Vertical
+  m_SubmitButton: Submit
+  m_CancelButton: Cancel
+  m_InputActionsPerSecond: 10
+  m_RepeatDelay: 0.5
+  m_ForceModuleActive: 0
 --- !u!1 &6351776914207128786
 GameObject:
   m_ObjectHideFlags: 0

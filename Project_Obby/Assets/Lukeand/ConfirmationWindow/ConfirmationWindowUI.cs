@@ -5,6 +5,9 @@ using TMPro;
 using UnityEngine;
 using DG.Tweening;
 using UnityEngine.Rendering;
+using MyBox;
+using UnityEngine.UI;
+using static System.Net.Mime.MediaTypeNames;
 
 public class ConfirmationWindowUI : MonoBehaviour
 {
@@ -12,10 +15,18 @@ public class ConfirmationWindowUI : MonoBehaviour
 
     GameObject holder;
 
+
     [SerializeField] TextMeshProUGUI titleText;
-    [SerializeField] TextMeshProUGUI confirmText;
-    [SerializeField] TextMeshProUGUI cancelText;
-    [SerializeField] GameObject screenButton;
+    [SerializeField] TextMeshProUGUI descriptionText;
+    [SerializeField] GameObject buttonHolder;
+
+    [Separator("CHANGE CONFIRM BUTTON")]
+    [SerializeField] ConfirmationWindowButton confirmationButton;
+
+    [Separator("COIN")]
+    [SerializeField] GameObject coinHolder;
+    [SerializeField] TextMeshProUGUI coinText;
+
 
     bool inProcess = false;
 
@@ -27,7 +38,14 @@ public class ConfirmationWindowUI : MonoBehaviour
         holder = transform.GetChild(0).gameObject;
     }
 
-    public void StartConfirmationWindow(string title, bool hasScreenButton = false)
+
+     void ClearEvents()
+    {
+        eventCancel = delegate { };
+        eventConfirm = delegate { };    
+    }
+
+    public void StartConfirmationWindow(string title, string description, bool hasScreenButton = false)
     {
         //you assign something and then send the information to show here.
         if (holder.activeInHierarchy)
@@ -36,33 +54,83 @@ public class ConfirmationWindowUI : MonoBehaviour
             return;
         }
 
-        screenButton.SetActive(hasScreenButton);
+        //screenButton.SetActive(hasScreenButton);
 
-        ChangeConfirmText("Confirm");
-        ChangeCancelText("Cancel");
+        //i also need to know the currency.
+ 
+        coinHolder.SetActive(false);
 
         titleText.text = title;
+        descriptionText.text = description; 
         StopAllCoroutines();
         StartCoroutine(OpenProcess());
 
     }
 
-    
+
+    public void StartCoinHolder()
+    {
+        coinHolder.SetActive(true);
+
+        int currentCoin = PlayerHandler.instance.coins;
+        coinText.text = currentCoin.ToString();
+    }
+
+    public void ShakeGoldHolder()
+    {
+        StopCoroutine(nameof(ShakeGoldHolderProcess));
+        StartCoroutine(ShakeGoldHolderProcess());
+    }
+
+    IEnumerator ShakeGoldHolderProcess()
+    {
+
+        float colorTimer = 1.5f;
+
+        coinText.DOKill();
+
+        coinText.DOColor(Color.white, 0); //set up in the righ5t place.
+        coinText.DOColor(Color.red, colorTimer);
+
+        coinText.transform.localPosition = Vector3.one;
+
+        for (int i = 0; i < 30; i++)
+        {
+            //and we shaek the bastard randoly in X
+            float randomValueX = UnityEngine.Random.Range(-0.25f, 0.25f);
+            coinText.transform.localPosition = Vector3.zero + new Vector3(randomValueX, 0, 0);
+            yield return new WaitForSeconds(0.05f);
+        }
+
+        coinText.transform.localPosition = Vector3.one;
+
+        coinText.DOColor(Color.white, colorTimer / 2);
 
 
-    public void ChangeConfirmText(string text)
-    {
-        confirmText.text = text;
+
+
     }
-    public void ChangeCancelText(string text)
+
+
+    public void ChangeConfirmTextString(string text)
     {
-        cancelText.text = text;
+        confirmationButton.UpdateString(text);
     }
+      
+    public void ChangeConfirmTextValue(CurrencyType currency, string text)
+    {
+        confirmationButton.UpdateValueText(currency, text);
+    }
+
+
+
     
     //if move away from the thing it closes.
 
     public void CloseConfirmationWindow()
     {
+        
+
         StopAllCoroutines();
         StartCoroutine(CloseProcess());
     }
@@ -80,6 +148,8 @@ public class ConfirmationWindowUI : MonoBehaviour
 
     IEnumerator CloseProcess()
     {
+        ClearEvents();
+
         float timeForAnimation = 0.5f;
         holder.transform.DOScale(0.1f, timeForAnimation);
         yield return new WaitForSeconds(timeForAnimation);
@@ -110,4 +180,12 @@ public class ConfirmationWindowUI : MonoBehaviour
         StartCoroutine(CloseProcess());
     }
 
+}
+
+public enum ConfirmationType
+{
+    String,
+    Gem,
+    Coin,
+    Warning
 }

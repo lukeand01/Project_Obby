@@ -32,6 +32,8 @@ public class MainMenuUI : MonoBehaviour
     [Separator("WARNING")]
     [SerializeField] TextMeshProUGUI warnText;
 
+    [Separator("AUDIO CLIP")]
+    [SerializeField] AudioClip bgMusic;
 
     private void Awake()
     {
@@ -56,6 +58,8 @@ public class MainMenuUI : MonoBehaviour
         playUI.CreateStageUnits2(GameHandler.instance.stageHandler.stageList);
 
 
+        GameHandler.instance.soundHandler.ChangeBackgroundMusic(bgMusic, true);
+
     }
 
     public void UpdatePlayerCurrencies()
@@ -63,7 +67,7 @@ public class MainMenuUI : MonoBehaviour
 
 
 
-        goldText.text = PlayerHandler.instance.gold.ToString();
+        goldText.text = PlayerHandler.instance.coins.ToString();
         gemText.text = PlayerHandler.instance.gems.ToString();
     }
 
@@ -84,9 +88,9 @@ public class MainMenuUI : MonoBehaviour
 
     public void UpdatePlayerStats()
     {
-        //update both lives and gold.
+        //update both lives and coins.
 
-        goldText.text = "Gold: " + PlayerHandler.instance.gold.ToString();
+        goldText.text = "Gold: " + PlayerHandler.instance.coins.ToString();
         gemText.text = "Lives: " + PlayerHandler.instance.gems.ToString();
 
     }

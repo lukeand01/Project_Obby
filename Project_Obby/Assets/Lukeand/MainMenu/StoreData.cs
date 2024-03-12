@@ -58,7 +58,7 @@ public abstract class StoreData : ScriptableObject
 
         if(currencyType == CurrencyType.Coin)
         {
-            certainCurrency = PlayerHandler.instance.gold;
+            certainCurrency = PlayerHandler.instance.coins;
         }
         if(currencyType == CurrencyType.Gem)
         {

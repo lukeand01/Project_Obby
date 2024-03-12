@@ -86,7 +86,7 @@ public class SceneLoader : MonoBehaviour
         PlayerHandler.instance.controller.blockClass.AddBlock("MainMenu", BlockClass.BlockType.Complete);
 
         yield return StartCoroutine(LowerCurtainsProcess());
-
+        GameHandler.instance.soundHandler.StopBGMusic();
         //reload the main menu.
         AsyncOperation loadAsync = SceneManager.LoadSceneAsync(0, LoadSceneMode.Additive);
 
@@ -113,6 +113,8 @@ public class SceneLoader : MonoBehaviour
 
         PlayerHandler.instance.controller.blockClass.AddBlock("ChangeScene", BlockClass.BlockType.Complete);
         yield return StartCoroutine(LowerCurtainsProcess());
+
+        GameHandler.instance.soundHandler.StopBGMusic();
        
         yield return StartCoroutine(LoadAnotherSceneProcess(data));
 
@@ -122,6 +124,12 @@ public class SceneLoader : MonoBehaviour
         //so here before we raise the curtains we always get the player position fixed.
         //we now tell teh player what it should do.
         PlayerHandler.instance.ResetScenePlayer();
+
+        if(LocalHandler.instance == null)
+        {
+            Debug.Log("this scene has no localhandler " + data.name);
+        }
+
         LocalHandler.instance.StartLocalHandler(data);
 
         yield return StartCoroutine(PlayerHandler.instance.FixPlayerPositionProcess());
@@ -129,6 +137,7 @@ public class SceneLoader : MonoBehaviour
         PlayerHandler.instance.ChangeProgress(); //this makes that the currentscene
         PlayerHandler.instance.graphic.StopAnimation();
 
+        GameHandler.instance.soundHandler.ChangeBackgroundMusic(data.bgMusic);
         yield return StartCoroutine(RaiseCurtainsProcess());
 
         PlayerHandler.instance.controller.blockClass.RemoveBlock("ChangeScene");
@@ -141,7 +150,7 @@ public class SceneLoader : MonoBehaviour
 
         yield return StartCoroutine(LowerCurtainsProcess());
         //Debug.Log("0 " + PlayerHandler.instance.lastSpawnPointIndex);
-
+        GameHandler.instance.soundHandler.StopBGMusic();
         yield return StartCoroutine(LoadSameSceneProcess(data));
 
 
@@ -160,7 +169,10 @@ public class SceneLoader : MonoBehaviour
 
         PlayerHandler.instance.RemoveIsDead();
 
+        GameHandler.instance.soundHandler.ChangeBackgroundMusic(data.bgMusic);
+
         yield return StartCoroutine(RaiseCurtainsProcess());
+
 
 
         PlayerHandler.instance.controller.blockClass.RemoveBlock("ChangeScene");

@@ -32,7 +32,7 @@ public class PlayerHandler : MonoBehaviour
 
     //this defines what stage the player can palyer.
     public int stageProgress { get; private set; }
-    [SerializeField] bool debugLiberateAllStages;
+    public bool debugLiberateAllStages;
 
 
 
@@ -68,7 +68,7 @@ public class PlayerHandler : MonoBehaviour
         currentHealth = debugInitialHealth;
 
 
-        UIHandler.instance.uiPlayer.UpdateGold(gold);
+        UIHandler.instance.uiPlayer.UpdateCoin(coins);
         UIHandler.instance.uiPlayer.UpdateLives(currentHealth);
 
 
@@ -102,6 +102,7 @@ public class PlayerHandler : MonoBehaviour
         RemoveIsDead();
         RemoveShield();
 
+        rb.constraints = RigidbodyConstraints.FreezeRotation;
     }
 
     #region STORE
@@ -207,7 +208,7 @@ public class PlayerHandler : MonoBehaviour
     public void UseEmptyData()
     {
         //just reset to the start.
-        gold = initialGold;
+        coins = initialGold;
         gems = initialGem;
 
         if (debugLiberateAllStages)
@@ -269,25 +270,25 @@ public class PlayerHandler : MonoBehaviour
 
     [SerializeField] int initialGold;
 
-    public int gold { get; private set; }
+    public int coins { get; private set; }
 
     public void ChangeCoin(int amount)
     {
-        gold += amount;
-        UIHandler.instance.uiPlayer.UpdateGold(gold, amount);
+        coins += amount;
+        UIHandler.instance.uiPlayer.UpdateCoin(coins, amount);
         UpdateMainMenuCurrency();
     }
     public void SetCoin(int amount)
     {
-        gold = amount;
-        UIHandler.instance.uiPlayer.UpdateGold(gold);
+        coins = amount;
+        UIHandler.instance.uiPlayer.UpdateCoin(coins);
         UpdateMainMenuCurrency();
 
 
     }
     public bool HasEnoughGold(int amount)
     {
-        return gold >= amount;
+        return coins >= amount;
     }
 
     [SerializeField] int initialGem;
@@ -411,7 +412,7 @@ public class PlayerHandler : MonoBehaviour
 
 
         isDead = true;
-
+        movement2.CompleteStopPlayer();
         UIHandler.instance.uiEnd.StartDefeat(currentHealth, hasAlreadyWatchedAd);
     }
 
@@ -719,6 +720,7 @@ public class PlayerHandler : MonoBehaviour
 
     public void PlayerWon()
     {
+        movement2.CompleteStopPlayer();
         LocalHandler.instance.StopTimer();
         UIHandler.instance.ControlInputButtons(false);
         //i also want to hide everything else.

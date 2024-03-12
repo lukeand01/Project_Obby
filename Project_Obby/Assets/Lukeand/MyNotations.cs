@@ -200,7 +200,7 @@
 //return to mainmenu
 //amount of coins gained
 //button for doubling coin.
-//amount of gold in stage
+//amount of coins in stage
 
 
 //prestige machanic.
@@ -359,7 +359,7 @@
 ///call the star from teh achievemnt. makei ti very clear that the thing does it.
 ///coint the coin up.
 ///then deliver the coin to the reward.
-//then we create the button to increase the gold from watching an ad.
+//then we create the button to increase the coins from watching an ad.
 
 
 
@@ -430,4 +430,30 @@
 
 //i need the timer and the thing.
 //so everytime you complete a stage it should send that data but only accept if its better than the last.
+
+//PROBLEMS
+///why isnt the graphical units appearing
+///why its not easy to click on it? talking about the graphical units.
+///the graphical assets are not matching the graphical units
+///the confirmation seems buggy. it doesnt allow for clicking after it.
+///the player is getting stuck for some reason.
+///need to stop the momentum of the player after winning or losing.
+///the buttons in the victory ui are not showing in the right place.
+//now the player is stuck in the air
+
+
+
+//TO NOTE
+//the graphical units still have the problem but it might be tolerable
+
+
+
+
+//GOAL
+///create the grid system
+//put sound for everyone
+///put the power ui
+///the timer turns red before the allowed time
+//cant jump in certain colliders.
+//is getting stuck. it should be fluid.
 

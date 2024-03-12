@@ -7,6 +7,7 @@ using System.Runtime.InteropServices.WindowsRuntime;
 using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class StoreUI : MonoBehaviour
 {
@@ -19,6 +20,7 @@ public class StoreUI : MonoBehaviour
      List<GameObject> allHolders = new();
 
     [SerializeField] ConfirmationWindowUI confirmationWindow;
+    [SerializeField] Image emptyImage; // we always put 4 images in them.
 
     [Separator("CHARACTER SHADOW AND PREVIEW")]
     [SerializeField] GameObject shadowPreview;
@@ -26,7 +28,7 @@ public class StoreUI : MonoBehaviour
     Animator currentModelAnimator;
     GameObject currentModel;
 
-
+    
 
 
     [Separator("GRAPHIC")] 
@@ -77,7 +79,7 @@ public class StoreUI : MonoBehaviour
 
     }
 
-    //need to first do this. gems and gold are not dinamicallty set they are always the same thing.
+    //need to first do this. gems and coins are not dinamicallty set they are always the same thing.
 
     #region CORE FUNCTIONS FOR SET UP AND BUYING ITEMS
 
@@ -102,7 +104,7 @@ public class StoreUI : MonoBehaviour
         categoryHolderDictionary.Add(StoreCategoryType.Coin, coinHolder);
 
 
-        //and now we get teach list and put in the right container. the only who dont do it are the gem and gold containers.
+        //and now we get teach list and put in the right container. the only who dont do it are the gem and coins containers.
         foreach (var button in buttons)
         {
             button.SetStoreUI(this);
@@ -130,20 +132,20 @@ public class StoreUI : MonoBehaviour
             }
 
 
-            confirmationWindow.StartConfirmationWindow(text);
+            //confirmationWindow.StartConfirmationWindow("", text);
 
             confirmationWindow.eventConfirm += CloseBuyItem;
 
             if (data.currencyType == CurrencyType.Coin)
             {
                 confirmationWindow.eventConfirm += TakeToCoin;
-                confirmationWindow.ChangeConfirmText("Go to the Gold Section");
+                confirmationWindow.ChangeConfirmTextString("Go to the Gold Section");
             }
 
             if (data.currencyType == CurrencyType.Gem)
             {
                 confirmationWindow.eventConfirm += TakeToGem;
-                confirmationWindow.ChangeConfirmText("Go to the Gem Section");
+                confirmationWindow.ChangeConfirmTextString("Go to the Gem Section");
             }
 
 
@@ -151,9 +153,14 @@ public class StoreUI : MonoBehaviour
             return;
         }
 
-        confirmationWindow.StartConfirmationWindow(data.storePurchaseDescription);
+
+        confirmationWindow.eventConfirm = delegate { };
+        confirmationWindow.eventCancel = delegate { };
 
         cannotSelect = true;
+
+        confirmationWindow.StartConfirmationWindow("Purchase", data.storePurchaseDescription);
+        confirmationWindow.ChangeConfirmTextValue(data.currencyType, data.storePrice.ToString());
 
         confirmationWindow.eventConfirm += data.Buy;
         confirmationWindow.eventConfirm += storeUnit.UpdateAfterBuying;
@@ -398,6 +405,7 @@ public class StoreUI : MonoBehaviour
 
         //each item will ask the player if he owns him.
 
+        CreateEmptyImages(graphicContainer, 4);
     }
 
     void OpenGraphical()
@@ -492,6 +500,8 @@ public class StoreUI : MonoBehaviour
             organizationList[i].transform.SetSiblingIndex(i);
         }
 
+
+        CreateEmptyImages(animationContainer, 4);
     }
 
     void OpenAnimation()
@@ -572,6 +582,7 @@ public class StoreUI : MonoBehaviour
             organizationList[i].transform.SetSiblingIndex(i);
         }
 
+        CreateEmptyImages(animationContainer, 4);
     }
 
     public void SelectPower(StorePowerUnit newPower)
@@ -655,6 +666,14 @@ public class StoreUI : MonoBehaviour
     #endregion
 
 
+    void CreateEmptyImages(Transform container, int quantity)
+    {
+        for (int i = 0; i < quantity; i++)
+        {
+            Image newObject = Instantiate(emptyImage, Vector3.zero, Quaternion.identity);
+            newObject.transform.SetParent(container);
+        }
+    }
 }
 
 public enum StoreCategoryType

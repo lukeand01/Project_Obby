@@ -5,7 +5,6 @@ using UnityEngine;
 public class TouchVictory : MonoBehaviour
 {
 
-    [SerializeField] AudioClip audioClip;
 
     private void OnTriggerEnter(Collider other)
     {
@@ -13,7 +12,7 @@ public class TouchVictory : MonoBehaviour
 
         //UIHandler.instance.uiEnd.StartVictory();
 
-        GameHandler.instance.soundHandler.CreateSFX(audioClip);
+        //GameHandler.instance.soundHandler.CreateSFX(audioClip);
         PlayerHandler.instance.PlayerWon();
 
     }

@@ -12,6 +12,7 @@ public class ButtonEvent : ButtonBase
     
     public override void OnPointerClick(PointerEventData eventData)
     {
+        base.OnPointerClick(eventData);
         unityEvent.Invoke();
     }
 }

@@ -49,7 +49,6 @@ GameObject:
   - component: {fileID: 3102518776257026623}
   - component: {fileID: 9180831662100513524}
   - component: {fileID: 455715839182380554}
-  - component: {fileID: 4780915551517678857}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -75,6 +74,7 @@ Transform:
   - {fileID: 6130397847985027043}
   - {fileID: 5715871029050023537}
   - {fileID: 377781717826816000}
+  - {fileID: 8135683362992930123}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &2171065156281786580
@@ -89,9 +89,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad0a498be88079042b37e26a78de8269, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  debugLiberateAllStages: 0
   storeItensOwnedList: 
   initialGold: 0
-  initialGem: 0
+  initialGem: 50
   powerPermaList: []
   debugInitialHealth: 3
   lastSpawnPoint: {fileID: 0}
@@ -126,13 +127,14 @@ MonoBehaviour:
   moveSpeed: 4
   accelerationRate: 0.25
   topAcceleration: 5
-  topSpeed: 15
-  jumpForce: 5
+  topSpeed: 10
+  jumpForce: 6
   coyoteTotal: 0.25
   bufferTotal: 0.15
   HoldJumpTotal: 2
   JumpQuantityFromPower: 2
   JumpForceFromPower: 3
+  feetCollider: {fileID: 6751532689023370629}
   DEBUGHASDOUBLEJUMP: 0
   DEBUGHASJUMPINCREMENT: 0
 --- !u!114 &228555127081776659
@@ -232,22 +234,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   jumpClip: {fileID: 8300000, guid: d1032a94262c3fe4da07cf59c4dc8a89, type: 3}
   doubleJumpClip: {fileID: 8300000, guid: 66f8b6e0f9212a34588fadaac7b1984a, type: 3}
-  fallClip: {fileID: 8300000, guid: 6c393cfd5cfa84b4cad0f51d2310e6cc, type: 3}
-  deathClip: {fileID: 8300000, guid: 6c393cfd5cfa84b4cad0f51d2310e6cc, type: 3}
---- !u!114 &4780915551517678857
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 193604034536728454}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 54bcbc45a7d897c4fa5bb1f0e829ba5b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  jumpClip: {fileID: 8300000, guid: 80cae01dfe3744a44959d3d95c924d47, type: 3}
-  doubleJumpClip: {fileID: 8300000, guid: 42a8ad3938c00f54ab35867dad179f6d, type: 3}
   fallClip: {fileID: 8300000, guid: 6c393cfd5cfa84b4cad0f51d2310e6cc, type: 3}
   deathClip: {fileID: 8300000, guid: 6c393cfd5cfa84b4cad0f51d2310e6cc, type: 3}
 --- !u!1 &1694055896183299844
@@ -425,6 +411,72 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!1 &3807120466900607619
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8135683362992930123}
+  - component: {fileID: 5183629237101216687}
+  - component: {fileID: 6751532689023370629}
+  m_Layer: 0
+  m_Name: FeetCollider
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8135683362992930123
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3807120466900607619}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: -0.428, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2100324023978977456}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &5183629237101216687
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3807120466900607619}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1.6033516, y: 0.36202615, z: 1.7323284}
+  m_Center: {x: -0.05470705, y: 0.04290977, z: 0.006395459}
+--- !u!114 &6751532689023370629
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3807120466900607619}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1a97728279bb85a40ba3a5b430676e06, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &4447121290250788486
 GameObject:
   m_ObjectHideFlags: 0

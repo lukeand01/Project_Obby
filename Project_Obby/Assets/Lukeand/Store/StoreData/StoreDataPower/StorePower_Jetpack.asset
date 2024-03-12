@@ -14,8 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   storeItemName: Jetpack
   storePurchaseDescription: Permanently buy jetpack for 50 gems
-  storeItemSprite: {fileID: 0}
+  storeItemSprite: {fileID: 21300000, guid: 6ec7bc901118214448f5e29de43ca796, type: 3}
   currencyType: 1
   storePrice: 50
-  storeDescription: 
+  storeDescription: Buy Jetpack for this stage for 150 coins
   powerData: {fileID: 11400000, guid: 0ccf5d855c1419741966d1fb9c1f3b48, type: 2}
+  tempPrice: 150

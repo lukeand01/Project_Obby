@@ -20,13 +20,13 @@ public class SoundHandler : MonoBehaviour
 
     AudioSource backgroundMusicAudioSource;
 
-
+    //who will be giving the music.
 
     private void Awake()
     {
         backgroundMusicAudioSource = GetComponent<AudioSource>();
 
-        if(backgroundMusicAudioSource != null )
+        if(backgroundMusicAudioSource == null )
         {
             backgroundMusicAudioSource = gameObject.AddComponent<AudioSource>();
         }
@@ -59,7 +59,15 @@ public class SoundHandler : MonoBehaviour
         }
 
         
+    }
 
+    public void StopBGMusic()
+    {
+        backgroundMusicAudioSource.Stop();
+    }
+    public void StartBGMusic()
+    {
+        backgroundMusicAudioSource.Play();
     }
 
     IEnumerator ChangeBackgroundMusicProcess(AudioClip clip)
@@ -91,7 +99,8 @@ public class SoundHandler : MonoBehaviour
         newObject.transform.SetParent(soundContainer);
         AudioSource source = newObject.AddComponent<AudioSource>();
         newObject.AddComponent<DestroySelf>().SetUpDestroy(clip.length + 0.1f);
-        source.clip = clip; 
+        source.clip = clip;
+        source.volume = sfxVolume;
         source.Play();
     }
 }

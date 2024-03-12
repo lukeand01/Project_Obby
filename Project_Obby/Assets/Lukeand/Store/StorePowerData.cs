@@ -1,3 +1,4 @@
+using MyBox;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,7 +6,10 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Store / Power")]
 public class StorePowerData : StoreData
 {
+    [Separator("POWER")]
     public PowerData powerData;
+    public float tempPrice;
+
 
     public override void Buy()
     {

@@ -21,7 +21,7 @@ public static class SaveHandler2
 
 
         //ECONOMY
-        newSaveClass.playerCoin = player.gold;
+        newSaveClass.playerCoin = player.coins;
         newSaveClass.playerGem = player.gems;
 
         //STAGE PROGRESS
@@ -89,6 +89,11 @@ public static class SaveHandler2
     public static bool OrderHasFile()
     {
         return HasFile("0");
+    }
+
+    public static void OrderDeleteFile()
+    {
+        DeleteData("0");
     }
 
     #endregion

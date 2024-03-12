@@ -110,7 +110,7 @@ public class AdHandler : MonoBehaviour
 
     #region REWARD AD
 
-    //these ads works as reward to gain another chance at teh game or for making double the amount of gold.
+    //these ads works as reward to gain another chance at teh game or for making double the amount of coins.
 
     public void LoadRewardAd()
     {

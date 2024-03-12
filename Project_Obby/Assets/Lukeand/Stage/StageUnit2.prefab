@@ -1211,7 +1211,7 @@ MonoBehaviour:
   text: {fileID: 0}
   mouseHover: {fileID: 0}
   mouseClick: {fileID: 0}
-  clickClip: {fileID: 0}
+  clickClip: {fileID: 8300000, guid: 1c1ee6290de12fa42aea49954af66e4b, type: 3}
   hoverClip: {fileID: 0}
   clickTimerTotal: 0
   frameHolder: {fileID: 872839433408185724}

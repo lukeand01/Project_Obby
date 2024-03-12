@@ -10,7 +10,7 @@ public class PowerData : ScriptableObject
     public Sprite powerSprite;
 
     [TextArea]public string temporaryPowerDescription;
-    public int temporaryPowerPrice; //always gold.
+    public int temporaryPowerPrice; //always coins.
 
 
     public virtual void AddPower()

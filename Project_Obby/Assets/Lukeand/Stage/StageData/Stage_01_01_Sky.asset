@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 47cb156661b30d6459241ced39268bd9, type: 3}
+  m_Name: Stage_01_01_Sky
+  m_EditorClassIdentifier: 
+  stageName: 1
+  stageId: 2
+  stageLimitTimer:
+    minutes: 5
+    seconds: 0
+  stageCompletedTimer:
+    minutes: 0
+    seconds: 0
+  stageStarGained: 0
+  bgMusic: {fileID: 8300000, guid: a6e3696111ce34f4181844490b2a159d, type: 3}

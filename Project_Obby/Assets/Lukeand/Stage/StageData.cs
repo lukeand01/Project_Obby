@@ -1,3 +1,4 @@
+using MyBox;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -14,6 +15,10 @@ public class StageData : ScriptableObject
     public StageTimeClass stageCompletedTimer;
 
     public int stageStarGained;
+
+
+    [Separator("MUSIC")]
+    public AudioClip bgMusic;
 
     public void SetStarGained(int starGained)
     {
@@ -123,7 +128,7 @@ public class StageTimeClass
 
     public bool LittleTimeLeft()
     {
-        int totalValue = minutes + seconds;
+        int totalValue = (minutes * 60) + seconds;
         return totalValue <= 10;
     }
 

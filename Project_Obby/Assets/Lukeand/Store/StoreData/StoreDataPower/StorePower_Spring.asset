@@ -14,8 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   storeItemName: Spring
   storePurchaseDescription: Permanently buy spring for 50 gems
-  storeItemSprite: {fileID: 0}
+  storeItemSprite: {fileID: 21300000, guid: de43bbc0ede1e184da96dc63a474fce3, type: 3}
   currencyType: 1
   storePrice: 50
-  storeDescription: 
+  storeDescription: Buy Spring for this stage for 150 coins
   powerData: {fileID: 11400000, guid: f3a483f67a4d1e544bf282634383cefe, type: 2}
+  tempPrice: 150

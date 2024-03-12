@@ -24,7 +24,7 @@ public class EndUI : MonoBehaviour
     [SerializeField] Image victoryBackground;
     [SerializeField] GameObject victoryTitleHolder;
     [SerializeField] Transform victoryButtonHolder;
-
+    [SerializeField] AudioClip victoryAudio;
 
     [Separator("DEFEAT")]
     [SerializeField] GameObject defeatHolder;
@@ -34,7 +34,7 @@ public class EndUI : MonoBehaviour
     [SerializeField] GameObject defeatMainMenuButton;
     [SerializeField] TextMeshProUGUI stageText;
     [SerializeField] TextMeshProUGUI liveText;
-
+    [SerializeField] AudioClip defeatAudio;
 
 
     Color fullStarColor;
@@ -70,6 +70,8 @@ public class EndUI : MonoBehaviour
 
     public void StartVictory()
     {
+        GameHandler.instance.soundHandler.StopBGMusic();
+        GameHandler.instance.soundHandler.CreateSFX(victoryAudio);
 
         holder.SetActive(true);
         victoryHolder.SetActive(true);
@@ -137,6 +139,8 @@ public class EndUI : MonoBehaviour
         float timerForButton = 0.5f;
         Vector3 buttonOffset = new Vector3(0, 120, 0);
         victoryButtonHolder.DOMove(victoryButtonHolder.transform.position + buttonOffset, timerForButton);
+
+        //need to channge this for something better for different screen.
 
         yield return new WaitForSeconds(timerForButton);
 
@@ -232,14 +236,14 @@ public class EndUI : MonoBehaviour
 
 
     public void StartDefeat(int currentHealth, bool hasAlreadyWatchedAD)
-    {       
+    {
 
         //what do i do here?
 
         //i have potenl
 
-
-
+        GameHandler.instance.soundHandler.StopBGMusic();
+        GameHandler.instance.soundHandler.CreateSFX(defeatAudio);
         holder.SetActive(true);
         victoryHolder.SetActive(false);
         defeatHolder.SetActive(true);

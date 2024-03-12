@@ -134,6 +134,7 @@ public class StoreGraphicUnit : StoreBaseUnit
     {
         base.OnPointerClick(eventData);
 
+        Debug.Log("click");
 
         if (isSelected)
         {
@@ -146,13 +147,14 @@ public class StoreGraphicUnit : StoreBaseUnit
             else
             {
                 //then we ask for confirmation to buy it.
+                Debug.Log("start buy item");
                 handler.StartBuyItem(data, this);
             }
         }
         else
         {
             //then we select it.
-
+            Debug.Log("select");
             handler.SelectGraphical(this);
         }
 
@@ -195,6 +197,6 @@ public class StoreGraphicUnit : StoreBaseUnit
 
     public int GetGraphicIndex()
     {
-        return data.storeIndex;
+        return (int)data.graphicType;
     }
 }

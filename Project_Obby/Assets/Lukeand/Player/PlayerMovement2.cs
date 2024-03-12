@@ -40,6 +40,9 @@ public class PlayerMovement2 : MonoBehaviour
     [Tooltip("For the spring power")][SerializeField] int JumpForceFromPower;
 
 
+    [Separator("COMPONENTS")]
+    public PlayerFeetCollider feetCollider;
+
 
 
     float additionalJumpForceCurrent;
@@ -71,6 +74,10 @@ public class PlayerMovement2 : MonoBehaviour
     private void FixedUpdate()
     {
         isGrounded = IsGrounded();
+
+
+        Debug.Log("is grounded " + isGrounded);
+
         canJump = CanJump();
 
         ControlGroundSpeed();
@@ -120,6 +127,13 @@ public class PlayerMovement2 : MonoBehaviour
     {
         accelerationIncrementCurrent = 0;
         handler.rb.velocity = new Vector3(0, handler.rb.velocity.y, 0);
+    }
+
+    public void CompleteStopPlayer()
+    {
+        accelerationIncrementCurrent = 0;
+        handler.rb.velocity = new Vector3(0, 0, 0);
+        handler.rb.constraints = RigidbodyConstraints.FreezeAll;
     }
 
     //the fall is not controlled here
@@ -274,12 +288,14 @@ public class PlayerMovement2 : MonoBehaviour
     #region UTILS
     bool IsGrounded()
     {
-        float playerHeight = 0.55f;
-        return Physics.Raycast(transform.position, Vector3.down, playerHeight, groundMask);
+        //float playerHeight = 0.55f;
+
+
+        return feetCollider.IsGrounded;
+
+        //Collider[] cast = Physics.OverlapSphere(feetCollider.transform.position, 0.25f, groundMask);
+        //return cast.Length > 0;
     }
-
-    
-
 
     bool CanJump()
     {

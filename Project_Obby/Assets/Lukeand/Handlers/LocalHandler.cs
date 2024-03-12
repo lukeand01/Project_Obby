@@ -44,7 +44,13 @@ public class LocalHandler : MonoBehaviour
 
         foreach (var item in allTouchPowers)
         {
-            if (PlayerHandler.instance.HasPermaPower(item.data))
+            if (item.data.GetPower() == null)
+            {
+                Debug.Log("no power here");
+                return;
+            }
+
+            if (PlayerHandler.instance.HasPermaPower(item.data.GetPower().powerData))
             {
                 Destroy(item.gameObject);
             }

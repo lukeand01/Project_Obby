@@ -78,7 +78,11 @@ public class GameHandler : MonoBehaviour
         SaveHandler2.OrderToSaveData();
     }
 
-
+    [ContextMenu("DEBUG DELETE DATA")]
+    public void DebugDeleteData()
+    {
+        SaveHandler2.OrderDeleteFile();
+    }
 
     private void Start()
     {

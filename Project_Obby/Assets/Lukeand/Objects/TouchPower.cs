@@ -5,7 +5,10 @@ using UnityEngine;
 public class TouchPower : MonoBehaviour
 {
     bool hasTouched;
-    public PowerData data;
+    public StoreData data;
+    StorePowerData powerStoreData;
+
+    //need to take it from thing. need to show how much coins the player has.
 
     private void OnTriggerEnter(Collider other)
     {
@@ -23,11 +26,18 @@ public class TouchPower : MonoBehaviour
         }
 
 
-        confirmationWindow.eventConfirm += OnConfirmed;
-        confirmationWindow.eventCancel += OnCancelled;
+        //we ask here if it has the money already.
 
-        confirmationWindow.StartConfirmationWindow(data.temporaryPowerDescription);
+        powerStoreData = data.GetPower();
 
+        //i need to decide here.
+
+       confirmationWindow.StartConfirmationWindow("Purchase", data.storeDescription);
+       confirmationWindow.ChangeConfirmTextValue(CurrencyType.Coin, powerStoreData.tempPrice.ToString());
+        confirmationWindow.StartCoinHolder();
+
+       confirmationWindow.eventConfirm += OnConfirmed;
+       confirmationWindow.eventCancel += OnCancelled;
         //also if you move the buttons or do anything you get close it.
     }
 
@@ -49,17 +59,39 @@ public class TouchPower : MonoBehaviour
 
     void OnConfirmed()
     {
-        ResetTouch();
-        PlayerHandler.instance.AddTempPower(data);
-        Destroy(gameObject);
-        Debug.Log("confimed");
+
+        if(data.GetPower() == null)
+        {
+            Debug.Log("problem here");
+            return;
+        }
+
+
+        bool canBuy = PlayerHandler.instance.coins >= powerStoreData.tempPrice;
+
+
+        if(canBuy)
+        {
+            UIHandler.instance.uiConfirmationWindow.CloseConfirmationWindow();
+            ResetTouch();
+            PlayerHandler.instance.AddTempPower(powerStoreData.powerData);
+            Destroy(gameObject);
+        }
+        else
+        {
+            //then we shake the gold holder. and thats it.
+            Debug.Log("on confirmed");
+            UIHandler.instance.uiConfirmationWindow.ShakeGoldHolder();
+        }
+
     }
 
     void OnCancelled()
     {
         ResetTouch();
+        //and we close it.
 
-        Debug.Log("cancelled");
+        UIHandler.instance.uiConfirmationWindow.CloseConfirmationWindow();
     }
 
     void ResetTouch()

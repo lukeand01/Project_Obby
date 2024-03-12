@@ -33,10 +33,7 @@ public class PlayerUI : MonoBehaviour
         holder.SetActive(shouldBeVisible);
     }
 
-    public void UpdateGold(int amount, int change = 0)
-    {
-        goldText.text = "Gold: " + amount.ToString();
-    }
+
     public void UpdateLives(int amount)
     {
 
@@ -59,6 +56,45 @@ public class PlayerUI : MonoBehaviour
 
     public Vector3 GetLifePos() => heartPosRef.position;
 
+
+    [Separator("COIN")]
+    [SerializeField] GameObject coinHolder;
+    [SerializeField] TextMeshProUGUI coinText;
+
+    //the problem is that localcoins are not counted to the real thing only when you finish the thing.
+    //
+
+    public void UpdateCoin(int total, int change = 0)
+    {
+        //update this fella.
+        if(change != 0)
+        {
+
+        }
+
+        coinText.text = total.ToString();
+
+        StopCoroutine(nameof(CoinProcess));
+        StartCoroutine(CoinProcess());
+
+    }
+
+    IEnumerator CoinProcess()
+    {
+        //increase it. only that.
+        float timer = 0.2f;
+
+        coinText.transform.DOKill();
+
+        coinText.transform.DOScale(1, 0); //we put it in the right position
+        coinText.transform.DOScale(1.3f, timer);
+
+        yield return new WaitForSeconds(timer);
+
+        coinText.transform.DOScale(1, timer);
+
+
+    }
 
     [Separator("TIMER")]
     [SerializeField] GameObject timerHolder;

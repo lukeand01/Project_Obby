@@ -49,6 +49,12 @@ public class PlayerMovement : MonoBehaviour
     int currentJumpAmount;
 
     float jumpIncrement;
+
+
+    [Separator("COMPONENTS")]
+    [SerializeField] BoxCollider feetCollider;
+
+
     private void Awake()
     {
         handler = GetComponent<PlayerHandler>();
@@ -158,6 +164,15 @@ public class PlayerMovement : MonoBehaviour
 
     void CalculateGroundedLogic()
     {
+
+        //we need to check with a collider instea of a trace
+
+       isGrounded = Physics.Raycast(feetCollider.bounds.center, Vector3.down, feetCollider.bounds.extents.y);
+
+        Debug.Log("is grounded " + isGrounded);
+
+        return;
+
         isGrounded = Physics.Raycast(transform.position, Vector3.down, playerHeight * 0.5f + 0.2f, groundLayer);
     }
 

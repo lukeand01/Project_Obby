@@ -66,7 +66,7 @@ public class StageUnit2 : ButtonBase
 
     void UpdateFrame(int playerProgress)
     {
-        bool isAvailable = playerProgress >= data.stageId - 2;
+        bool isAvailable = playerProgress >= data.stageId - 2 || PlayerHandler.instance.debugLiberateAllStages;
 
         isUnlocked = isAvailable;
 

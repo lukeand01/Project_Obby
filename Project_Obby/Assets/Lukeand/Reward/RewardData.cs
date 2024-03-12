@@ -23,7 +23,7 @@ public class RewardData : ScriptableObject
         if(rewardType == RewardType.Gold)
         {
             //we play an effect about what you gained.
-            //then add the gold.
+            //then add the coins.
 
         }
 
