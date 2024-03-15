@@ -155,11 +155,13 @@ public class StageUnit2 : ButtonBase
 
     void UpdateStars()
     {
+
+
         for (int i = 0; i < stars.Length; i++)
         {
             if(data.stageStarGained > i)
             {
-                stars[i].color = Color.white;
+                stars[i].color = Color.white; 
             }
             else
             {

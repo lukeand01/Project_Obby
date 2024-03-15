@@ -19,12 +19,18 @@ public class EndUI : MonoBehaviour
     public EndRewardHandler rewardHolder;
     [SerializeField] EndAchievementUnit achievementHolder;
 
+
+    //i
+
     [Separator("VICTORY")] 
     [SerializeField] GameObject victoryHolder;
     [SerializeField] Image victoryBackground;
     [SerializeField] GameObject victoryTitleHolder;
-    [SerializeField] Transform victoryButtonHolder;
+    [SerializeField] Transform victoryButtonHolder;   
     [SerializeField] AudioClip victoryAudio;
+    
+
+    Vector3 victoryButtonHolderOriginalPos; //we will use this to decide the position because wer cannot use flat values.
 
     [Separator("DEFEAT")]
     [SerializeField] GameObject defeatHolder;
@@ -50,6 +56,9 @@ public class EndUI : MonoBehaviour
         fullStarColor = Color.white;
         emptyStarColor = Color.black;
 
+        victoryButtonHolderOriginalPos = victoryButtonHolder.transform.position;
+
+
     }
 
     //if the player has enough health then we show the button.
@@ -73,6 +82,8 @@ public class EndUI : MonoBehaviour
         GameHandler.instance.soundHandler.StopBGMusic();
         GameHandler.instance.soundHandler.CreateSFX(victoryAudio);
 
+        rewardHolder.ResetAdButton();
+
         holder.SetActive(true);
         victoryHolder.SetActive(true);
         defeatHolder.SetActive(false);
@@ -80,7 +91,7 @@ public class EndUI : MonoBehaviour
 
         victoryTitleHolder.transform.position = victoryTitleHolder.transform.position + new Vector3(0, 150, 0);
 
-       var alpha = victoryBackground.color;
+        var alpha = victoryBackground.color;
         alpha.a = 0;
         victoryBackground.color = alpha;
 
@@ -120,6 +131,9 @@ public class EndUI : MonoBehaviour
 
         achievementHolder.PutAllPiecesInStartingPos();
 
+        float offset = Screen.height * 2;
+
+        victoryButtonHolder.DOMove(victoryButtonHolderOriginalPos + (Vector3.down * offset), 0); 
 
        float timeForTitle =  StartVictoryTitle();
 
@@ -129,7 +143,7 @@ public class EndUI : MonoBehaviour
 
         while (victoryBackground.color.a < 0.7f)
         {
-            alpha.a += 0.01f;
+            alpha.a += 0.023f;
             victoryBackground.color = alpha;
             yield return new WaitForSeconds(0.01f);
         }
@@ -138,7 +152,7 @@ public class EndUI : MonoBehaviour
 
         float timerForButton = 0.5f;
         Vector3 buttonOffset = new Vector3(0, 120, 0);
-        victoryButtonHolder.DOMove(victoryButtonHolder.transform.position + buttonOffset, timerForButton);
+        victoryButtonHolder.DOMove(victoryButtonHolderOriginalPos, timerForButton);
 
         //need to channge this for something better for different screen.
 

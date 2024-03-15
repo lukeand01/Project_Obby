@@ -76,13 +76,15 @@ public class StoreAnimationUnit : StoreBaseUnit
     {
         isSelected = true;
         float time = 0.15f;
+        StartStoreActButton(isAlreadyOwned, isCurrentlyUsing);
         selected.transform.DOKill();
-        selected.transform.DOScale(new Vector3(1.1f, 1.4f, 0), time);
+        selected.transform.DOScale(new Vector3(0.48f, 0.44f, 0), time);
     }
     public void UnSelect()
     {
         isSelected = false;
         float time = 0.15f;
+        CloseStoreActButton();
         selected.transform.DOKill();
         selected.transform.DOScale(0, time);
     }

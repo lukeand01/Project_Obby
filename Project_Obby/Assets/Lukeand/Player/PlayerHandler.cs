@@ -36,7 +36,6 @@ public class PlayerHandler : MonoBehaviour
 
 
 
-
     private void Awake()
     {
         if (instance == null)
@@ -74,6 +73,7 @@ public class PlayerHandler : MonoBehaviour
 
         cam.ResetCam();
         //cam.ResetCamToIntroduction();
+
     }
 
 
@@ -83,13 +83,7 @@ public class PlayerHandler : MonoBehaviour
 
     }
 
-    public void ResetPlayer()
-    {
-        Debug.Log("rest player");
-
-        ResetScenePlayer();
-    }
-
+    
     public void ResetScenePlayer()
     {
         cam.ResetCam();
@@ -101,9 +95,15 @@ public class PlayerHandler : MonoBehaviour
         ResetTempPowerList();
         RemoveIsDead();
         RemoveShield();
-
-        rb.constraints = RigidbodyConstraints.FreezeRotation;
+        ResetBlocks();
     }
+
+    public void ResetBlocks()
+    {
+        controller.blockClass.RemoveBlock("Victory");
+        controller.blockClass.RemoveBlock("Defeat");
+    }
+
 
     #region STORE
     //each item is a 
@@ -113,7 +113,11 @@ public class PlayerHandler : MonoBehaviour
     {
         //this should only be called by the savehandler when there is no data.
 
-        if(storeItensOwnedList == null)
+
+        MainMenuUI.instance.DebugConsoleText("Start the store");
+
+
+        if (storeItensOwnedList == null)
         {
             storeItensOwnedList = new();
         }
@@ -148,6 +152,9 @@ public class PlayerHandler : MonoBehaviour
     {
         storeItensOwnedList.Add(index);
         SaveHandler2.OrderToSaveData();
+
+
+
     }
     public bool HasStoreItem(int index)
     {
@@ -168,6 +175,7 @@ public class PlayerHandler : MonoBehaviour
     //i need this list just to add the power. because the grpahic and animation work without manually adding them
     public void SetNewItemOwnedList(List<int> storeItensList)
     {
+        
         GameHandler.instance.storeHandler.AddAllPowersFromThisList(storeItensList);
 
         storeItensOwnedList = storeItensList;
@@ -413,11 +421,15 @@ public class PlayerHandler : MonoBehaviour
 
         isDead = true;
         movement2.CompleteStopPlayer();
+        controller.blockClass.AddBlock("Defeat", BlockClass.BlockType.Complete);
         UIHandler.instance.uiEnd.StartDefeat(currentHealth, hasAlreadyWatchedAd);
     }
 
     public void RespawnUsingHealth()
     {
+
+        Debug.Log("this was called");
+
         if (isDead)
         {
             currentHealth -= 1;
@@ -721,13 +733,19 @@ public class PlayerHandler : MonoBehaviour
     public void PlayerWon()
     {
         movement2.CompleteStopPlayer();
+        rb.AddForce(new Vector3(0, -2, 0), ForceMode.Impulse);
+
+
+        controller.blockClass.AddBlock("Won", BlockClass.BlockType.Complete);
+
         LocalHandler.instance.StopTimer();
         UIHandler.instance.ControlInputButtons(false);
-        //i also want to hide everything else.
         graphic.PlayVictoryAnimation();
+
         float timer = 1.5f;
         StartCoroutine(cam.RotateCameraForDanceProcess(timer));
         UIHandler.instance.uiEnd.StartVictory();
+
     }
 
   

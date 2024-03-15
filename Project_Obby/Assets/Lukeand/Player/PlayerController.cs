@@ -53,6 +53,7 @@ public class PlayerController : MonoBehaviour
 
         if (blockClass.HasBlock(BlockClass.BlockType.Complete)) return;
         ControlJumpInput();
+        DebugJumpWithKeys();
     }
     private void FixedUpdate()
     {
@@ -99,6 +100,24 @@ public class PlayerController : MonoBehaviour
 
 
     }
+
+    void DebugJumpWithKeys()
+    {
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            handler.movement2.PressJump();
+        }
+
+        if (Input.GetKey(KeyCode.Space))
+        {
+            handler.movement2.HoldJump();
+        }
+        if (Input.GetKeyUp(KeyCode.Space))
+        {
+            handler.movement2.ReleaseJump();
+        }
+    }
+
     void ControlMovementWithJoystick()
     {
         //bascially

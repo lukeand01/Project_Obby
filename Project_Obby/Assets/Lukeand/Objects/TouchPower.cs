@@ -34,7 +34,7 @@ public class TouchPower : MonoBehaviour
 
        confirmationWindow.StartConfirmationWindow("Purchase", data.storeDescription);
        confirmationWindow.ChangeConfirmTextValue(CurrencyType.Coin, powerStoreData.tempPrice.ToString());
-        confirmationWindow.StartCoinHolder();
+       confirmationWindow.StartCoinHolder();
 
        confirmationWindow.eventConfirm += OnConfirmed;
        confirmationWindow.eventCancel += OnCancelled;
@@ -74,6 +74,7 @@ public class TouchPower : MonoBehaviour
         {
             UIHandler.instance.uiConfirmationWindow.CloseConfirmationWindow();
             ResetTouch();
+            PlayerHandler.instance.ChangeCoin(-(int)powerStoreData.tempPrice);
             PlayerHandler.instance.AddTempPower(powerStoreData.powerData);
             Destroy(gameObject);
         }

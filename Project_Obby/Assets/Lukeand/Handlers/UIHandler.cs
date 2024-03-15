@@ -35,6 +35,7 @@ public class UIHandler : MonoBehaviour
     [SerializeField] PlayerUI uiPlayerRef;
     [SerializeField] EndUI uiEndRef;
     [SerializeField] ConfirmationWindowUI uiConfirmatioWindowRef;
+    [SerializeField] PresentationUI uiPresentationRef;
     //[SerializeField] RewardUI uiRewardRef;
 
     [Separator("TEMPLATE REFERENCES")]
@@ -62,6 +63,9 @@ public class UIHandler : MonoBehaviour
     public EndUI uiEnd { get => uiEndRef; }
 
     public ConfirmationWindowUI uiConfirmationWindow { get => uiConfirmatioWindowRef; }
+
+    public PresentationUI uiPresentation { get => uiPresentationRef; }
+
 
     //public RewardUI uiReward { get => uiRewardRef; }    
 

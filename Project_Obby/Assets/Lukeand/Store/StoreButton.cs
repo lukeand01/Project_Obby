@@ -51,7 +51,6 @@ public class StoreButton : ButtonBase
         base.OnPointerClick(eventData);
 
 
-
         handler.SelectThisCategory(this, categoryType);
 
     }

@@ -37,16 +37,24 @@ public class EndRewardHandler : MonoBehaviour
        StartCoroutine(AdButtonRotateProcess());
     }
 
+
+    public void ResetAdButton()
+    {
+        rewardGoldAdButton.DOKill();
+        rewardGoldAdButton.transform.DOScale(0.45f, 0);
+        rewardGoldAdButton.transform.DOLocalRotate(new Vector3(0, 0, 0), 0);
+    }
+
     IEnumerator AdButtonScaleProcess()
     {
         //i will shake it and increase it.
         float timer = 1.5f;
 
-        rewardGoldAdButton.transform.DOScale(0.35f, timer);
+        rewardGoldAdButton.transform.DOScale(0.5f, timer);
 
         yield return new WaitForSeconds(timer);
 
-        rewardGoldAdButton.transform.DOScale(0.3f, timer);
+        rewardGoldAdButton.transform.DOScale(0.45f, timer);
 
         yield return new WaitForSeconds(timer);
 

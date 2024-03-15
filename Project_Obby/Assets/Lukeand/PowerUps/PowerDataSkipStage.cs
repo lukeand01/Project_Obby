@@ -9,7 +9,7 @@ public class PowerDataSkipStage : PowerData
     public override void AddPower()
     {
         //we tell the locarhandler to go to to the next thing.
-        UIHandler.instance.uiEnd.StartVictory();
+        PlayerHandler.instance.PlayerWon();
     }
 
     public override void RemovePower()

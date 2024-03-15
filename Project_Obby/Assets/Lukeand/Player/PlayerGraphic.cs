@@ -35,7 +35,7 @@ public class PlayerGraphic : MonoBehaviour
 
         if(template != null )
         {
-            //Debug.Log("found template");
+            //DebugErrorText.Log("found template");
         }
         else
         {

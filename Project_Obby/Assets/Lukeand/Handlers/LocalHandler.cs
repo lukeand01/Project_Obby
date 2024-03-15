@@ -88,6 +88,10 @@ public class LocalHandler : MonoBehaviour
         //coin
         //gem
 
+        Debug.Log("this is called to change any stuff about th eplayer");
+
+
+
         PlayerHandler.instance.ChangeCoin(gainedCoin);
         PlayerHandler.instance.ChangeGem(gainedGems);
         PlayerHandler.instance.ChangeProgress();
@@ -95,10 +99,28 @@ public class LocalHandler : MonoBehaviour
         //and we give the stage stars to the data.
         //and when we load another scene we save all the data.
 
-        Debug.Log("this was the quantity of gained stars " + gainedStars);
+
+        //we need to find the gained stars here.
+
+        int gainedStars = 1;
+
+        if (PlayerHandler.instance.currentHealth >= 3)
+        {
+            gainedStars++;
+        }
+        if (currentTimer.IsCurrentMoreThanHalfTheOriginal())
+        {
+            gainedStars++;
+        }
+
+
 
         data.SetStarGained(gainedStars);
         data.SetNewRecord(currentTimer);
+
+        SaveHandler2.OrderToSaveData();
+
+
     }
 
     public void StartLocalHandler(StageData stage, StageTimeClass forcedTimer = null)
@@ -107,7 +129,6 @@ public class LocalHandler : MonoBehaviour
 
         if(forcedTimer != null)
         {
-            Debug.Log("tried to call with a save");
             currentTimer = forcedTimer;
         }
         else
@@ -142,10 +163,15 @@ public class LocalHandler : MonoBehaviour
         }
         else
         {
-            StartCoroutine(StartStageProcess());
+            PlayerHandler handler = PlayerHandler.instance;
+            handler.cam.ResetCamToIntroduction();
+            handler.ForceRightRotationInRelationToSpawn();
+            UIHandler.instance.uiPresentation.StartPresentationUI(data);
+
+            //StartCoroutine(StartStageProcess());
         }
 
-        
+        //we will call the ui instead here. and the ui nwill cal the presentation.
         
     }
 
@@ -159,7 +185,12 @@ public class LocalHandler : MonoBehaviour
         StopAllCoroutines();
     }
 
-    IEnumerator StartStageProcess()
+    public void CallStartStage()
+    {
+        StartCoroutine(StartStageProcess());
+    }
+
+    public IEnumerator StartStageProcess()
     {
 
         //then we lock it again till we are done.
@@ -176,8 +207,7 @@ public class LocalHandler : MonoBehaviour
         PlayerUI playerUI = UIHandler.instance.uiPlayer;
 
         handler.controller.blockClass.AddBlock("StartStage", BlockClass.BlockType.Complete);
-        handler.cam.ResetCamToIntroduction();
-        handler.ForceRightRotationInRelationToSpawn();
+
         //StartCoroutine(handler.cam.CamIntroductionProcess());
         handler.cam.CallCamIntroductionProcess();
 

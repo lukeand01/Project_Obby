@@ -59,7 +59,7 @@ public class StageUnit : ButtonBase
 
 
         UpdateAvailabilityUI(playerStageProgress);
-        
+        UpdateStar();
         UpdateUI();
     }
 
@@ -74,7 +74,17 @@ public class StageUnit : ButtonBase
         this.isAvailable = isAvailable;
     }
 
+    void UpdateStarsGained()
+    {
+        int currentStarsGained = data.stageStarGained;
 
+        for (int i = 0; i < currentStarsGained; i++)
+        {
+            //we paint them
+
+        }
+
+    }
 
     void UpdateUI()
     {
@@ -240,8 +250,16 @@ public class StageUnit : ButtonBase
 
         for (int i = 0; i < data.stageStarGained; i++)
         {
+           
             stars[i].color = fullColor;
         }
+
+        if(data.stageStarGained > 0)
+        {
+            Debug.Log("this has stars");
+        }
+
+        Debug.Log("this was visible");
     }
 
 

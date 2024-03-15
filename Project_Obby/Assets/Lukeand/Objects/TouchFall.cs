@@ -19,11 +19,13 @@ public class TouchFall : MonoBehaviour
 
     private void Awake()
     {
+        Debug.Log(gameObject.name);
         rb = GetComponent<Rigidbody>(); 
         graphic = transform.GetChild(0).gameObject;
         originalPos = graphic.transform.localPosition;
 
         rb.useGravity = false;
+        rb.constraints = RigidbodyConstraints.FreezeRotation;
     }
 
     private void OnCollisionEnter(Collision collision)

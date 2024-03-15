@@ -305,7 +305,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 05b5caf11b61e094fbc28b39b884a404, type: 3}
       propertyPath: m_Name
-      value: Plus (1)
+      value: Plus_MoveBehavior
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 05b5caf11b61e094fbc28b39b884a404, type: 3}
       propertyPath: m_Layer
@@ -342,7 +342,7 @@ MonoBehaviour:
   - {x: 3, y: 0, z: 0}
   - {x: -3, y: 0, z: 0}
   totalTimerToStartMoving: 1
-  speed: 4
+  speed: 1.8
   timeBetweenDir: 0
   stopAfterListIsDone: 0
 --- !u!4 &51222170 stripped
@@ -1161,7 +1161,7 @@ MonoBehaviour:
   - {x: 3, y: 0, z: 0}
   - {x: -3, y: 0, z: 0}
   totalTimerToStartMoving: 1
-  speed: 4
+  speed: 1.8
   timeBetweenDir: 0
   stopAfterListIsDone: 0
 --- !u!1001 &813438743
@@ -3277,7 +3277,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 05b5caf11b61e094fbc28b39b884a404, type: 3}
       propertyPath: m_Name
-      value: Plus (3)
+      value: Plus_MoveBehavior
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 05b5caf11b61e094fbc28b39b884a404, type: 3}
       propertyPath: m_Layer
@@ -3861,7 +3861,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 0680a673ae51cb74b812f333a1c4f30d, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -28.130001
+      value: -28.13
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 0680a673ae51cb74b812f333a1c4f30d, type: 3}
       propertyPath: m_LocalRotation.w

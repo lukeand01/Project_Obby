@@ -39,8 +39,11 @@ public class AdHandler : MonoBehaviour
 
     //this is called by mainmenu always.
     public void RequestBanner()
-    {      
+    {
         //THis is the android version.      
+
+        return;
+
         bannerView = new BannerView(adUnitId, AdSize.SmartBanner, AdPosition.Top);
 
         AdRequest request = new AdRequest.Builder().Build();
@@ -84,7 +87,7 @@ public class AdHandler : MonoBehaviour
     {
         if (interstitial != null && interstitial.CanShowAd())
         {
-            //Debug.Log("Showing interstitial ad.");
+            //DebugErrorText.Log("Showing interstitial ad.");
             interstitial.Show();
             isShowingAd = true;
             interstitial.OnAdFullScreenContentClosed += OnInterstitialAdEnd;
@@ -120,7 +123,7 @@ public class AdHandler : MonoBehaviour
             rewardedAd = null;
         }
 
-        //Debug.Log("Loading the rewarded interstitial ad.");
+        //DebugErrorText.Log("Loading the rewarded interstitial ad.");
 
         // create our request used to load the ad.
         var adRequest = new AdRequest();
@@ -164,7 +167,7 @@ public class AdHandler : MonoBehaviour
             {
                 
                 // TODO: Reward the user.
-                //Debug.Log(String.Format(rewardMsg, reward.Type, reward.Amount));
+                //DebugErrorText.Log(String.Format(rewardMsg, reward.Type, reward.Amount));
             });
         }
     }

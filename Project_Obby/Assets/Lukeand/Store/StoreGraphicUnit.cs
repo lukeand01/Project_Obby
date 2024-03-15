@@ -35,12 +35,13 @@ public class StoreGraphicUnit : StoreBaseUnit
         selected.transform.localScale = Vector3.zero;
     }
 
+    
+
     public void SetUp(StoreGraphicData data, StoreUI handler)
     {
         this.data = data;
         this.handler = handler;
-
-        
+       
 
         UpdateUI();
     }
@@ -49,6 +50,10 @@ public class StoreGraphicUnit : StoreBaseUnit
     {
         isAlreadyOwned = PlayerHandler.instance.HasStoreItem(data.storeIndex);
         isCurrentlyUsing = PlayerHandler.instance.graphic.graphicIndex == (int)data.graphicType;
+
+
+
+       
 
         priceHolder.SetActive(!isAlreadyOwned);
         stateText.gameObject.SetActive(isAlreadyOwned);
@@ -81,10 +86,14 @@ public class StoreGraphicUnit : StoreBaseUnit
 
     public void Select()
     {
+
+
+        StartStoreActButton(isAlreadyOwned, isCurrentlyUsing);
+
         isSelected = true;
         float time = 0.15f;
         selected.transform.DOKill();
-        selected.transform.DOScale(new Vector3(2.1f, 1.12f, 0), time);
+        selected.transform.DOScale(new Vector3(1.55f, 0.85f, 0), time);
 
         //StopAllCoroutines();
         //StartCoroutine(IsSelectedProcess());
@@ -94,11 +103,15 @@ public class StoreGraphicUnit : StoreBaseUnit
 
     public void UnSelect()
     {
+        CloseStoreActButton();
+
+        Debug.Log("unseleect was called");
         isSelected = false;
         float time = 0.15f;
         selected.transform.DOKill();
         selected.transform.DOScale(0, time);
 
+        
        // StopAllCoroutines();
         //UnselectedOrder();
     }
@@ -134,7 +147,7 @@ public class StoreGraphicUnit : StoreBaseUnit
     {
         base.OnPointerClick(eventData);
 
-        Debug.Log("click");
+        Debug.Log("clicked");
 
         if (isSelected)
         {
@@ -147,14 +160,13 @@ public class StoreGraphicUnit : StoreBaseUnit
             else
             {
                 //then we ask for confirmation to buy it.
-                Debug.Log("start buy item");
+
                 handler.StartBuyItem(data, this);
             }
         }
         else
         {
             //then we select it.
-            Debug.Log("select");
             handler.SelectGraphical(this);
         }
 

@@ -18,58 +18,60 @@ public class EndAchievementUnit : MonoBehaviour
     [SerializeField] GameObject heartHolder;
     [SerializeField] Image[] hearts;
 
+
+    Vector3 titleOriginalPos;
+    Vector3 coinOriginalPos;
+    Vector3 timerOriginalPos;
+    Vector3 heartOriginalPos;
+
     [Separator("SOUND")]
     [SerializeField] AudioClip gainCoinSound;
 
 
     float offset = 100;
 
+
+    //I need to show 
+    //i want to constantly showing the stars you can gain
+    //
+
+
+    private void Awake()
+    {
+        titleOriginalPos = titleText.transform.position;
+        coinOriginalPos = coinText.transform.position;
+        timerOriginalPos = timerText.transform.position;
+        heartOriginalPos = heartHolder.transform.position;
+
+
+
+
+        //then we move awayu fromt the screen.
+        //and we need to rest position.
+
+    }
+
     public void PutAllPiecesInStartingPos()
     {
 
-        offset = 500;
+        float offset = Screen.width * 1.4f;
 
-        //titleText.transform.position += Vector3.left * offset;
-        //coinText.transform.position += Vector3.left * offset;
-        //timerText.transform.position += Vector3.left * offset;
-        //heartHolder.transform.position += Vector3.left * offset;
+        titleText.transform.DOMove(titleOriginalPos + Vector3.left * offset, 0);
+        coinText.transform.DOMove(coinOriginalPos + Vector3.left * offset, 0);
+        timerText.transform.DOMove(timerOriginalPos + Vector3.left * offset, 0);
+        heartHolder.transform.DOMove(heartOriginalPos + Vector3.left * offset, 0);
+
+
 
     }
 
 
-    public IEnumerator StartAchievementProcess(EndUI handler)
-    {
-        //first it says "you completed" and that gives a star.
-        //then it shows all the coins grabbed.
-        //then we pass the coins to the reward.
-        //rewards already creates ad.
-        //then we show the timer concluded. that might earn another star.
-        //then we show the health. that might earn another star.
-
-        float speed = 1;
-
-
-        titleText.transform.DOMove(titleText.transform.position + Vector3.right * offset, speed);
-
-        yield return handler.StarHolder.OrderStarAnimation(titleText.transform.position);
-
-        coinText.transform.DOMove(coinText.transform.position + Vector3.right * offset, speed);
-
-        //and now i need to start counting the coin.
-        //so i need the number of obtained coins.
-        
-
-
-
-
-        yield break;
-    }
-
+ 
 
     public bool CallTitle()
     {
         float speed = 1;
-        titleText.transform.DOMove(titleText.transform.position + Vector3.right * offset, speed);
+        titleText.transform.DOMove(titleOriginalPos, speed);
         return true;
     }
 
@@ -82,7 +84,7 @@ public class EndAchievementUnit : MonoBehaviour
         float speed = 1;
 
         coinText.text = $"Coins: {currentCoins} / {totalCoins}";
-        coinText.transform.DOMove(coinText.transform.position + Vector3.right * offset, speed);
+        coinText.transform.DOMove(coinOriginalPos, speed);
 
         yield return new WaitForSeconds(speed);
 
@@ -124,7 +126,7 @@ public class EndAchievementUnit : MonoBehaviour
         StageTimeClass currentTimeClass = LocalHandler.instance.currentTimer;
         bool isSuccess = currentTimeClass.IsCurrentMoreThanHalfTheOriginal();
 
-        timerText.transform.DOMove(timerText.transform.position + Vector3.right * offset, timer);
+        timerText.transform.DOMove(timerOriginalPos, timer);
         timerText.text = $"Timer {currentTimeClass.minutes} : {currentTimeClass.seconds}";
 
         return isSuccess;
@@ -139,7 +141,7 @@ public class EndAchievementUnit : MonoBehaviour
 
     public bool CallHeart(float timer)
     {
-        heartHolder.transform.DOMove(heartHolder.transform.position + Vector3.right * offset, timer);
+        heartHolder.transform.DOMove(heartOriginalPos, timer);
         bool hasAllHearts = PlayerHandler.instance.currentHealth >= 3;
 
         StartCoroutine(CallHeartProcess());

@@ -146,6 +146,7 @@ public class PlayerUI : MonoBehaviour
 
     public void ShowTimer()
     {
+        
         timerHolder.transform.DOMoveY(timerPosRefForShow.position.y, 1.5f);     
     }
     public void ResetTimer()

@@ -22,3 +22,5 @@ MonoBehaviour:
     seconds: 0
   stageStarGained: 0
   bgMusic: {fileID: 8300000, guid: a6e3696111ce34f4181844490b2a159d, type: 3}
+  stageWorld: 2
+  stageColor: {r: 0, g: 0.5188679, b: 0.16469286, a: 1}

@@ -85,7 +85,7 @@ public class ConfirmationWindowUI : MonoBehaviour
     IEnumerator ShakeGoldHolderProcess()
     {
 
-        float colorTimer = 1.5f;
+        float colorTimer = 0.8f;
 
         coinText.DOKill();
 
@@ -97,9 +97,9 @@ public class ConfirmationWindowUI : MonoBehaviour
         for (int i = 0; i < 30; i++)
         {
             //and we shaek the bastard randoly in X
-            float randomValueX = UnityEngine.Random.Range(-0.25f, 0.25f);
+            float randomValueX = UnityEngine.Random.Range(-0.65f, 0.65f);
             coinText.transform.localPosition = Vector3.zero + new Vector3(randomValueX, 0, 0);
-            yield return new WaitForSeconds(0.05f);
+            yield return new WaitForSeconds(0.02f);
         }
 
         coinText.transform.localPosition = Vector3.one;

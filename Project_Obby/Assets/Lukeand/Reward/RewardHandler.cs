@@ -17,11 +17,11 @@ public class RewardHandler : MonoBehaviour
     {
         //we keep checking if 
 
-        //Debug.Log(GetRemainingTimeForDailyReward().Hours);
+        //DebugErrorText.Log(GetRemainingTimeForDailyReward().Hours);
 
-        //Debug.Log(GetRemainingTimeForDailyReward().ToString());
+        //DebugErrorText.Log(GetRemainingTimeForDailyReward().ToString());
 
-        // Debug.Log("last ime " + lastDailyRewardTime.ToString());
+        // DebugErrorText.Log("last ime " + lastDailyRewardTime.ToString());
 
 
         return;
@@ -44,7 +44,7 @@ public class RewardHandler : MonoBehaviour
     public void SetRewardHandler(SaveClass saveData)
     {
  
-        //Debug.Log("the save data is " + saveData.da)
+        //DebugErrorText.Log("the save data is " + saveData.da)
 
         lastDailyRewardTime = saveData.dailyRewardLastTime;
 
@@ -83,7 +83,7 @@ public class RewardHandler : MonoBehaviour
 
         //TimeSpan newTimer = new TimeSpan(lastDailyRewardTime.Hour - timer.Hour , lastDailyRewardTime.Minute - timer.Minute , lastDailyRewardTime.Second - timer.Second);
 
-        //Debug.Log("new timespawn " + newTimer.ToString());
+        //DebugErrorText.Log("new timespawn " + newTimer.ToString());
 
         return DateTime.UtcNow;
     }
@@ -100,7 +100,7 @@ public class RewardHandler : MonoBehaviour
     {
         DateTime differenceTimer = GetRemainingTimeForDailyReward();
 
-        //Debug.Log("this is the difference timer " + differenceTimer.Hours);
+        //DebugErrorText.Log("this is the difference timer " + differenceTimer.Hours);
 
         return differenceTimer.Day >= 1;
 

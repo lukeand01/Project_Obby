@@ -255,7 +255,7 @@
 //LAST THINGS TO MAKE COMMIT
 ///animation
 ///save. its not working buts its there.
-///fix the fall speed of the character. i hope i did.
+///fix the fall durationToGetToPos of the character. i hope i did.
 ///
 
 //GOALS
@@ -442,18 +442,88 @@
 //now the player is stuck in the air
 
 
+//TO FIX
+///the title in the main screen is over the coin <= Teste
+///the container of graphic has taken the top bar. 
+///the category buttons are not working
+///the stages are not being displayed.
+//the ad system is not working in the built version. why not?
+///there is a problem with the save system in the build version. the player is not starting with the boy and girl skins. <= Teste
+//the ui is all fucked everywhere. the victory ui.probably everything. i cannot use flat values but dinamly values to move stuff.
+//the game is too easy. maybe give something to complicate it. <= Try loweriung the jump power.
+///the save system appears to be working but its not showing in the units.
 
-//TO NOTE
-//the graphical units still have the problem but it might be tolerable
+//the health button wasnt working. whats the point of health if the stages are that small? i need to icnrease every stage. 
 
+
+//the ads are still not working. 
+
+//FIX (10 / 13)
+///the health button wasnt working. <= now its costing two health.
+///the stage counter is a bit too up.
+///stage clear text is a bit too up
+///make the fade in screen a bit faster for teh victory ui.
+///the buttons are bit too down
+//>=the ad button is stuck in a weird position. i need to reset it. <= TEste
+///the gold button needs to shake more. and stay red for less time. also an effect.
+//need some kind of animation for death on touch? 
+///the stars acquired are not showing in the stage units.
+///need to give a button that gives the tester coin or gem 
+///if there no more health then we dont show it anymore. you can if you have an ad. but only once.
+///buy hte skip stage bugs the victory screen. it does not show the camera.
+
+
+//RODRIGO  (0/16)
+//>=lava is too hard. need to decrease size perphaps?. <= teste
+//>=when you hold the jump you go too far. and when you just press it you dont go too far. <= teste
+//>=in stage purchases are not charging money. <= teste
+//>=not clear why you gained the stars. maybe ingame system that keeps telling the player.<= teste
+///not clear that you can buy by double clicking.
+///not always the double clicking is working.
+///i need to do it for the other as well. the animation unit.
+//criar a tela para mostrar o power
+//criar um inventorio para poder mostrar tudo q o player tem.
+//i need to update when you click on it. the storeunits
+//Quando vc troca de fase ou reinicia enquanto se movimento o botao de se movimentar trava e o personagem se move sozinho: wihtout touching 
+//black screen: 5, 6 , 9, 11
+//confirmation menu gets stuck for some reason.
+//jump sound missing. 
+//when you win maybe a sound of the player cheering.
+//the player doesnt like fading terrain mechanic
+//later stages crash the game for changing the scene.
+//showing legs would help the notion of space.
+//i wish there was a coin thing here to show how many coins you grabbed in the stage.
+
+//NEW FIX
+//need an animation for presentation
 
 
 
 //GOAL
-///create the grid system
-//put sound for everyone
-///put the power ui
-///the timer turns red before the allowed time
-//cant jump in certain colliders.
-//is getting stuck. it should be fluid.
+///fix the items and confirmation ui
+///the save system is also not working
+
+//GOAL
+///fix the unitws not showing that they are owned.
+//change the holder to be a bit more up. there is empty space above and is not showing under. 
+///i want the player to fall down when it reaches the victory point.
+///the player is locked after restarting. just need to remove it.
+//
+
+//GOAL
+//the stagtes should be bigger.
+//the jumps should be harder.
+//the forward speed should be slower.
+
+
+//TO NOTE
+//the graphical units still have the problem but it might be tolerable
+//I need to improve the power. its very ugly in the moment
+
+
+
+
+
+//how to show the stars?
+//while we are presenting we are going to show something.
 

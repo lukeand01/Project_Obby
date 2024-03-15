@@ -16,20 +16,29 @@ public class StageData : ScriptableObject
 
     public int stageStarGained;
 
-
     [Separator("MUSIC")]
     public AudioClip bgMusic;
 
+    [Separator("FOR DETAILS")]
+    public int stageWorld;
+    public Color stageColor;
+
+
     public void SetStarGained(int starGained)
     {
+        Debug.Log("set stars gained " + starGained);
         if(starGained > stageStarGained)
         {
             stageStarGained = starGained;
         }
+
     }
 
     public void SetNewRecord(StageTimeClass newTimer)
     {
+
+        Debug.Log("you set a new a record " + newTimer.minutes + " " + newTimer.seconds);
+
         int newValue = newTimer.GetTotalTimer();
         int oldValue = 0;
 

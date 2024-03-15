@@ -12,6 +12,11 @@ using UnityEngine.UI;
 public class StoreUI : MonoBehaviour
 {
 
+    //when nothing is select the button wont show.
+    //when the currently wearing is selected then it wont show
+    //
+
+
     [SerializeField] GameObject focus;
 
     [SerializeField] StoreButton[] buttons;
@@ -63,10 +68,20 @@ public class StoreUI : MonoBehaviour
 
     private void Start()
     {
-       GenerateGraphicalUnits();
+       
+
+        Invoke(nameof(OrderToGenerateAllUnits), 0.1f);
+    }
+
+    void OrderToGenerateAllUnits()
+    {
+        GenerateGraphicalUnits();
         GenerateAnimationlUnits();
         GeneratePowerUnits();
+
     }
+
+    int categoryCurrentIndex;
 
     public void OpenUI(int index)
     {
@@ -77,6 +92,8 @@ public class StoreUI : MonoBehaviour
       if (index == 3) SelectThisCategory(buttons[3], StoreCategoryType.Coin);
       if (index == 4) SelectThisCategory(buttons[4], StoreCategoryType.Gem);
 
+
+      categoryCurrentIndex = index;
     }
 
     //need to first do this. gems and coins are not dinamicallty set they are always the same thing.
@@ -112,12 +129,18 @@ public class StoreUI : MonoBehaviour
 
     }
 
+    //either this or we get the new one.
+
     public void StartBuyItem(StoreData data, StoreBaseUnit storeUnit)
     {
+        confirmationWindow.eventConfirm = delegate { };
+        confirmationWindow.eventCancel = delegate { };
+
         if (!data.CanBuy())
         {
             //then we show something else.
             //i would like to know whats lacking.
+
 
             string text = "";
 
@@ -132,7 +155,7 @@ public class StoreUI : MonoBehaviour
             }
 
 
-            //confirmationWindow.StartConfirmationWindow("", text);
+            confirmationWindow.StartConfirmationWindow("Purchase", text);
 
             confirmationWindow.eventConfirm += CloseBuyItem;
 
@@ -154,10 +177,14 @@ public class StoreUI : MonoBehaviour
         }
 
 
-        confirmationWindow.eventConfirm = delegate { };
-        confirmationWindow.eventCancel = delegate { };
+        Debug.Log("got here to the end");
+
+
 
         cannotSelect = true;
+
+        //also we need to update the itens to put the newly acquired stuff first in the list.
+
 
         confirmationWindow.StartConfirmationWindow("Purchase", data.storePurchaseDescription);
         confirmationWindow.ChangeConfirmTextValue(data.currencyType, data.storePrice.ToString());
@@ -169,6 +196,15 @@ public class StoreUI : MonoBehaviour
         confirmationWindow.eventCancel += CloseBuyItem;
 
     }
+
+    void UpdateNewlyAcquiredItemPositionInRightOrder()
+    {
+        //we put it first in the list for now.
+
+
+
+    }
+
 
     void TakeToCoin()
     {
@@ -665,6 +701,30 @@ public class StoreUI : MonoBehaviour
 
     #endregion
 
+
+    public void CallStoreButton()
+    {
+        //it does whatever is required. can stilll double click
+
+        if (categoryCurrentIndex == 0)
+        {
+            Debug.Log("you used action for graphical");
+
+            //now we check if we have someone selected.
+
+        }
+        if (categoryCurrentIndex == 1)
+        {
+
+        }
+        if (categoryCurrentIndex == 2)
+        {
+
+        }
+
+
+
+    }
 
     void CreateEmptyImages(Transform container, int quantity)
     {

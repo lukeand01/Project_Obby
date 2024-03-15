@@ -18,7 +18,9 @@ MonoBehaviour:
     minutes: 5
     seconds: 0
   stageCompletedTimer:
-    minutes: 0
-    seconds: 0
-  stageStarGained: 0
+    minutes: 4
+    seconds: 60
+  stageStarGained: 3
   bgMusic: {fileID: 8300000, guid: a6e3696111ce34f4181844490b2a159d, type: 3}
+  stageWorld: 1
+  stageColor: {r: 0.07164473, g: 0.6086285, b: 0.6603774, a: 1}

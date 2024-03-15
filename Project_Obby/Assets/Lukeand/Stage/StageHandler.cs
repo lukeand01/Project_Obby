@@ -55,6 +55,8 @@ public class StageHandler : MonoBehaviour
         List<SaveClassStage> stageSaveList = new();
         int playerProgress = PlayerHandler.instance.stageProgress;
 
+
+
         for (int i = 0; i < playerProgress; i++)
         {
             if(i > stageList.Count)
@@ -73,6 +75,7 @@ public class StageHandler : MonoBehaviour
                 bestSecond = stageData.stageCompletedTimer.seconds;
             }
 
+
             SaveClassStage save = new SaveClassStage(i, stageData.stageStarGained, bestMinute, bestSecond);
             stageSaveList.Add(save);
         }
@@ -86,6 +89,9 @@ public class StageHandler : MonoBehaviour
         if (saveClassStageList == null) return;
 
 
+        //here is the problem,
+
+
         for (int i = 0; i < saveClassStageList.Count; i++)
         {
             if (i > stageList.Count)
@@ -97,6 +103,8 @@ public class StageHandler : MonoBehaviour
             StageData data = stageList[i];
             SaveClassStage save = saveClassStageList[i];
 
+
+           
 
             if(data == null)
             {

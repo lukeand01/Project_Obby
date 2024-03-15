@@ -312,5 +312,5 @@ public class PlayerMovement : MonoBehaviour
 }
 
 
-//clamped fall speed
+//clamped fall durationToGetToPos
 //after some time it falls faster.

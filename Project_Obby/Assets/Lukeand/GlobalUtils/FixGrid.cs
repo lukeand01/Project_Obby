@@ -9,7 +9,7 @@ public class FixGrid : MonoBehaviour
 
 
     [SerializeField] Vector3 itemScale = Vector3.one;
-
+    [SerializeField] float zPos = 0;
     private void Start()
     {
         Invoke(nameof(UpdateItems), 0.15f);
@@ -26,7 +26,7 @@ public class FixGrid : MonoBehaviour
             if (childRectTransform != null)
             {
                 // Set the Z position to 0
-                childRectTransform.localPosition = new Vector3(childRectTransform.localPosition.x, childRectTransform.localPosition.y, 0f);
+                childRectTransform.localPosition = new Vector3(childRectTransform.localPosition.x, childRectTransform.localPosition.y, zPos);
             }
         }
     }

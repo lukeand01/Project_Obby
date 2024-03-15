@@ -149,7 +149,7 @@ public class SceneLoader : MonoBehaviour
         PlayerHandler.instance.controller.blockClass.AddBlock("ChangeScene", BlockClass.BlockType.Complete);
 
         yield return StartCoroutine(LowerCurtainsProcess());
-        //Debug.Log("0 " + PlayerHandler.instance.lastSpawnPointIndex);
+        //DebugErrorText.Log("0 " + PlayerHandler.instance.lastSpawnPointIndex);
         GameHandler.instance.soundHandler.StopBGMusic();
         yield return StartCoroutine(LoadSameSceneProcess(data));
 
@@ -168,6 +168,7 @@ public class SceneLoader : MonoBehaviour
         //PlayerHandler.instance.cam.ResetCam();
 
         PlayerHandler.instance.RemoveIsDead();
+        PlayerHandler.instance.ResetBlocks();
 
         GameHandler.instance.soundHandler.ChangeBackgroundMusic(data.bgMusic);
 

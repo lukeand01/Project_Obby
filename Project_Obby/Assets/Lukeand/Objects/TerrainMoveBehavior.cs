@@ -11,7 +11,7 @@ public class TerrainMoveBehavior : MonoBehaviour
 
     [SerializeField] float totalTimerToStartMoving;
     float currentTimerToStartMoving;
-    [SerializeField] float speed;
+    [SerializeField] float durationToGetToPos;
     [SerializeField] float timeBetweenDir;
     [SerializeField] bool stopAfterListIsDone;
 
@@ -62,7 +62,7 @@ public class TerrainMoveBehavior : MonoBehaviour
         {
             Vector3 targetPos = transform.position + dirList[i];
 
-            transform.DOMove(targetPos, speed);
+            transform.DOMove(targetPos, durationToGetToPos);
 
 
             while (transform.position != targetPos)

@@ -49,10 +49,27 @@ public static class SaveHandler2
         PlayerHandler player = PlayerHandler.instance;
         StageHandler stage = GameHandler.instance.stageHandler;
 
+
+
         if (OrderHasFile())
         {          
 
+            //if you have file but you have nothing then we delete this data and sign it as corrupted and we give a new one.
+
             SaveClass saveClass = LoadData<SaveClass>("0", true);
+
+
+            if(saveClass.playerItemsList.Count <= 0)
+            {
+                //this should never happen so what we do is delete the file and call it again.
+                Debug.Log("there was an issue here");
+                player.UseEmptyData();
+                stage.ResetAllStages();
+                return;
+            }
+
+
+            MainMenuUI.instance.DebugConsoleText("save: " + saveClass.playerItemsList.Count.ToString());
 
             //CURRENCY
             player.SetCoin(saveClass.playerCoin);
@@ -70,6 +87,9 @@ public static class SaveHandler2
             player.graphic.SetAnimationIndex(saveClass.playerCurrentAnimationIndex);
 
             //INDIVIDUAL STAGES
+
+
+
             stage.ReceiveStageDataList(saveClass.stageList);
 
         }
@@ -81,7 +101,7 @@ public static class SaveHandler2
         }
 
 
-
+        //the problem must be here;
         
 
     }

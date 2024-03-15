@@ -23,6 +23,10 @@ public class PlayUI : MonoBehaviour
     List<StageUnit> allStageUnitList = new();
 
 
+    private void Start()
+    {
+        
+    }
 
 
     #region HANDLE STAGES
@@ -113,6 +117,10 @@ public class PlayUI : MonoBehaviour
     #region HANDLE STAGES 2
     public void CreateStageUnits2(List<StageData> stageList)
     {
+
+
+
+
         int playerProgress = PlayerHandler.instance.stageProgress;
 
         for (int i = 0; i < stageList.Count; i++)
@@ -136,6 +144,7 @@ public class PlayUI : MonoBehaviour
         {
             item.transform.localPosition = new Vector3(item.transform.localPosition.x, item.transform.localPosition.y, 0);
         }
+
 
     }
 

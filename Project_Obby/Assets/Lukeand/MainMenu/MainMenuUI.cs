@@ -44,23 +44,39 @@ public class MainMenuUI : MonoBehaviour
     {
         //look for the stage handler.
 
-        if(GameHandler.instance == null)
+
+
+        if (GameHandler.instance == null)
         {
-            Debug.Log("there was no gamehandler for some reason");
             return;
         }
 
-        //the banner is taking the ui in the top.
-        GameHandler.instance.adHandler.RequestBanner();
 
-        UpdatePlayerCurrencies();
+        //the banner is taking the ui in the top.
+
+
+
+
+        //GameHandler.instance.adHandler.RequestBanner();
+
+
+
+        UpdatePlayerCurrencies();    
 
         playUI.CreateStageUnits2(GameHandler.instance.stageHandler.stageList);
 
 
         GameHandler.instance.soundHandler.ChangeBackgroundMusic(bgMusic, true);
 
+
+        Application.logMessageReceived += DebugErrorText;
+
+
     }
+
+
+
+
 
     public void UpdatePlayerCurrencies()
     {
@@ -126,6 +142,53 @@ public class MainMenuUI : MonoBehaviour
     }
 
     #endregion
+
+
+    #region DEBUG
+    [Separator("DEBUG")]
+    [SerializeField] TextMeshProUGUI debugText;
+    [SerializeField] TextMeshProUGUI debugErrorText;
+    [SerializeField] Transform debugContainer;
+
+    public void DebugErrorText(string logString, string stackTrace, LogType type)
+    {
+
+        if(type == LogType.Error)
+        {
+            Debug.Log("this is error");
+            debugErrorText.text = logString;
+        }
+
+        
+    }
+
+    public void DebugConsoleText(string value)
+    {
+
+        TextMeshProUGUI newObject = Instantiate(debugText, Vector2.zero, Quaternion.identity);
+        newObject.text = value;
+        newObject.transform.SetParent(debugContainer);
+        newObject.gameObject.SetActive(true);
+
+
+    }
+
+    public void DebugDeleteSave()
+    {
+        SaveHandler2.OrderDeleteFile();
+    }
+
+    public void DebugGainCoin()
+    {
+        PlayerHandler.instance.ChangeCoin(100);
+    }
+    public void DebugGainGem()
+    {
+        PlayerHandler.instance.ChangeGem(100);  
+    }
+
+    #endregion
+
 
     public void SetWarn(string text)
     {

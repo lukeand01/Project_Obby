@@ -2,7 +2,6 @@ using MyBox;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using static UnityEditor.Experimental.GraphView.GraphView;
 
 public class PlayerMovement2 : MonoBehaviour
 {
@@ -10,7 +9,7 @@ public class PlayerMovement2 : MonoBehaviour
 
 
     //important things.
-    //the player has a walk speed
+    //the player has a walk durationToGetToPos
 
 
 
@@ -60,6 +59,8 @@ public class PlayerMovement2 : MonoBehaviour
     bool canJump;
 
 
+    [SerializeField] Vector3 rbVelocity;
+
     float tick = 0.02f;
 
     private void Awake()
@@ -75,8 +76,7 @@ public class PlayerMovement2 : MonoBehaviour
     {
         isGrounded = IsGrounded();
 
-
-        Debug.Log("is grounded " + isGrounded);
+        rbVelocity = handler.rb.velocity;
 
         canJump = CanJump();
 
@@ -85,7 +85,7 @@ public class PlayerMovement2 : MonoBehaviour
         HandleGroundedLogic();
         HandleBufferLogic();
 
-        //Debug.Log("isgrounded " + isGrounded);
+        //DebugErrorText.Log("isgrounded " + isGrounded);
 
     }
 
@@ -131,9 +131,26 @@ public class PlayerMovement2 : MonoBehaviour
 
     public void CompleteStopPlayer()
     {
+
         accelerationIncrementCurrent = 0;
         handler.rb.velocity = new Vector3(0, 0, 0);
-        handler.rb.constraints = RigidbodyConstraints.FreezeAll;
+        
+
+        //handler.rb.useGravity = false;
+        //handler.rb.constraints = RigidbodyConstraints.FreezeAll;
+        //Invoke(nameof(Restore), 1.5f);
+        //handler.rb.constraints = RigidbodyConstraints.FreezePositionX;
+        //handler.rb.constraints = RigidbodyConstraints.FreezePositionZ;
+        //handler.rb.constraints = RigidbodyConstraints.FreezeRotation;
+    }
+
+
+    void Restore()
+    {
+        handler.rb.constraints = RigidbodyConstraints.None;
+        handler.rb.constraints = RigidbodyConstraints.FreezePositionX;
+        handler.rb.constraints = RigidbodyConstraints.FreezePositionZ;
+        handler.rb.constraints = RigidbodyConstraints.FreezeRotation;
     }
 
     //the fall is not controlled here
