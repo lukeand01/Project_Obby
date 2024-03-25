@@ -62,7 +62,7 @@ public static class SaveHandler2
             if(saveClass.playerItemsList.Count <= 0)
             {
                 //this should never happen so what we do is delete the file and call it again.
-                Debug.Log("there was an issue here");
+
                 player.UseEmptyData();
                 stage.ResetAllStages();
                 return;

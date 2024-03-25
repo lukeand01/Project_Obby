@@ -102,6 +102,8 @@ public class StoreAnimationUnit : StoreBaseUnit
         isCurrentlyUsing = true;
 
         //we need to give that skin to the player but that is done in the handler.
+        handler.UpdateAllAnimationUnit();
+
 
         UpdateUI();
     }

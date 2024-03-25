@@ -14,7 +14,9 @@ public class StoreBaseUnit : ButtonBase
 
     public virtual void UpdateAfterBuying()
     {
+        //after buying then we should put this item first in the list just for simplifyiung it.
 
+        transform.SetAsFirstSibling();
     }
 
     //need tor esolve the problem with not being able to click;
@@ -61,7 +63,6 @@ public class StoreBaseUnit : ButtonBase
             return;
         }
 
-        Debug.Log("was called");
         storeActButton.gameObject.SetActive(false);
 
         StopCoroutine(nameof(StoreActButtonProcess));

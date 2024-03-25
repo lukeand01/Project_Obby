@@ -34,8 +34,8 @@ public class EndUI : MonoBehaviour
 
     [Separator("DEFEAT")]
     [SerializeField] GameObject defeatHolder;
-    [SerializeField] GameObject defeatUseHealthButton;
-    [SerializeField] GameObject defeatWatchAd;
+    [SerializeField] ButtonEvent defeatUseHealthButton;
+    [SerializeField] ButtonEvent defeatWatchAdButton;
     [SerializeField] GameObject defeatRetryStageButton;
     [SerializeField] GameObject defeatMainMenuButton;
     [SerializeField] TextMeshProUGUI stageText;
@@ -48,7 +48,7 @@ public class EndUI : MonoBehaviour
 
     StageData nextStage = null;
     bool canUseHealth;
-
+    bool canWatchAd;
     private void Awake()
     {
         holder = transform.GetChild(0).gameObject;
@@ -264,11 +264,21 @@ public class EndUI : MonoBehaviour
 
         //liveText.text = "Lives: " + currentHealth.ToString();
 
-        defeatUseHealthButton.gameObject.SetActive(currentHealth > 0);
-        defeatWatchAd.SetActive(!hasAlreadyWatchedAD);
+        bool IsThereAnotherSpawn = LocalHandler.instance.IsThereAnotherSpawn();
+        canUseHealth = currentHealth > 0 && IsThereAnotherSpawn;
+        canWatchAd = !hasAlreadyWatchedAD && IsThereAnotherSpawn;
+
+        Debug.Log("can use health " + canUseHealth);
+        Debug.Log("can watch ad " + canWatchAd);
+
+        defeatUseHealthButton.ControlLocked(!canUseHealth);
+        defeatWatchAdButton.ControlLocked(!canWatchAd);
+
+        
 
 
-        canUseHealth = currentHealth > 0;
+        //and if there is another spawn.
+
     }
 
     #endregion
@@ -292,21 +302,20 @@ public class EndUI : MonoBehaviour
     }
     public void DecideUseHealth()
     {
+
         if (canUseHealth)
         {
             //cost health and reload.
             PlayerHandler.instance.RespawnUsingHealth();
         }
-        else
-        {
-            Debug.Log("the player should be able to clikc it");
-        }
+
         
 
     }
     public void DecidedWatchSpawnAd()
     {
         //watch an ad
+        if (!canWatchAd) return;
         GameHandler.instance.adHandler.RequestRewardAd(RewardType.AnotherLife);
     }
 

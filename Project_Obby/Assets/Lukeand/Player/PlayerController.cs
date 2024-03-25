@@ -52,7 +52,7 @@ public class PlayerController : MonoBehaviour
     {
 
         if (blockClass.HasBlock(BlockClass.BlockType.Complete)) return;
-        ControlJumpInput();
+
         DebugJumpWithKeys();
     }
     private void FixedUpdate()
@@ -62,6 +62,8 @@ public class PlayerController : MonoBehaviour
             //ControlCameraWithJoystick(true);
             return;
         }
+
+        ControlJumpInput();
 
         if (DEBUGCanMoveWithASWDKeys)
         {

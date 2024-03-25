@@ -22,7 +22,7 @@ public class TouchCoin : MonoBehaviour
 
         //PlayerHandler.instance.ChangeGold(1);
         LocalHandler.instance.AddLocalCoin(1);
-        GameHandler.instance.soundHandler.CreateSFX(coinAudio);
+        GameHandler.instance.soundHandler.CreateSFX(coinAudio, 0.6f);
 
         Destroy(gameObject); 
     }

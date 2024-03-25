@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Net.Sockets;
 using System.Runtime.InteropServices.WindowsRuntime;
+using TMPro;
 using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
@@ -131,6 +132,9 @@ public class StoreUI : MonoBehaviour
 
     //either this or we get the new one.
 
+    //we also need to inform the curernt using animation or graphic to change.
+    //
+
     public void StartBuyItem(StoreData data, StoreBaseUnit storeUnit)
     {
         confirmationWindow.eventConfirm = delegate { };
@@ -177,7 +181,7 @@ public class StoreUI : MonoBehaviour
         }
 
 
-        Debug.Log("got here to the end");
+
 
 
 
@@ -194,6 +198,9 @@ public class StoreUI : MonoBehaviour
         confirmationWindow.eventConfirm += CloseBuyItem;
 
         confirmationWindow.eventCancel += CloseBuyItem;
+
+
+        //also if you do buy something
 
     }
 
@@ -491,6 +498,8 @@ public class StoreUI : MonoBehaviour
     }
 
 
+
+
     #endregion
 
     #region ANIMATION
@@ -579,11 +588,21 @@ public class StoreUI : MonoBehaviour
             currentAnimation.UnSelect();
         }
     }
+
+    public void UpdateAllAnimationUnit()
+    {
+        foreach (var item in animationUnitList)
+        {
+            item.UpdateOwnership();
+        }
+    }
+
     #endregion
 
     #region POWER
     StorePowerUnit currentPower;
-
+    [Separator("POWER")]
+    [SerializeField] TextMeshProUGUI powerSelectText;
     //buy this fella.
 
     void GeneratePowerUnits()
@@ -628,7 +647,7 @@ public class StoreUI : MonoBehaviour
         //when you select you get information about it.
         //we do nothing for preview at the moment.
 
-       
+        powerSelectText.text = newPower.GetDescription();
 
         if (currentPower != null)
         {
@@ -644,6 +663,7 @@ public class StoreUI : MonoBehaviour
     void OpenPower()
     {
         powerHolder.SetActive(true);
+        powerSelectText.text = "";
         RemoveCurrentPower();
     }
 

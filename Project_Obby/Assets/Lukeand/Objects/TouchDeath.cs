@@ -10,6 +10,14 @@ public class TouchDeath : MonoBehaviour
     {
         //kills the player if the player has no shield.;
 
+        if(other.gameObject.layer == 8)
+        {
+            Debug.Log("this was the feet");
+            return;
+        }
+
+        if (other.gameObject.layer != 3) return;
+
         PlayerHandler.instance.TakeDamage(false);
     }
 }

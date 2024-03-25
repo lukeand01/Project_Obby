@@ -93,14 +93,14 @@ public class SoundHandler : MonoBehaviour
     }
 
 
-    public void CreateSFX(AudioClip clip)
+    public void CreateSFX(AudioClip clip, float modifier = 1)
     {
         GameObject newObject = new GameObject();
         newObject.transform.SetParent(soundContainer);
         AudioSource source = newObject.AddComponent<AudioSource>();
         newObject.AddComponent<DestroySelf>().SetUpDestroy(clip.length + 0.1f);
         source.clip = clip;
-        source.volume = sfxVolume;
+        source.volume = sfxVolume * modifier;
         source.Play();
     }
 }

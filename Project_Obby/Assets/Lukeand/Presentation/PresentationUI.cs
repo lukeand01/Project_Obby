@@ -27,6 +27,8 @@ public class PresentationUI : MonoBehaviour
 
     public void StartPresentationUI(StageData data)
     {
+
+
         holder.SetActive(true);
 
         Color fullColor = Color.white;
@@ -104,8 +106,6 @@ public class PresentationUI : MonoBehaviour
         if (inProcess) return;
 
 
-        Debug.Log("called ");
-
         inProcess = true;
         StopAllCoroutines();
         StartCoroutine(CloseStagePresentationUI());      
@@ -118,6 +118,8 @@ public class PresentationUI : MonoBehaviour
         holder.SetActive(false);
 
         LocalHandler.instance.CallStartStage();
+
+        inProcess = false;
 
         yield return null;
     }

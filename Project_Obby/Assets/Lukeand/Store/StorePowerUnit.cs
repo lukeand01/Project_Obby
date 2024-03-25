@@ -58,6 +58,9 @@ public class StorePowerUnit : StoreBaseUnit
         nameText.text = data.storeItemName;
         if(data.storeItemSprite != null) icon.sprite = data.storeItemSprite;
 
+        isAlreadyOwned = PlayerHandler.instance.HasPermaPower(data.powerData);
+
+        priceHolder.SetActive(!isAlreadyOwned);
 
         gemSymbol.SetActive(data.currencyType == CurrencyType.Gem);
         goldSymbol.SetActive(data.currencyType == CurrencyType.Coin);
@@ -84,6 +87,13 @@ public class StorePowerUnit : StoreBaseUnit
         float time = 0.1f;
         selected.transform.DOKill();
         selected.transform.DOScale(new Vector3(1.06f, 1.33f, 0), time);
+       
+
+
+
+        StartStoreActButton(isAlreadyOwned, isAlreadyOwned);
+
+        //the is owned is req
     }
     public void UnSelect()
     {
@@ -91,10 +101,13 @@ public class StorePowerUnit : StoreBaseUnit
         float time = 0.15f;
         selected.transform.DOKill();
         selected.transform.DOScale(0, time);
+        CloseStoreActButton();
     }
 
     public override void OnPointerClick(PointerEventData eventData)
     {
+        Debug.Log("clicked on power");
+
         base.OnPointerClick(eventData);
 
         if (isSelected && !isAlreadyOwned)
@@ -109,6 +122,11 @@ public class StorePowerUnit : StoreBaseUnit
         }
 
 
+    }
+
+    public string GetDescription()
+    {
+        return data.powerData.temporaryPowerDescription;
     }
 
 }

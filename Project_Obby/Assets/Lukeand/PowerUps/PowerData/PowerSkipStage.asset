@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   powerName: Skip Stage
   powerSprite: {fileID: 0}
-  temporaryPowerDescription: 
+  temporaryPowerDescription: just skip ahead
   temporaryPowerPrice: 100

@@ -105,7 +105,6 @@ public class StoreGraphicUnit : StoreBaseUnit
     {
         CloseStoreActButton();
 
-        Debug.Log("unseleect was called");
         isSelected = false;
         float time = 0.15f;
         selected.transform.DOKill();
@@ -136,6 +135,8 @@ public class StoreGraphicUnit : StoreBaseUnit
         UnSelect();
         isAlreadyOwned = true;
         isCurrentlyUsing = true;
+        handler.UpdateAllGraphicUnits();
+
 
         //we need to give that skin to the player but that is done in the handler.
 

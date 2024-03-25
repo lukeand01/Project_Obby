@@ -25,7 +25,11 @@ public class GameHandler : MonoBehaviour
 
     [SerializeField] List<PowerData> allAvailablePowerList = new();
 
-
+    [ContextMenu("Slow Game")]
+    public void DebugSlowGame()
+    {
+        Time.timeScale = 0.1f;
+    }
 
     public void PauseTimeScale()
     {

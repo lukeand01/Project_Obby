@@ -85,6 +85,8 @@ public class PlayerMovement2 : MonoBehaviour
         HandleGroundedLogic();
         HandleBufferLogic();
 
+        HandleJumpJumper();
+
         //DebugErrorText.Log("isgrounded " + isGrounded);
 
     }
@@ -113,13 +115,19 @@ public class PlayerMovement2 : MonoBehaviour
             accelerationIncrementCurrent = 0;
         }
 
-        
+        float groundedModifier = 1;
 
         float clampedAccelerationSpeed = accelerationIncrementCurrent;
         clampedAccelerationSpeed = Mathf.Clamp(clampedAccelerationSpeed, 0, topAcceleration);
+        clampedAccelerationSpeed = 0;
 
+
+        if (!isGrounded)
+        {
+            groundedModifier = 1;
+        }
         
-        float newSpeed = moveSpeed + clampedAccelerationSpeed;
+        float newSpeed = (moveSpeed + clampedAccelerationSpeed) * groundedModifier;
 
         handler.rb.velocity = new Vector3(moveDir.x * newSpeed, handler.rb.velocity.y, moveDir.z * newSpeed);
     }
@@ -175,6 +183,7 @@ public class PlayerMovement2 : MonoBehaviour
     public void PressJump()
     {
 
+        if (handler.controller.blockClass.HasBlock(BlockClass.BlockType.Complete)) return;
 
         if (!canJump)
         {
@@ -192,16 +201,18 @@ public class PlayerMovement2 : MonoBehaviour
 
         if(jumpQuantityCurrent > 1)
         {
-            GameHandler.instance.soundHandler.CreateSFX(handler.sound.doubleJumpClip);
+            GameHandler.instance.soundHandler.CreateSFX(handler.sound.doubleJumpClip, 1.3f);
             jumpModifier = 0.6f;
         }
         else
         {
-            GameHandler.instance.soundHandler.CreateSFX(handler.sound.jumpClip);
+            GameHandler.instance.soundHandler.CreateSFX(handler.sound.jumpClip, 1.3f);
         }
 
 
         holdJumpCurrent = 0;
+
+
 
         float actualJumpForce = (jumpForce + additionalJumpForceCurrent) * jumpModifier;
         handler.rb.velocity = new Vector3(handler.rb.velocity.x, 0, handler.rb.velocity.z);
@@ -234,26 +245,66 @@ public class PlayerMovement2 : MonoBehaviour
     }
     public void ReleaseJump()
     {
+        if (handler.controller.blockClass.HasBlock(BlockClass.BlockType.Complete)) return;
+
         if (!canRelease)
         {
             return;
         }
 
         StartFalling();
-
-              
+                     
     }
 
     void StartFalling()
     {
+
+        //while falling the the forward ability is reduced?
+
         if (handler.rb.velocity.y > 0)
         {
-            handler.rb.velocity = new Vector3(0, handler.rb.velocity.y * 0.1f, 0);
+            handler.rb.velocity = new Vector3(0, -1f, 0);
         }
 
         canRelease = false;
         canHold = false;
         isHoldingJump = false;
+
+
+        return;
+        
+    }
+
+    bool isJumpJumper;
+    public void JumperJump(float jumpForce, float forwardForce)
+    {
+        isHoldingJump = true;
+        canHold = false;
+        canRelease = false;
+        isJumpJumper = true;
+        handler.rb.AddForce((playerOrientation.forward * forwardForce) +  transform.up * jumpForce, ForceMode.Impulse);
+
+        //i want the position of nmoving a bit forward as well. based in the player direction
+        //and we send him flkying
+
+    }
+
+    void HandleJumpJumper()
+    {
+        if (isGrounded)
+        {
+            isJumpJumper = false;
+            return;
+        }
+        if (!isJumpJumper) return;
+
+        Debug.Log("got here");
+
+        //we gradually slow the velocity.
+        if(handler.rb.velocity.y > 0)
+        {
+            handler.rb.velocity -= new Vector3(0, 0.01f, 0);
+        }
 
     }
 

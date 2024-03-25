@@ -67,7 +67,7 @@ public class PlayerHandler : MonoBehaviour
         currentHealth = debugInitialHealth;
 
 
-        UIHandler.instance.uiPlayer.UpdateCoin(coins);
+       // UIHandler.instance.uiPlayer.UpdateCoin(coins);
         UIHandler.instance.uiPlayer.UpdateLives(currentHealth);
 
 
@@ -283,13 +283,13 @@ public class PlayerHandler : MonoBehaviour
     public void ChangeCoin(int amount)
     {
         coins += amount;
-        UIHandler.instance.uiPlayer.UpdateCoin(coins, amount);
+       // UIHandler.instance.uiPlayer.UpdateCoin(coins, amount);
         UpdateMainMenuCurrency();
     }
     public void SetCoin(int amount)
     {
         coins = amount;
-        UIHandler.instance.uiPlayer.UpdateCoin(coins);
+        //UIHandler.instance.uiPlayer.UpdateCoin(coins);
         UpdateMainMenuCurrency();
 
 
@@ -428,7 +428,6 @@ public class PlayerHandler : MonoBehaviour
     public void RespawnUsingHealth()
     {
 
-        Debug.Log("this was called");
 
         if (isDead)
         {
@@ -621,6 +620,8 @@ public class PlayerHandler : MonoBehaviour
         boxCollider.enabled = true;
         rb.useGravity = true;
         rb.isKinematic = false;
+
+        rb.velocity += new Vector3(0, -5, 0);
 
     }
     //IM DOING THIS BECAUSE THE OTHER WAY WAS NOT WORKING.

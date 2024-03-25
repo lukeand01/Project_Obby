@@ -64,15 +64,11 @@ public class PlayerUI : MonoBehaviour
     //the problem is that localcoins are not counted to the real thing only when you finish the thing.
     //
 
-    public void UpdateCoin(int total, int change = 0)
+    public void UpdateCoin(int current, int total)
     {
+
         //update this fella.
-        if(change != 0)
-        {
-
-        }
-
-        coinText.text = total.ToString();
+        coinText.text = current.ToString() + " / " +  total.ToString();
 
         StopCoroutine(nameof(CoinProcess));
         StartCoroutine(CoinProcess());
@@ -115,7 +111,7 @@ public class PlayerUI : MonoBehaviour
 
     public IEnumerator TimerAnimationProcess()
     {
-        float timer = 0.5f;
+        float timer = 0.3f;
         timerHolder.transform.DOScale(1.3f, timer);
         yield return new WaitForSeconds(timer);
         timerHolder.transform.DOScale(1, timer);
@@ -144,10 +140,10 @@ public class PlayerUI : MonoBehaviour
         timerText.DOColor(Color.white, 0.5f);
     }
 
-    public void ShowTimer()
+    public void ShowTimer(float timeToReach)
     {
         
-        timerHolder.transform.DOMoveY(timerPosRefForShow.position.y, 1.5f);     
+        timerHolder.transform.DOMoveY(timerPosRefForShow.position.y, timeToReach);     
     }
     public void ResetTimer()
     {

@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   powerName: Shield
   powerSprite: {fileID: 0}
-  temporaryPowerDescription: 
+  temporaryPowerDescription: You cannot be elimintaed by touching the red stuff!
   temporaryPowerPrice: 100

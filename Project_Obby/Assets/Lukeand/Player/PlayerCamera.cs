@@ -22,23 +22,18 @@ public class PlayerCamera : MonoBehaviour
 
     //i will remove
 
+    PlayerHandler handler;
 
     //we need to check here for any other cameras and then we disable it.
 
+    private void Awake()
+    {
+        handler = GetComponent<PlayerHandler>();
+    }
+
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Alpha1))
-        {
-            cam.transform.localRotation = Quaternion.Euler(0, 180, 0);
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha2))
-        {
-            cam.transform.localRotation = Quaternion.Euler(180, 0, 0);
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha3))
-        {
-            cam.transform.localRotation = Quaternion.Euler(0, 0, 0);
-        }
+       
 
 
 
@@ -77,7 +72,8 @@ public class PlayerCamera : MonoBehaviour
     {
         cam.transform.SetParent(cameraHolder);
         cam.transform.localPosition = Vector3.zero;
-        cam.transform.localRotation = Quaternion.Euler(0,0, 0);
+        cam.transform.localRotation = Quaternion.Euler(18, 0, 0);
+
     }
     public void EspecialResetCam()
     {
@@ -90,29 +86,35 @@ public class PlayerCamera : MonoBehaviour
     {
         cam.transform.SetParent(cameraHolderForIntroduction);
         cam.transform.localPosition = new Vector3(0, 1.5f, -0.5f);
-        cam.transform.localRotation = Quaternion.Euler(0, 0, 0);
+        cam.transform.localRotation = Quaternion.Euler(18, 0, 0);
     }
 
-    public void CallCamIntroductionProcess()
+    public void CallCamIntroductionProcess(float timeToWait, float timeToReach)
     {
-        StartCoroutine(CamIntroductionProcess());
+        StartCoroutine(CamIntroductionProcess(timeToWait, timeToReach));
     }
 
-    public IEnumerator CamIntroductionProcess()
+    public IEnumerator CamIntroductionProcess(float timeToWait, float timeToReach)
     {
 
-        yield return new WaitForSeconds(0.6f);
+        handler.controller.blockClass.AddBlock("Cam", BlockClass.BlockType.Complete);
 
-        float timer = 1.2f;
+        yield return new WaitForSeconds(timeToWait);
 
-        cam.transform.DOMove(cameraHolder.position, timer);
+        cam.transform.DOMove(cameraHolder.position, timeToReach);
 
-        yield return new WaitForSeconds(timer);
+        yield return new WaitForSeconds(timeToReach * 0.45f);
 
+        cam.nearClipPlane = 1;
 
+        yield return new WaitForSeconds(timeToReach * 0.55f);
 
+        cam.nearClipPlane = 0.3f;
+       
         ResetCam();
 
+        cam.transform.DOKill();
+        handler.controller.blockClass.RemoveBlock("Cam");
     }
 
 
@@ -126,12 +128,16 @@ public class PlayerCamera : MonoBehaviour
     {
         dir = dir.normalized;
         cameraRotationX += dir.x * cameraSensitivityX;
-        playerRotationX += dir.x * cameraSensitivityX;
+       // playerRotationX += dir.x * cameraSensitivityX;
         cameraRotationY -= dir.y * cameraSensitivityY;
-        float clampedCamerRotationY = cameraRotationY;
-        clampedCamerRotationY = Mathf.Clamp(clampedCamerRotationY, -30, 25);
+
+        cameraRotationY = Mathf.Clamp(cameraRotationY, -10, 18);
+
+
+        //float clampedCamerRotationY = cameraRotationY;
+        //clampedCamerRotationY = Mathf.Clamp(clampedCamerRotationY, -30, 25);
         transform.rotation = Quaternion.Euler(0, cameraRotationX, 0);
-        cameraHolder.rotation = Quaternion.Euler(clampedCamerRotationY, cameraRotationX, 0);
+        cameraHolder.rotation = Quaternion.Euler(cameraRotationY, cameraRotationX, 0);
 
         
         

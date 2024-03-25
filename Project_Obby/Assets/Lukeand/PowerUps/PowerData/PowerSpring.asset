@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   powerName: Spring
   powerSprite: {fileID: 0}
-  temporaryPowerDescription: 
+  temporaryPowerDescription: With this you can jump even higher!
   temporaryPowerPrice: 100

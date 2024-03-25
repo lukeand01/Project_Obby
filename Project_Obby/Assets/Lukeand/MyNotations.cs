@@ -481,18 +481,60 @@
 ///not clear that you can buy by double clicking.
 ///not always the double clicking is working.
 ///i need to do it for the other as well. the animation unit.
-//criar a tela para mostrar o power
-//criar um inventorio para poder mostrar tudo q o player tem.
-//i need to update when you click on it. the storeunits
+///criar a tela para mostrar o power
+//criar um inventorio para poder mostrar tudo q o player tem. <= ignore for now.
+///i need to update when you click on it. the storeunits
 //Quando vc troca de fase ou reinicia enquanto se movimento o botao de se movimentar trava e o personagem se move sozinho: wihtout touching 
 //black screen: 5, 6 , 9, 11
 //confirmation menu gets stuck for some reason.
-//jump sound missing. 
+///jump sound missing. 
 //when you win maybe a sound of the player cheering.
 //the player doesnt like fading terrain mechanic
 //later stages crash the game for changing the scene.
 //showing legs would help the notion of space.
 //i wish there was a coin thing here to show how many coins you grabbed in the stage.
+
+
+///it should be based in timescale probably. 
+//
+
+
+//GOAL
+//i have to fix the stages. make them larger and put respawns there.
+//make the heart button work again.
+///you shouldt be able to use the use heart option or watch ad when there is only one ad.
+///create ui for current and total stage coins.
+///you shouldnt be able to see the player falling down at the start. to do that we will hold the entrance a bit longer.
+///when you zoom to first person you shouldnt see the face.
+///the tutorial button doesnt work 
+///the jump button is not working
+///the player should not be able to jump in the presentation
+///create a loading screen.
+//i want the jump to do a better arc down. increase jump precision
+///the sound from the buttons are too loud and hte sound from juimp is too low.
+//the player isgrounded above the grounded.
+//there should be an animation in the presentation
+///the death buttons are weird. change them alwasy to be showing to be darkned and no usabke
+///need to change the input ui to make it prettiegr.
+//create mechanic: button that you need to touch to make a bridge thaat allows you to progress.
+//create mechanic: spikes that move.
+//create mechanic: require two buttons for interaction
+//create mechanic: a ground that rotates between safe and danger.
+///create mechanic: jumper
+//the player should naturally look more down.
+//sound and effect for spawnpoint
+
+//IMPROVE THE STAGES
+//the stages (3/20)
+//have to test stage 4
+//have to test stage 5
+//have to test stage 6
+
+
+
+//STAGE 4
+//slow delay when checking the checkpoint
+
 
 //NEW FIX
 //need an animation for presentation

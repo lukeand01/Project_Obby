@@ -1,5 +1,7 @@
 
+using DG.Tweening;
 using System.Collections;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -9,12 +11,20 @@ public class SceneLoader : MonoBehaviour
 
     [SerializeField] int currentScene;
     [SerializeField] Image blackScreen;
-
+    [SerializeField] TextMeshProUGUI loadingText;
 
     int currentForBigAd;
-    bool first; 
+    bool first;
 
-    
+    float time;
+
+    private void Awake()
+    {
+        time = 0.05f;
+    }
+
+    //reduce the image very quickly.
+
 
     #region FUNCTIONS
     public void ChangeScene(StageData data)
@@ -86,6 +96,10 @@ public class SceneLoader : MonoBehaviour
         PlayerHandler.instance.controller.blockClass.AddBlock("MainMenu", BlockClass.BlockType.Complete);
 
         yield return StartCoroutine(LowerCurtainsProcess());
+
+        //stop the background music
+        //start the loading
+
         GameHandler.instance.soundHandler.StopBGMusic();
         //reload the main menu.
         AsyncOperation loadAsync = SceneManager.LoadSceneAsync(0, LoadSceneMode.Additive);
@@ -134,10 +148,16 @@ public class SceneLoader : MonoBehaviour
 
         yield return StartCoroutine(PlayerHandler.instance.FixPlayerPositionProcess());
 
+
+
+
         PlayerHandler.instance.ChangeProgress(); //this makes that the currentscene
         PlayerHandler.instance.graphic.StopAnimation();
 
         GameHandler.instance.soundHandler.ChangeBackgroundMusic(data.bgMusic);
+
+        yield return new WaitForSeconds(0.3f);
+
         yield return StartCoroutine(RaiseCurtainsProcess());
 
         PlayerHandler.instance.controller.blockClass.RemoveBlock("ChangeScene");
@@ -172,6 +192,7 @@ public class SceneLoader : MonoBehaviour
 
         GameHandler.instance.soundHandler.ChangeBackgroundMusic(data.bgMusic);
 
+        yield return new WaitForSeconds(0.3f);
         yield return StartCoroutine(RaiseCurtainsProcess());
 
 
@@ -286,27 +307,68 @@ public class SceneLoader : MonoBehaviour
     #region CURTAIN
     IEnumerator LowerCurtainsProcess()
     {
+
+        StartCoroutine(LoadingTextProcess());
+
         PlayerHandler.instance.controller.blockClass.AddBlock("SceneLoad", BlockClass.BlockType.Complete);
         blackScreen.gameObject.SetActive(true);
         while (blackScreen.color.a < 1)
         {
-            blackScreen.color += new Color(0, 0, 0, 0.035f);
-            yield return new WaitForSeconds(0.001f);
+            blackScreen.color += new Color(0, 0, 0, time);
+            loadingText.color += new Color(0, 0, 0, time);
+            yield return new WaitForSecondsRealtime(0.03f);
         }
+
+
+       
+
     }
+    //the two are very different.
 
     IEnumerator RaiseCurtainsProcess()
     {
         while (blackScreen.color.a > 0)
         {
-            blackScreen.color -= new Color(0, 0, 0, 0.035f);
-            yield return new WaitForSeconds(0.001f);
+            blackScreen.color -= new Color(0, 0, 0, time );
+            loadingText.color -= new Color(0, 0, 0, time);
+            yield return new WaitForSecondsRealtime(0.03f);
         }
         blackScreen.gameObject.SetActive(false);
         PlayerHandler.instance.controller.blockClass.RemoveBlock("SceneLoad");
 
+
+        StopCoroutine(nameof(LoadingTextProcess));
     }
     #endregion
+
+
+    IEnumerator LoadingTextProcess()
+    {
+        int state = 0;
+
+        while(true)
+        {
+            loadingText.transform.Rotate(new Vector3(0, 0, 1));
+            yield return new WaitForSeconds(0.005f);
+        }
+
+
+
+
+        while (true)
+        {
+            state++;
+
+            if(state == 1)
+            {
+                loadingText.text = "Loading.";
+            }
+
+
+
+        }
+    }
+
 
 }
 

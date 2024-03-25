@@ -37,6 +37,9 @@ public class LocalHandler : MonoBehaviour
     {
         instance = this;
 
+
+        if (PlayerHandler.instance == null) return;
+
         //this is heavy so it can be done only once and at the beginning.
         allTouchPowers = FindObjectsOfType<TouchPower>();
 
@@ -172,12 +175,24 @@ public class LocalHandler : MonoBehaviour
         }
 
         //we will call the ui instead here. and the ui nwill cal the presentation.
-        
+
+
+        UIHandler.instance.uiPlayer.UpdateCoin(gainedCoin, coins.Length);
     }
 
     public void AddLocalCoin(int value)
     {
         gainedCoin += value;
+        //then we are going to updqate the value
+
+        if (UIHandler.instance == null) Debug.Log("there was no uihandler");
+        if (coins == null)
+        {
+            coins = GameObject.FindObjectsOfType<TouchCoin>();
+        }
+
+        UIHandler.instance.uiPlayer.UpdateCoin(gainedCoin, coins.Length);
+
     }
 
     public void StopTimer()
@@ -209,27 +224,27 @@ public class LocalHandler : MonoBehaviour
         handler.controller.blockClass.AddBlock("StartStage", BlockClass.BlockType.Complete);
 
         //StartCoroutine(handler.cam.CamIntroductionProcess());
-        handler.cam.CallCamIntroductionProcess();
 
-        playerUI.ShowTimer();
+        handler.cam.CallCamIntroductionProcess(0.3f, 0.9f);
+        playerUI.ShowTimer(0.6f);
 
-
-        //the camera should be behind the player
 
         for (int i = 3; i > 0; i--)
         {
             playerUI.UpdateTimerStringUI(i.ToString());
-            yield return new WaitForSeconds(0.8f);
+            yield return new WaitForSeconds(0.7f);
         }
+
 
         playerUI.UpdateTimerStringUI("GO");
         StartCoroutine(playerUI.TimerAnimationProcess());
-        yield return new WaitForSeconds(1f);
-
-       
-    
-
+        yield return new WaitForSeconds(0.5f);
         StartCoroutine(CountTimerProcess());
+
+
+
+
+
 
         //handler.cam.ResetCam();
 
@@ -389,5 +404,14 @@ public class LocalHandler : MonoBehaviour
     public void StopEverything()
     {
         StopAllCoroutines();
+    }
+
+
+    public bool IsThereAnotherSpawn()
+    {
+        //if there is another spawn and you are in another spawn.
+
+
+        return spawnPointList.Count > 1 && PlayerHandler.instance.lastSpawnPointIndex != 0;
     }
 }

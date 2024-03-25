@@ -35,7 +35,7 @@ public class ButtonBase : MonoBehaviour, IPointerClickHandler, IPointerEnterHand
 
     public virtual void OnPointerClick(PointerEventData eventData)
     {
-        if (clickClip != null && GameHandler.instance != null) GameHandler.instance.soundHandler.CreateSFX(clickClip);
+        if (clickClip != null && GameHandler.instance != null) GameHandler.instance.soundHandler.CreateSFX(clickClip, 0.3f);
 
         clickTimerCurrent = clickTimerTotal;
         if(mouseClick != null)
